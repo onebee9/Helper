@@ -3,6 +3,7 @@ CREATE TABLE locations(
     id SERIAL PRIMARY KEY NOT NULL,
     num INT,
     street VARCHAR(255),
+    Metropolitan VARCHAR(255),
     city VARCHAR(255),
     postal_code VARCHAR(255),
     country VARCHAR(255),
