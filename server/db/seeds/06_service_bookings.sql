@@ -8,6 +8,6 @@ VALUES
       ('Collection', 4, 'accepted', 8, 4),
       ('Chamber', 4, 'rejected', 2, 7),
       ('Cross', 3, 'accepted', 4, 7),
-      ('Happy', 4, 'accepted', 10, 8),
+      ('Happy', 4, 'accepted', 8, 8),
       ('Done', 5, 'finished', 8, 2),
       ('Calculate', 3, 'finished', 9, 4);

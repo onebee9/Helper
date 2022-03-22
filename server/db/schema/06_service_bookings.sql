@@ -3,7 +3,7 @@ CREATE TABLE service_bookings(
     id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR(255),
     rating INT,
-    status VARCHAR(255) false,
+    status VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT Now() ,
     st_date timestamptz,
     end_date timestamptz,
