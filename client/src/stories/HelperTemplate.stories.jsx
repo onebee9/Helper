@@ -1,25 +1,20 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
 
-import { HelperTemplate } from './HelperTemplate';
+import { storiesOf } from '@storybook/react';
 
-export default {
-  title: 'Helper/HelperTemplate',
-  component: HelperTemplate,
-  parameters: {
-    // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
-    layout: 'fullscreen',
-  },
-};
+// import LoginForm from './../components/LoginForm';
+// import SignUpForm from './../components/SignUpForm';
+// import SearchForm from './../components/SearchForm';
+// import CardOne from './../components/CardOne';
+// import Profile from './../components/Profile';
+// import Home from './../components/Home';
+// import Header from './../components/Header';
+// import './../App.scss';
 
-const Template = (args) => <HelperTemplate {...args} />;
-
-// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
-export const LoggedOut = Template.bind({});
-
-export const LoggedIn = Template.bind({});
-LoggedIn.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const loginButton = await canvas.getByRole('button', { name: /Log in/i });
-  await userEvent.click(loginButton);
-};
+// storiesOf('LoginForm', module).add('LoginForm', () => <LoginForm />);
+// storiesOf('SignUpForm', module).add('SignUpForm', () => <SignUpForm />);
+// storiesOf('SearchForm', module).add('SearchForm', () => <SearchForm />);
+// storiesOf('CardOne', module).add('CardOne', () => <CardOne />);
+// storiesOf('Profile', module).add('Profile', () => <Profile />);
+// storiesOf('Home', module).add('Home', () => <Home />);
+// storiesOf('Header', module).add('Header', () => <Header />);

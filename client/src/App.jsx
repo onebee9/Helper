@@ -1,9 +1,31 @@
-import './App.css';
+import * as React from 'react';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import SignupService from './pages/SignupService';
+import SignupClient from './pages/SignupClient';
+import Detail from './pages/Detail';
+import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
+import ProfileService from './pages/ProfileService';
+import ProfileServiceEdit from './pages/ProfileServiceEdit';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" />
+        <Route index element={<Home />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="SignupService" element={<SignupService />} />
+        <Route path="SignupClient" element={<SignupClient />} />
+        <Route path="Detail" element={<Detail />} />
+        <Route path="Profile" element={<Profile />} />
+        <Route path="ProfileEdit" element={<ProfileEdit />} />
+        <Route path="ProfileService" element={<ProfileService />} />
+        <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
