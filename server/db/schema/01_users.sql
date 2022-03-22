@@ -6,5 +6,5 @@ CREATE TABLE users(
     email VARCHAR(255),
     password VARCHAR(255) ,
     created_at TIMESTAMPTZ DEFAULT Now() ,
-    account_type ENUM ('client','service provider') DEFAULT 'client'
+    isServiceProvider BOOLEAN DEFAULT false
 );
