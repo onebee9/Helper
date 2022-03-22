@@ -137,30 +137,36 @@ export default function ProfileService() {
                     </Typography>
                   </CardContent>
                   <CardActions>
+                    <Button size="small" variant="contained">
+                      12:00
+                    </Button>
+
+                    <Button size="small" variant="contained">
+                      Booking
+                    </Button>
+                  </CardActions>
+
+                  <CardActions>
                     <Grid
                       container
                       spacing={1}
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <Grid item xs={12}>
-                        <Button size="small" variant="contained">
-                          12:00
-                        </Button>
-                        <Button size="small" variant="contained">
-                          Booking
-                        </Button>
-                      </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={6}>
                         <Link to="Edit" style={{ textDecoration: 'none' }}>
                           <Button variant="contained" sx={{ width: 1 }}>
                             Edit
                           </Button>
                         </Link>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={6}>
                         <Link to="Delete" style={{ textDecoration: 'none' }}>
-                          <Button variant="contained" sx={{ width: 1 }}>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            sx={{ width: 1 }}
+                          >
                             Delete
                           </Button>
                         </Link>

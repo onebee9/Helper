@@ -1,44 +1,27 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Navbar from '../components/Navbar/Navbar';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  TextField,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
-// import Link from '@mui/material/Link';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center">
-//       {'Copyright © '}
-//       <Link to="https://mui.com/" color="inherit">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -47,14 +30,13 @@ export default function Home() {
   const [category, setCategory] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [price, setPrice] = React.useState('');
-  const [date, setDate] = React.useState('');
 
   const handleChange = (event) => {
     setCategory(event.target.value); // need setting
     setLocation(event.target.value); // need setting
     setPrice(event.target.value); // need setting
-    setDate(event.target.value); // need setting
   };
+  const [value, setValue] = React.useState(new Date());
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -130,20 +112,18 @@ export default function Home() {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <FormControl sx={{ width: 1 }}>
-                    <InputLabel id="date">Date</InputLabel>
-                    <Select
-                      labelId="date"
-                      id="date"
-                      value={date}
-                      label="date"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>2022/01/01</MenuItem>
-                      <MenuItem value={20}>2022/01/02</MenuItem>
-                      <MenuItem value={30}>2022/01/03</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                      renderInput={(props) => (
+                        <TextField sx={{ width: 1 }} {...props} />
+                      )}
+                      label="DateTimePicker"
+                      value={value}
+                      onChange={(newValue) => {
+                        setValue(newValue);
+                      }}
+                    />
+                  </LocalizationProvider>
                 </Grid>
               </Grid>
             </React.Fragment>

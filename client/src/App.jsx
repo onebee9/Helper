@@ -9,7 +9,6 @@ import ProfileEdit from './pages/ProfileEdit';
 import ProfileService from './pages/ProfileService';
 import ProfileServiceEdit from './pages/ProfileServiceEdit';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 function App() {
   return (
     <BrowserRouter>

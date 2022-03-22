@@ -1,20 +1,16 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Navbar from '../components/Navbar/Navbar';
 import {
+  Card,
+  CardActions,
+  CardContent,
+  Box,
+  Typography,
+  Container,
   Grid,
   CardMedia,
   Button,
   Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
@@ -102,6 +98,7 @@ export default function Detail() {
                   spacing={3}
                   justifyContent="center"
                   alignItems="center"
+                  sx={{ mb: 3 }}
                 >
                   <Grid item xs={10}>
                     <Link to="12:00" style={{ textDecoration: 'none' }}>
@@ -118,9 +115,9 @@ export default function Detail() {
                     </Link>
                   </Grid>
                   <Grid item xs={10}>
-                    <Link to="Login" style={{ textDecoration: 'none' }}>
+                    <Link to="Booking" style={{ textDecoration: 'none' }}>
                       <Button variant="contained" sx={{ width: 1 }}>
-                        Login
+                        Booking
                       </Button>
                     </Link>
                   </Grid>
