@@ -8,4 +8,4 @@ VALUES
     ('4', '3 Warrior Junction', 'Vancouver', 'Charlemagne', 'L3T J6V', 'Canada', 45.7249153, -73.4913241, 5),
     ('0', '71809 Ohio Pass','Toronto', 'Scarbrough', 'L3T 6T6', 'Canada', 46.08336, -73.18245, 6),
     ('1', '71 Ohio Drive', 'Montreal','Beville', 'M2M S3N', 'Canada', 46.08536, -73.18845, 7),
-    ('6', '35 Heath Trail','Toronto', 'Brampton', 'M2N 6Z5', 'Canada', 41.8784851, -87.627893, 8)
+    ('6', '35 Heath Trail','Toronto', 'Brampton', 'M2N 6Z5', 'Canada', 41.8784851, -87.627893, 8);
