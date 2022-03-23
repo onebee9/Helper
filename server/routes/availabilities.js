@@ -11,7 +11,9 @@ const router  = express.Router();
 module.exports = (db) => {
   
   router.get("/availabilities", (req, res) => {
-    db.query(`SELECT availabilities.* FROM availabilities where user_id = $1;`)
+
+    const userId = req.session.user_id;
+    db.query(`SELECT availabilities.* FROM availabilities where user_id = $1;`,[userId])
       .then(data => {
         const users = data.rows;
         res.json({ users });
@@ -23,19 +25,29 @@ module.exports = (db) => {
       });
   });
 
-  // router.post("/availabilities", (req, res) => {
-  //   db.query(`INSERT availabilities.* FROM availabilities where user_id = $1;`)
-  //     .then(data => {
-  //       const users = data.rows;
-  //       res.json({ users });
-  //     })
-  //     .catch(err => {
-  //       res
-  //         .status(500)
-  //         .json({ error: err.message });
-  //     });
-  // });
+  router.post("/availabilities", (req, res) => {
 
+    const queryString = `INSERT INTO 
+    availabilities(start_time,end_time)
+    VALUES ($1,$2) where user_id=$3 RETURNING *;`;
+
+    const values = [
+      req.body.start_time,
+      req.body.end_time,
+      req.session.userId
+    ];
+    
+    db.query(queryString,values)
+      .then(data => {
+        const users = data.rows;
+        res.json({ users });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
 
   return router;
 };
