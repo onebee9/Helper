@@ -52,7 +52,7 @@ module.exports = (db) => {
 
     if (!location == "") {
       queryParams.push(location );
-      queryString += `AND services.Metropolitan = $${queryParams.length} `;
+      queryString += `AND services.city = $${queryParams.length} `;
     }
 
     if (!date == "") {
