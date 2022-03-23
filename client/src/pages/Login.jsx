@@ -15,11 +15,40 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useState } from "react";
+import axios from "axios";
+import { Navigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 
 export default function Login() {
+const [email, setEmail] = useState()
+const [password, setPassword] = useState()
+const [redirect, setRedirect] = useState(false)
+
+const submitLogin = async (event) => {
+  event.preventDefault()
+  try {
+   let response = await axios({
+    method: 'post',
+    url: `http://localhost:8080/api/users/login`,
+    data: {
+     email: email,
+     password: password
+    },
+    withCredentials: true,
+   })
+   setRedirect(true);
+   return response
+  } catch(error) {
+   console.log(error)
+  }
+ }
+ if (redirect) {
+  return <Navigate to='/' />
+ }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -70,8 +99,6 @@ export default function Login() {
               onChange={event => setEmail(event.target.value)}
               autoComplete="email"
               autoFocus
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -84,8 +111,6 @@ export default function Login() {
               onChange={event => setPassword(event.target.value)}
               id="password"
               autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
