@@ -16,11 +16,10 @@ import {
   FormControl,
   Select,
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -92,6 +91,7 @@ export default function Home() {
                     >
                       <MenuItem value={10}>Toronto</MenuItem>
                       <MenuItem value={20}>Ottawa</MenuItem>
+                      {/* Etobicoke, York, North York, West End, Downtown, Midtown, Uptown, East York, East End, Scarborough */}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -141,33 +141,7 @@ export default function Home() {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 1 }}
-                    image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarTwoToneIcon />
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" variant="contained">
-                      Booking
-                    </Button>
-                  </CardActions>
+                  <Service />
                 </Card>
               </Grid>
             ))}
