@@ -11,7 +11,7 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
     const userId = req.session.user_id;
-    let query = `SELECT services.* FROM services WHERE services.user_id = $1 ;`;
+    let query = `SELECT * FROM services WHERE services.user_id = $1 ;`;
     db.query(query,[userId])
       .then(data => {
         const services = data.rows;
