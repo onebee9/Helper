@@ -14,24 +14,12 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import { authContext } from './../providers/AuthProvider';
-import { useContext } from 'react';
+
+
 const theme = createTheme();
 
+
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useContext(authContext);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    email && login(email, password);
-  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -66,7 +54,7 @@ export default function Login() {
           </Box>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={submitLogin}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -77,6 +65,9 @@ export default function Login() {
               id="email"
               label="Email Address"
               name="email"
+              type="email"
+              email={email}
+              onChange={event => setEmail(event.target.value)}
               autoComplete="email"
               autoFocus
               value={email}
@@ -89,6 +80,8 @@ export default function Login() {
               name="password"
               label="Password"
               type="password"
+              password={password}
+              onChange={event => setPassword(event.target.value)}
               id="password"
               autoComplete="current-password"
               value={password}

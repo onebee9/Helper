@@ -9,6 +9,7 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -19,6 +20,9 @@ db.connect();
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+
+app.use(cors({ credentials : true, origin: "http://localhost:8000" }));
+// app.use((req, res, next) => {     res.append('Access-Control-Allow-Credentials', true);     res.append('Access-Control-Allow-Origin', ['*']);    next(); });
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(

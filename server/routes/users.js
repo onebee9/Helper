@@ -9,16 +9,6 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-
-  router.get("/login", (req, res) => {
-    const id = req.session.user_id;
-    if (id) {
-      res.redirect("/users/profile");
-    } else {
-      res.render("login");
-    }
-  });
-
   router.get("/login", (req, res) => {
     const id = req.session.user_id;
     if (id) {
@@ -37,11 +27,13 @@ module.exports = (db) => {
 
     db.query(queryString, [email, password])
       .then((data) => {
+        console.log("console",data.rows)
         if (data.rows[0]) {
           console.log(data.rows);
           req.session.user_id = data.rows[0].id;
           req.session.name = data.rows[0].name;
           req.session.email = data.rows[0].email;
+          
 
           res.redirect("/profile");
         } else {
@@ -121,3 +113,4 @@ module.exports = (db) => {
 
   return router;
 };
+
