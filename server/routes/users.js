@@ -32,41 +32,23 @@ module.exports = (db) => {
           console.log(data.rows);
           req.session.user_id = data.rows[0].id;
           req.session.name = data.rows[0].name;
-          req.session.email = data.rows[0].email;
-          
-
-          res.redirect("/profile");
+          req.session.email = data.rows[0].email;   
         } else {
-          res.send("You must enter a valid username and password!");
+          //res.send([email, password]);
+          // res.send("You must enter a valid username and password!");
+          res.status(400).json(
+            {
+              "status": "error",
+              "message": "You must enter a valid username and password",
+              "data": req.body
+            }
+          );
         }
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-  // app.post("/register", (req, res) => {
-  //   const email = req.body.email;
-  //   const password = req.body.password;
-  //   const hashedPassword = bcrypt.hashSync(password, 10);
-  
-  //   if (email == "" || password == "") {
-  //     res.status(400).send('Please provide username and password');
-  //     return;
-  //   } else if (emailLookup(email, users)) {
-  //     res.status(403).send('user already exists, try again');
-  //     return;
-  //   } else {
-  //     const id = generateRandomString();
-  //     users[id] = {
-  //       id,
-  //       email,
-  //       hashedPassword
-  //     }
-  //     req.session.user_id = id;
-  //     res.redirect('/urls');
-  //   }
-  // });
 
   router.get("/profile", (req, res) => {
     const userId = req.session.user_id;
