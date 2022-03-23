@@ -1,75 +1,25 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from "react";
-import axios from "axios";
-import { Navigate } from 'react-router-dom';
 
-// function Copyright(props) {
-//   return (
-//     <Typography
-//       variant="body2"
-//       color="text.secondary"
-//       align="center"
-//       {...props}
-//     >
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const theme = createTheme();
 
 
 export default function Login() {
-const [email, setEmail] = useState()
-const [password, setPassword] = useState()
-const [redirect, setRedirect] = useState(false)
-
-
-const submitLogin = async (event) => {
-  event.preventDefault()
-  try {
-    let response = await axios({
-      method: 'post',
-      url: `http://localhost:8080/api/users/login`,
-      data: {
-        email: email,
-        password: password
-      },
-      withCredentials: true,
-    })
-
-    setRedirect(true);
-    return response
-  } catch(error) {
-    console.log(error)
-  }
-
-}
-
-if (redirect) {
-  return <Navigate to='/' />
-}
-
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -120,6 +70,8 @@ if (redirect) {
               onChange={event => setEmail(event.target.value)}
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -132,6 +84,8 @@ if (redirect) {
               onChange={event => setPassword(event.target.value)}
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -143,7 +97,7 @@ if (redirect) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
               <Grid item xs>

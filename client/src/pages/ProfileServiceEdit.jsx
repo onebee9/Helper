@@ -1,13 +1,12 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Navbar from '../components/Navbar/Navbar';
-import Avatar from '@mui/material/Avatar';
 import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Container,
+  Avatar,
   Link,
   List,
   ListItem,

@@ -9,7 +9,6 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-
   router.get("/login", (req, res) => {
     const id = req.session.user_id;
     if (id) {
@@ -19,9 +18,7 @@ module.exports = (db) => {
     }
   });
 
-
-  router.post("/login",(req, res) => {
-    console.log(req)
+  router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -38,7 +35,7 @@ module.exports = (db) => {
           req.session.email = data.rows[0].email;
           
 
-          res.redirect("/users/profile");
+          res.redirect("/profile");
         } else {
           res.send("You must enter a valid username and password!");
         }
@@ -48,11 +45,34 @@ module.exports = (db) => {
       });
   });
 
+  // app.post("/register", (req, res) => {
+  //   const email = req.body.email;
+  //   const password = req.body.password;
+  //   const hashedPassword = bcrypt.hashSync(password, 10);
+  
+  //   if (email == "" || password == "") {
+  //     res.status(400).send('Please provide username and password');
+  //     return;
+  //   } else if (emailLookup(email, users)) {
+  //     res.status(403).send('user already exists, try again');
+  //     return;
+  //   } else {
+  //     const id = generateRandomString();
+  //     users[id] = {
+  //       id,
+  //       email,
+  //       hashedPassword
+  //     }
+  //     req.session.user_id = id;
+  //     res.redirect('/urls');
+  //   }
+  // });
+
   router.get("/profile", (req, res) => {
     const userId = req.session.user_id;
 
     if (!userId) {
-      res.redirect("/users/login");
+      res.redirect("/login");
       return;
     }
 

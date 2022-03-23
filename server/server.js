@@ -5,6 +5,8 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
+const cookieSession = require('cookie-session');
+const bcrypt = require('bcryptjs');
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
@@ -22,9 +24,13 @@ db.connect();
 app.use(cors({ credentials : true, origin: "http://localhost:8000" }));
 // app.use((req, res, next) => {     res.append('Access-Control-Allow-Credentials', true);     res.append('Access-Control-Allow-Origin', ['*']);    next(); });
 app.use(morgan("dev"));
-
-app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["key1"],
+  })
+);
 
 app.use(
   "/styles",
@@ -40,12 +46,16 @@ app.use(express.static("public"));
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
+const serviceRoutes = require("./routes/services");
+const bookingsRoutes = require("./routes/bookings");
+const availabilitiesRoutes = require("./routes/availabilities");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api/users", usersRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
+app.use("/users", usersRoutes(db));
+app.use("/services", serviceRoutes(db));
+app.use("/bookings", bookingsRoutes(db));
+app.use("/availabilities", availabilitiesRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 // Home page
