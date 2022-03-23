@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 // import Link from '@mui/material/Link';
 
 function Navbar() {
@@ -50,6 +48,11 @@ function Navbar() {
         <Link to="ProfileServiceEdit" style={{ textDecoration: 'none' }}>
           <Button size="small">Profile Service Edit</Button>
         </Link>
+
+        <Avatar
+          alt="Remy Sharp"
+          src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+        />
       </Toolbar>
       <Toolbar
         component="nav"
