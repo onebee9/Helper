@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from "react";
+import axios from "axios";
+import { Navigate } from 'react-router-dom';
 
 // function Copyright(props) {
 //   return (
@@ -33,15 +36,39 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
+
 export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+const [email, setEmail] = useState()
+const [password, setPassword] = useState()
+const [redirect, setRedirect] = useState(false)
+
+
+const submitLogin = async (event) => {
+  event.preventDefault()
+  try {
+    let response = await axios({
+      method: 'post',
+      url: `http://localhost:8080/api/users/login`,
+      data: {
+        email: email,
+        password: password
+      },
+      withCredentials: true,
+    })
+
+    setRedirect(true);
+    return response
+  } catch(error) {
+    console.log(error)
+  }
+
+}
+
+if (redirect) {
+  return <Navigate to='/' />
+}
+
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,7 +104,7 @@ export default function Login() {
           </Box>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={submitLogin}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -88,6 +115,9 @@ export default function Login() {
               id="email"
               label="Email Address"
               name="email"
+              type="email"
+              email={email}
+              onChange={event => setEmail(event.target.value)}
               autoComplete="email"
               autoFocus
             />
@@ -98,6 +128,8 @@ export default function Login() {
               name="password"
               label="Password"
               type="password"
+              password={password}
+              onChange={event => setPassword(event.target.value)}
               id="password"
               autoComplete="current-password"
             />

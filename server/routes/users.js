@@ -19,7 +19,9 @@ module.exports = (db) => {
     }
   });
 
-  router.post("/login", (req, res) => {
+
+  router.post("/login",(req, res) => {
+    console.log(req)
     const email = req.body.email;
     const password = req.body.password;
 
@@ -28,11 +30,13 @@ module.exports = (db) => {
 
     db.query(queryString, [email, password])
       .then((data) => {
+        console.log("console",data.rows)
         if (data.rows[0]) {
           console.log(data.rows);
           req.session.user_id = data.rows[0].id;
           req.session.name = data.rows[0].name;
           req.session.email = data.rows[0].email;
+          
 
           res.redirect("/users/profile");
         } else {
@@ -89,3 +93,4 @@ module.exports = (db) => {
 
   return router;
 };
+
