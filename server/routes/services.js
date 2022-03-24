@@ -26,12 +26,12 @@ module.exports = (db) => {
 
   router.post("/search", (req, res) => {
     const queryParams = [];
-    const{keyword, category, location, price, date} = req.body;
+    const{keyword, category, location, price} = req.body;
 
-    let queryString = `SELECT services.*, users.name 
+    let queryString = `SELECT services.*, users.first_name 
     FROM services
-    JOIN Users ON users.id = services.user_ID
-    JOIN availabilities ON users.id = availabilities.userID
+    JOIN Users ON users.id = services.user_id
+    JOIN availabilities ON users.id = availabilities.user_id
     WHERE services.id IS NOT NULL`;
 
     //validate that search queries exist and then add on to the query
@@ -55,12 +55,12 @@ module.exports = (db) => {
       queryString += `AND services.city = $${queryParams.length} `;
     }
 
-    if (!date == "") {
-      queryParams.push(date);
-      queryString += `AND $${queryParams.length} BETWEEN availabilities.start_time AND availabilities.end_time `;
-    }
+    // if (!date == "") {
+    //   queryParams.push(date);
+    //   queryString += `AND $${queryParams.length} BETWEEN availabilities.start_time AND availabilities.end_time `;
+    // }
    
-    queryString += `GROUP BY services.id, users.name ;`;
+    queryString += `GROUP BY services.id, users.first_name ;`;
 
     db.query(queryString, queryParams)
       .then((data) => {

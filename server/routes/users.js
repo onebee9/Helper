@@ -34,8 +34,6 @@ module.exports = (db) => {
           req.session.name = data.rows[0].name;
           req.session.email = data.rows[0].email;   
         } else {
-          //res.send([email, password]);
-          // res.send("You must enter a valid username and password!");
           res.status(400).json(
             {
               "status": "error",
