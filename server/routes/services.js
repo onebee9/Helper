@@ -23,21 +23,23 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  
 
   router.post("/search", (req, res) => {
     const queryParams = [];
-    const{keyword, category, location, price} = req.body;
+    const{keyword,category,price,location} = req.body;
 
     let queryString = `SELECT services.*, users.first_name 
     FROM services
     JOIN Users ON users.id = services.user_id
-    JOIN availabilities ON users.id = availabilities.user_id
-    WHERE services.id IS NOT NULL`;
+    JOIN availabilities ON users.id = availabilities.users_id
+    JOIN locations ON users.id = locations.user_id
+    WHERE services.id IS NOT NULL `;
 
     //validate that search queries exist and then add on to the query
     if (!keyword == "") {
       queryParams.push(`%${keyword}%`);
-      queryString += ` AND services.description LIKE $${queryParams.length} `;
+      queryString += `AND services.title LIKE $${queryParams.length} `;
     }
 
     if (!category == "") {
@@ -52,7 +54,7 @@ module.exports = (db) => {
 
     if (!location == "") {
       queryParams.push(location );
-      queryString += `AND services.city = $${queryParams.length} `;
+      queryString += `AND locations.metropolitan = $${queryParams.length} `;
     }
 
     // if (!date == "") {
@@ -67,12 +69,14 @@ module.exports = (db) => {
         if (data) {
           const searchResults = data.rows;
           res.json({ searchResults });
+          //res.json({queryString});
           return;
         }
         res.json("No matching search results");
       })
       .catch((err) => {
-        res.status(500).json({ error: err.message });
+        res.json({queryString});
+        //res.status(500).json({ error: err.message });
       });
   });
 

@@ -66,9 +66,5 @@ db.query(
   })
   .catch(error => console.log(error));
 });
-
-
-
-
   return router;
 };
