@@ -16,10 +16,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" />
-        {/* <Route index element={<Home />} /> */}
-        {!auth && <Route index element={<Login />} />}
-        {auth && <Route index element={<Home />} />}
+        {/* <Route path="/" /> */}
+        <Route index element={<Home />} />
+        <Route path="Login" element={<Login />} />
+        {/* <Route path="Home" element={<Home />} /> */}
         {/* <Route path="Login" element={<Login />} /> */}
         <Route path="SignupService" element={<SignupService />} />
         <Route path="SignupClient" element={<SignupClient />} />
