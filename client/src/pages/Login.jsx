@@ -29,6 +29,7 @@ export default function Login() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [redirect, setRedirect] = useState(false)
+  const [userStatus, setStatus] = useState(false)
 
   const submitLogin = async (event) => {
     event.preventDefault()
@@ -47,6 +48,8 @@ export default function Login() {
       });
 
       setRedirect(true);
+      setStatus(response.data);
+      
       return response
 
     } catch (error) {
