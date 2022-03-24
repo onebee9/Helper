@@ -5,7 +5,7 @@ VALUES
     ('Adam','Harvee', 'adam.harv@yahoo.com', 'test', true),
     ('Miki','Kakoura','mikiyoshi.kokura@gmail.com','test', false),
     ('Roy', 'andres', 'roy@gmail.com','test', true),
-    ('Ibifuro', 'Odu', 'Oduibifuro@gmail.com', 'test', false),
+    ('Ibifuro', 'Odu', 'oduibifuro@gmail.com', 'test', false),
     ('Bob', 'Marly', 'dogbob@gmail.com', 'test', true),
     ('Sebastien', 'nadal', 'spmorin999@gmail.com', 'test', true),
     ('Sam', 'Brad', 'sambrad@gmail.com', 'test', true);
