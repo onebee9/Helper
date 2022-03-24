@@ -15,28 +15,29 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState } from "react";
-import axios from "axios";
-import qs from "qs";
-import { Navigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import { authContext } from './../providers/AuthProvider';
+import { useContext } from 'react';
+import axios from 'axios';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 const theme = createTheme();
 
-
 export default function Login() {
+  const [userStatus, setStatus] = useState(false);
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [redirect, setRedirect] = useState(false)
-  const [userStatus, setStatus] = useState(false)
-
-  const submitLogin = async (event) => {
-    event.preventDefault()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { login } = useContext(authContext);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       let data = {
         email: email,
-        password: password
+        password: password,
       };
 
       let response = await axios({
@@ -46,20 +47,17 @@ export default function Login() {
         data: qs.stringify(data),
         withCredentials: true,
       });
-
-      setRedirect(true);
       setStatus(response.data);
-      
-      return response
-
+      console.log(response.data);
+      email && login(email, password);
+      // redirect to Home
+      if (response) {
+        navigate('/');
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
-  if (redirect) {
-    return <Navigate to='/home' />
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +93,8 @@ export default function Login() {
           </Box>
           <Box
             component="form"
-            onSubmit={submitLogin}
+            // onSubmit={submitLogin}
+            onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -108,7 +107,7 @@ export default function Login() {
               name="email"
               type="email"
               email={email}
-              onChange={event => setEmail(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
               autoFocus
             />
@@ -120,7 +119,7 @@ export default function Login() {
               label="Password"
               type="password"
               password={password}
-              onChange={event => setPassword(event.target.value)}
+              onChange={(event) => setPassword(event.target.value)}
               id="password"
               autoComplete="current-password"
             />
