@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useState } from "react";
 import axios from "axios";
+import qs from "qs";
 import { Navigate } from 'react-router-dom';
 
 
@@ -24,32 +25,39 @@ const theme = createTheme();
 
 
 export default function Login() {
-  
-const [email, setEmail] = useState()
-const [password, setPassword] = useState()
-const [redirect, setRedirect] = useState(false)
+
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [redirect, setRedirect] = useState(false)
 
   const submitLogin = async (event) => {
     event.preventDefault()
     try {
-     let response = await axios({
-      method: 'post',
-      url: `http://localhost:8080/users/login`,
-      data: {
-       email: email,
-       password: password
-      },
-      withCredentials: true,
-     })
-     setRedirect(true);
-     return response
-    } catch(error) {
-     console.log(error)
+      let data = {
+        email: email,
+        password: password
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `http://localhost:8080/users/login`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        withCredentials: true,
+      });
+
+      setRedirect(true);
+      return response
+
+    } catch (error) {
+      console.log(error)
     }
-   }
-   if (redirect) {
-    return <Navigate to='/' />
-   }
+  }
+
+  if (redirect) {
+    return <Navigate to='/home' />
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
