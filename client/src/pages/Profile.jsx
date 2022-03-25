@@ -24,11 +24,13 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useContext } from 'react';
+import { authContext } from './../providers/AuthProvider';
 
 const theme = createTheme();
 
-function createData(name, calories, protein) {
-  return { name, calories, protein };
+function createData(name, email, address) {
+  return { name, email, address };
 }
 
 const rows = [
@@ -42,6 +44,7 @@ const rows = [
 ];
 
 export default function Profile() {
+  const { auth, user, userStatus, login, logout } = useContext(authContext);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -137,8 +140,8 @@ export default function Profile() {
                         <TableCell component="th" scope="row">
                           {row.name}
                         </TableCell>
-                        <TableCell>{row.calories}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
+                        <TableCell>{row.email}</TableCell>
+                        <TableCell align="right">{row.address}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -20,44 +20,57 @@ import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function Login() {
-  const [userStatus, setStatus] = useState(false);
+export default function Login(props) {
+  // const [userStatus, setStatus] = useState(false);
 
+  console.log('Login login={login}', props);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const { login } = useContext(authContext);
-  const handleSubmit = async (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = function (event) {
+    // console.log('+++++++++++++', event.preventDefault());
     event.preventDefault();
-    try {
-      let data = {
-        email: email,
-        password: password,
-      };
-
-      let response = await axios({
-        method: 'post',
-        url: `http://localhost:8080/users/login`,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-        withCredentials: true,
-      });
-      setStatus(response.data);
-      console.log(response.data);
-      email && login(email, password);
-      // redirect to Home
-      if (response) {
-        navigate('/');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    email && login(email, password);
   };
+  console.log('+++++++++++++', props.auth);
+  // redirect to Home
+  if (props.auth) {
+    navigate('/');
+  }
+  // const navigate = useNavigate();
+  // const { login } = useContext(authContext);
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     let data = {
+  //       email: email,
+  //       password: password,
+  //     };
+
+  //     let response = await axios({
+  //       method: 'post',
+  //       url: `http://localhost:8080/users/login`,
+  //       headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //       data: qs.stringify(data),
+  //       withCredentials: true,
+  //     });
+  //     setStatus(response.data);
+  //     console.log('+++++++++++++', response.data.data);
+  //     email && login(email, password);
+  //     // redirect to Home
+  //     if (response) {
+  //       navigate('/');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,10 +97,18 @@ export default function Login() {
               gridTemplateColumns: 'repeat(2, 1fr)',
             }}
           >
-            <Link to="SignupService" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/SignupService"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               <Button variant="contained">Signup Service</Button>
             </Link>
-            <Link to="SignupClient" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/SignupClient"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               <Button variant="contained">Signup Client</Button>
             </Link>
           </Box>
