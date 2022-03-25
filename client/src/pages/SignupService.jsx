@@ -56,7 +56,7 @@ export default function SignupService() {
 
       let response = await axios({
         method: 'post',
-        url: `http://localhost:8080/users/login`,
+        url: `/api/users/login`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         withCredentials: true,

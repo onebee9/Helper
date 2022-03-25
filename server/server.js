@@ -52,10 +52,10 @@ const availabilitiesRoutes = require("./routes/availabilities");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/users", usersRoutes(db));
-app.use("/services", serviceRoutes(db));
-app.use("/bookings", bookingsRoutes(db));
-app.use("/availabilities", availabilitiesRoutes(db));
+app.use("/api/users", usersRoutes(db));
+app.use("/api/services", serviceRoutes(db));
+app.use("/api/bookings", bookingsRoutes(db));
+app.use("/api/availabilities", availabilitiesRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 // Warning: avoid creating more routes in this file!
