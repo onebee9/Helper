@@ -7,7 +7,7 @@ import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
   const { auth } = useContext(authContext);
-  console.log(auth);
+  // console.log(auth);
   return (
     <React.Fragment>
       {!auth && (
@@ -19,7 +19,9 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            Helper
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              Helper
+            </Link>
           </Typography>
 
           <Link
@@ -56,7 +58,9 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            Helper
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              Helper
+            </Link>
           </Typography>
 
           <Link
@@ -105,6 +109,9 @@ function Navbar(props) {
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Logout</Button>
+          </Link>
+          <Link to="Profile" style={{ textDecoration: 'none' }}>
+            <Button size="small">Profile</Button>
           </Link>
 
           <Avatar
