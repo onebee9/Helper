@@ -12,19 +12,46 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { authContext } from './providers/AuthProvider';
 function App() {
-  const { auth } = useContext(authContext);
+  const { auth, user, userStatus, login, logout } = useContext(authContext);
   return (
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" /> */}
         <Route index element={<Home />} />
-        <Route path="Login" element={<Login />} />
+        <Route
+          path="Login"
+          element={
+            <Login
+              auth={auth}
+              user={user}
+              userStatus={userStatus}
+              login={login}
+              logout={logout}
+            />
+          }
+        />
         {/* {!auth && <Route index element={<Login />} />} */}
         {/* {auth && <Route index element={<Home />} />} */}
-        <Route path="SignupService" element={<SignupService />} />
+        <Route
+          path="SignupService"
+          element={
+            <SignupService
+              auth={auth}
+              user={user}
+              userStatus={userStatus}
+              login={login}
+              logout={logout}
+            />
+          }
+        />
         <Route path="SignupClient" element={<SignupClient />} />
         <Route path="Detail" element={<Detail />} />
-        <Route path="Profile" element={<Profile />} />
+        <Route
+          path="Profile"
+          element={
+            <Profile auth={auth} user={user} login={login} logout={logout} />
+          }
+        />
         <Route path="ProfileEdit" element={<ProfileEdit />} />
         <Route path="ProfileService" element={<ProfileService />} />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />

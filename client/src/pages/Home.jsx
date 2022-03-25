@@ -22,12 +22,9 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
-import { useState,useEffect } from "react";
-import axios from "axios";
-import qs from "qs";
-
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import qs from 'qs';
 
 const theme = createTheme();
 
@@ -39,18 +36,18 @@ export default function Home() {
   const [results, setResults] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const [value, setValue] = React.useState(new Date());
-  const card = [1,2,3,4,5,6];
+  const card = [1, 2, 3, 4, 5, 6];
 
   const submitSearch = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       const data = {
         category,
         location,
         price,
         city,
-        keyword
-     };
+        keyword,
+      };
 
       let response = await axios({
         method: 'get',
@@ -59,25 +56,24 @@ export default function Home() {
         params: data,
         withCredentials: true,
       });
-      setResults(response.data.searchResults)
-      console.log(response.data.searchResults)
-      return response
-
+      setResults(response.data.searchResults);
+      console.log(response.data.searchResults);
+      return response;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-useEffect(() => {
-  axios({
-    method: 'get',
-    url: `http://localhost:8080/services/search`,
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    withCredentials: true
-  }).then((response) => {
-    setResults(response.data.searchResults)
-  })
-},[])
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `http://localhost:8080/services/search`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }).then((response) => {
+      setResults(response.data.searchResults);
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -104,7 +100,7 @@ useEffect(() => {
                     label="Keyword"
                     fullWidth
                     autoComplete="given-name"
-                    onChange={event => setKeyword(event.target.value)}
+                    onChange={(event) => setKeyword(event.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -115,7 +111,7 @@ useEffect(() => {
                       id="category"
                       value={category}
                       label="Category"
-                      onChange={event => setCategory(event.target.value)}
+                      onChange={(event) => setCategory(event.target.value)}
                     >
                       <MenuItem value="">All Categories</MenuItem>
                       <MenuItem value="Repair">Repair</MenuItem>
@@ -136,7 +132,7 @@ useEffect(() => {
                       id="location"
                       value={location}
                       label="location"
-                      onChange={event => setLocation(event.target.value)}
+                      onChange={(event) => setLocation(event.target.value)}
                     >
                       <MenuItem value="Toronto">Toronto</MenuItem>
                       <MenuItem value="Ottawa">Ottawa</MenuItem>
@@ -145,16 +141,16 @@ useEffect(() => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                <FormControl sx={{ width: 1 }}>
+                  <FormControl sx={{ width: 1 }}>
                     <TextField
-                    required
-                    id="price"
-                    name="price"
-                    label="price"
-                    onChange={event => setPrice(event.target.value)}
-                    fullWidth
-                  />
-                </FormControl>
+                      required
+                      id="price"
+                      name="price"
+                      label="price"
+                      onChange={(event) => setPrice(event.target.value)}
+                      fullWidth
+                    />
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -164,28 +160,27 @@ useEffect(() => {
                       )}
                       label="DateTimePicker"
                       value={value}
-                      onChange={event => setValue(event.target.value)}
+                      onChange={(event) => setValue(event.target.value)}
                     />
                   </LocalizationProvider>
                 </Grid>
-              </Grid>   
-          <Button onClick={submitSearch}>Search</Button>
+              </Grid>
+              <Button onClick={submitSearch}>Search</Button>
             </React.Fragment>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
-
           {/* End hero unit */}
           <Grid container spacing={4}>
             {results.map((result) => (
-            <Grid item key={result.id} xs={12} sm={6} md={4}>
+              <Grid item key={result.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: '100%',
                     flexDirection: 'column',
                   }}
                 >
-                  <Service data = {result}/>
+                  <Service data={result} />
                 </Card>
               </Grid>
             ))}

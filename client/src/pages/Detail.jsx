@@ -16,7 +16,11 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import EditIcon from '@mui/icons-material/Edit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Service } from './../components/Service/index';
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import qs from 'qs';
 const theme = createTheme();
 
 function createData(name, calories, protein) {
@@ -33,51 +37,39 @@ const rows = [
   ),
 ];
 
-export default function Detail() {
+export default function Detail(props) {
+  const [results, setResults] = React.useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `http://localhost:8080/services/search`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }).then((response) => {
+      setResults(response.data.searchResults);
+    });
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
       <main>
         <Grid container>
-          <Grid item xs={8}>
-            <Container maxWidth="sm">
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 1 }}
-                  image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Headings
-                  </Typography>
-                  <Typography>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarTwoToneIcon />
-                  </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" variant="contained">
-                    Booking
-                  </Button>
-                </CardActions>
-              </Card>
-            </Container>
-          </Grid>
+          {results.map((result) => (
+            <Grid item key={result.id} xs={8}>
+              <Container maxWidth="sm">
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Service data={result} />
+                </Card>
+              </Container>
+            </Grid>
+          ))}
 
           <Grid item xs={4}>
             <Container sx={{ width: 1 }}>

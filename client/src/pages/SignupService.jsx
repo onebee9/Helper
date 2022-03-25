@@ -18,22 +18,64 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import axios from 'axios';
+import qs from 'qs';
+import { authContext } from './../providers/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
 const theme = createTheme();
 
 export default function SignupService() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const navigate = useNavigate();
+  const { login } = useContext(authContext);
+  const [userStatus, setStatus] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // const [category, setCategory] = useState('');
+  const [address, setAddress] = useState('');
   const [category, setCategory] = React.useState('');
 
   const handleChange = (event) => {
     setCategory(event.target.value); // need setting
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        category: category,
+        address: address,
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `http://localhost:8080/users/login`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        withCredentials: true,
+      });
+      setStatus(response.data);
+      console.log('signup+++++++++', response.data);
+
+      //store login info in storage
+      localStorage.setItem('usersinfo', JSON.stringify(response.data));
+      console.log('signup---------', response.data);
+
+      email && login(email, password);
+      // redirect to Home
+      if (response) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -113,9 +155,9 @@ export default function SignupService() {
                     label="Category"
                     onChange={handleChange}
                   >
-                    <MenuItem value={10}>Repair</MenuItem>
-                    <MenuItem value={20}>Babysitter</MenuItem>
-                    <MenuItem value={30}>Delivery</MenuItem>
+                    <MenuItem value="Repair">Repair</MenuItem>
+                    <MenuItem value="Babysitter">Babysitter</MenuItem>
+                    <MenuItem value="Delivery">Delivery</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

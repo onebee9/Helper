@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
-import {useState, useEffect} from "react";
-
+import { useState, useEffect } from 'react';
 
 import {
   Card,
@@ -30,23 +29,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-
 export default function Profile(props) {
-
-  const [userStatus, setUserStatus] = useState({}); 
-  useEffect (()=>{
-    const user = localStorage.getItem("usersinfo")
-  setUserStatus(JSON.parse(user))
-  },[])
+  const [userStatus, setUserStatus] = useState({});
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
   // console.log(userStatus.data.created_at)
 
-//show date in properformat
-const newDate = userStatus.data && new Date(userStatus.data.created_at)
-const completeDate = newDate && newDate.toDateString()
-const yearFinal = completeDate && completeDate.slice(4)
+  //show date in properformat
+  const newDate = userStatus.data && new Date(userStatus.data.created_at);
+  const completeDate = newDate && newDate.toDateString();
+  const yearFinal = completeDate && completeDate.slice(4);
 
-const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "No"
-
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,7 +74,7 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                  {userStatus?.data?.first_name} {userStatus?.data?.last_name}
+                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 
@@ -129,16 +126,21 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center" colSpan={3}>Profile</TableCell>
+                      <TableCell align="center" colSpan={3}>
+                        Profile
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  <TableRow
+                    <TableRow
                       sx={{
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell component="th" scope="row">Name   :   {userStatus?.data?.first_name} {userStatus?.data?.last_name}</TableCell>
+                      <TableCell component="th" scope="row">
+                        Name : {userStatus?.data?.first_name}{' '}
+                        {userStatus?.data?.last_name}
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
@@ -147,7 +149,9 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell component="th" scope="row">Email   :   {userStatus?.data?.email}</TableCell>
+                      <TableCell component="th" scope="row">
+                        Email : {userStatus?.data?.email}
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
@@ -156,7 +160,10 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell component="th" scope="row"> Member from : {yearFinal} </TableCell>
+                      <TableCell component="th" scope="row">
+                        {' '}
+                        Member from : {yearFinal}{' '}
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
@@ -165,7 +172,9 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <TableCell component="th" scope="row">Is Service Prvide   :   {provider} </TableCell>
+                      <TableCell component="th" scope="row">
+                        Is Service Prvide : {provider}{' '}
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
@@ -178,16 +187,14 @@ const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-        </Typography>
+        <Typography variant="h6" align="center" gutterBottom></Typography>
         <Typography
           variant="subtitle1"
           align="center"
           color="text.secondary"
           component="p"
         >
-          
-      We Help You!
+          We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

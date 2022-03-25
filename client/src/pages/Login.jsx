@@ -20,7 +20,7 @@ import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 
 const theme = createTheme();
@@ -51,8 +51,8 @@ export default function Login() {
       console.log(response.data);
 
       //store login info in storage
-      localStorage.setItem("usersinfo" , JSON.stringify(response.data))
-      console.log(response.data)
+      localStorage.setItem('usersinfo', JSON.stringify(response.data));
+      console.log(response.data);
 
       email && login(email, password);
       // redirect to Home
@@ -89,10 +89,18 @@ export default function Login() {
               gridTemplateColumns: 'repeat(2, 1fr)',
             }}
           >
-            <Link to="SignupService" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/SignupService"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               <Button variant="contained">Signup Service</Button>
             </Link>
-            <Link to="SignupClient" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/SignupClient"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               <Button variant="contained">Signup Client</Button>
             </Link>
           </Box>
