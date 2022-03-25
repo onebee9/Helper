@@ -23,22 +23,6 @@ module.exports = (db) => {
       });
   });
 
-  router.get("/:id", (req, res) => {
-
-    const serviceProviderID = req.params.id;
-    let query = `SELECT * FROM services WHERE id = $1 ;`;
-
-    db.query(query,[serviceProviderID])
-      .then(data => {
-        const services = data.rows;
-        res.json({ services });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
   
   
   router.get("/search", (req, res) => {
@@ -112,6 +96,7 @@ module.exports = (db) => {
       });
   });
 
+  
   router.delete("/remove", (req, res) => {
     const userID = req.query.id;
 
@@ -159,7 +144,22 @@ module.exports = (db) => {
       });
   });
 
+  router.get("/:id", (req, res) => {
 
+    const serviceProviderID = req.params.id;
+    let query = `SELECT * FROM services WHERE id = $1 ;`;
+
+    db.query(query,[serviceProviderID])
+      .then(data => {
+        const services = data.rows;
+        res.json({ services });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
 
   return router;
 };

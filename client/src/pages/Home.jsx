@@ -51,7 +51,7 @@ export default function Home() {
 
       let response = await axios({
         method: 'get',
-        url: `http://localhost:8080/services/search`,
+        url: `/services/search`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         params: data,
         withCredentials: true,
@@ -67,12 +67,15 @@ export default function Home() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:8080/services/search`,
+      url: `/services/search`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
       setResults(response.data.searchResults);
-    });
+    }).catch((error)=>{
+      console.log(error)
+
+    })
   }, []);
 
   return (
