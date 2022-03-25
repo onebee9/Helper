@@ -32,7 +32,18 @@ function App() {
         />
         {/* {!auth && <Route index element={<Login />} />} */}
         {/* {auth && <Route index element={<Home />} />} */}
-        <Route path="SignupService" element={<SignupService />} />
+        <Route
+          path="SignupService"
+          element={
+            <SignupService
+              auth={auth}
+              user={user}
+              userStatus={userStatus}
+              login={login}
+              logout={logout}
+            />
+          }
+        />
         <Route path="SignupClient" element={<SignupClient />} />
         <Route path="Detail" element={<Detail />} />
         <Route
