@@ -26,7 +26,6 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
@@ -36,6 +35,7 @@ export default function Profile(props) {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
+  // console.log(userStatus.data.created_at)
 
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);
@@ -78,7 +78,44 @@ export default function Profile(props) {
                   </Typography>
                 </CardContent>
 
-                <ProfileNav />
+                <nav aria-label="secondary mailbox folders">
+                  <List>
+                    <Link to="Profile" style={{ textDecoration: 'none' }}>
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Profile" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Profile Edit" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to="Profile Service"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Profile Servic" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                    <Link
+                      to="Profile Service Edit"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <ListItem disablePadding>
+                        <ListItemButton>
+                          <ListItemText primary="Profile Service Edit" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+                  </List>
+                </nav>
               </Card>
             </Container>
           </Grid>
