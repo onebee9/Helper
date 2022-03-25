@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -22,13 +23,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
 import { UserService } from './../components/Service/index';
 
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 
 const theme = createTheme();
 
 export default function ProfileService(props) {
+  const [userStatus, setUserStatus] = useState({});
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
   const [results, setResults] = React.useState([]);
 
   useEffect(() => {
@@ -70,7 +75,7 @@ export default function ProfileService(props) {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 

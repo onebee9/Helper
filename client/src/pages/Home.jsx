@@ -36,7 +36,6 @@ export default function Home() {
   const [results, setResults] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const [value, setValue] = React.useState(new Date());
- 
 
   const submitSearch = async (event) => {
     event.preventDefault();
@@ -64,19 +63,21 @@ export default function Home() {
     }
   };
 
+  console.log('result++++++++', results);
   useEffect(() => {
     axios({
       method: 'get',
       url: `/api/services/search`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
-    }).then((response) => {
-      setResults(response.data);
-      console.log(response.data)
-    }).catch((error)=>{
-      console.log(error)
-
     })
+      .then((response) => {
+        setResults(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -74,6 +75,11 @@ const rows = [
 ];
 
 export default function ProfileEdit() {
+  const [userStatus, setUserStatus] = useState({});
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -103,7 +109,7 @@ export default function ProfileEdit() {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 
