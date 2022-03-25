@@ -45,7 +45,7 @@ function App() {
           }
         />
         <Route path="SignupClient" element={<SignupClient />} />
-        <Route path="Detail" element={<Detail />} />
+        <Route path="Detail/:id" element={<Detail />} />
         <Route
           path="Profile"
           element={

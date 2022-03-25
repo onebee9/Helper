@@ -36,7 +36,7 @@ export default function Home() {
   const [results, setResults] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const [value, setValue] = React.useState(new Date());
-  const card = [1, 2, 3, 4, 5, 6];
+ 
 
   const submitSearch = async (event) => {
     event.preventDefault();
@@ -51,7 +51,7 @@ export default function Home() {
 
       let response = await axios({
         method: 'get',
-        url: `http://localhost:8080/services/search`,
+        url: `/api/services/search`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         params: data,
         withCredentials: true,
@@ -67,12 +67,16 @@ export default function Home() {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:8080/services/search`,
+      url: `/api/services/search`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-      setResults(response.data.searchResults);
-    });
+      setResults(response.data);
+      console.log(response.data)
+    }).catch((error)=>{
+      console.log(error)
+
+    })
   }, []);
 
   return (
