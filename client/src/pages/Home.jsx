@@ -39,6 +39,7 @@ export default function Home() {
  
 
   const submitSearch = async (event) => {
+    const status = 'accepted';
     event.preventDefault();
     try {
       const data = {
@@ -47,6 +48,7 @@ export default function Home() {
         price,
         city,
         keyword,
+        status
       };
 
       let response = await axios({

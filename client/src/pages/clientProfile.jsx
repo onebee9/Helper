@@ -35,6 +35,7 @@ export default function Profile(props) {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
+  // console.log(userStatus.data.created_at)
 
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);

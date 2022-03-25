@@ -12,19 +12,20 @@ module.exports = (db) => {
 
 //create service booking
   router.post("/new", (req, res) => {
+    console.log(req.body);
     const queryString = `INSERT INTO service_bookings(
-      user_id,
+      users_id,
       title,
       services_id,
       status,
       st_date,
-      end_date) VALUES ($1,$2,$3,$4,$5) RETURNING *;`;
+      end_date) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *;`;
 
     const values = [
-      req.session.user_id,
+      req.body.id,
       req.body.title,
       req.body.services_id,
-      'accepted',
+      req.body.status,
       req.body.start,
       req.body.end
     ];
@@ -60,7 +61,7 @@ module.exports = (db) => {
   router.get("/:id", (req, res) => {
     const userID = req.params.id
 
-    db.query(`SELECT * FROM service_bookings where user_id = $1;`, [userID])
+    db.query(`SELECT * FROM service_bookings where users_id = $1;`, [userID])
       .then(data => {
         const appointments = data.rows;
         res.json({ appointments });
