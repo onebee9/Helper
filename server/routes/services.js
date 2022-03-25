@@ -10,9 +10,8 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    const userId = req.session.user_id;
-    let query = `SELECT * FROM services WHERE services.user_id = $1 ;`;
-    db.query(query,[userId])
+    let query = `SELECT * FROM services WHERE services.id IS NOT NULL ;`;
+    db.query(query)
       .then(data => {
         const services = data.rows;
         res.json({ services });
@@ -25,11 +24,11 @@ module.exports = (db) => {
   });
   
 
-  router.post("/search", (req, res) => {
+  router.get("/search", (req, res) => {
     const queryParams = [];
-    const{keyword,category,price,location} = req.body;
+    const{keyword,category,price,location} = req.query;//read up on this
 
-    let queryString = `SELECT services.*, users.first_name 
+    let queryString = `SELECT services.*, users.first_name
     FROM services
     JOIN Users ON users.id = services.user_id
     JOIN availabilities ON users.id = availabilities.users_id
@@ -48,13 +47,14 @@ module.exports = (db) => {
     }
 
     if (!price == "") {
-      queryParams.push(price) ;
-      queryString += `AND services.fee = $${queryParams.length} `;
+      let priceToNumber = parseInt(price);
+      queryParams.push(priceToNumber) ;
+      queryString += `AND services.fee <= $${queryParams.length} `;
     }
 
     if (!location == "") {
       queryParams.push(location );
-      queryString += `AND locations.metropolitan = $${queryParams.length} `;
+      queryString += `AND locations.Metropolitan = $${queryParams.length} `;
     }
 
     // if (!date == "") {

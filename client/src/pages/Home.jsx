@@ -22,7 +22,12 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+import { useState,useEffect } from "react";
+import axios from "axios";
+import qs from "qs";
+
+
 
 const theme = createTheme();
 
@@ -31,24 +36,48 @@ export default function Home() {
   const [location, setLocation] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [city, setCity] = React.useState('');
-
-  const handleChange = (event) => {
-    setCategory(event.target.value); // need setting
-    setLocation(event.target.value); // need setting
-    setPrice(event.target.value); // need setting
-    setCity(event.target.value);//need setting
-  };
+  const [results, setResults] = React.useState([]);
+  const [keyword, setKeyword] = React.useState('');
   const [value, setValue] = React.useState(new Date());
+  const card = [1,2,3,4,5,6];
 
-  const handleSearch = (category, location, price, city) => {
-    const data = {
-       category,
-       location,
-       price,
-       city
-    };
-    
- }
+  const submitSearch = async (event) => {
+    event.preventDefault()
+    try {
+      const data = {
+        category,
+        location,
+        price,
+        city,
+        keyword
+     };
+
+      let response = await axios({
+        method: 'get',
+        url: `http://localhost:8080/services/search`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        params: data,
+        withCredentials: true,
+      });
+      setResults(response.data.searchResults)
+      console.log(response.data.searchResults)
+      return response
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+useEffect(() => {
+  axios({
+    method: 'get',
+    url: `http://localhost:8080/services/search`,
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    withCredentials: true
+  }).then((response) => {
+    setResults(response.data.searchResults)
+  })
+},[])
 
   return (
     <ThemeProvider theme={theme}>
@@ -75,6 +104,7 @@ export default function Home() {
                     label="Keyword"
                     fullWidth
                     autoComplete="given-name"
+                    onChange={event => setKeyword(event.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -85,11 +115,16 @@ export default function Home() {
                       id="category"
                       value={category}
                       label="Category"
-                      onChange={handleChange}
+                      onChange={event => setCategory(event.target.value)}
                     >
-                      <MenuItem value={10}>Repair</MenuItem>
-                      <MenuItem value={20}>Babysitter</MenuItem>
-                      <MenuItem value={30}>Delivery</MenuItem>
+                      <MenuItem value="">All Categories</MenuItem>
+                      <MenuItem value="Repair">Repair</MenuItem>
+                      <MenuItem value="Babysitter">Babysitter</MenuItem>
+                      <MenuItem value="Delivery">Delivery</MenuItem>
+                      <MenuItem value="Carpentry">Carpentry</MenuItem>
+                      <MenuItem value="Plumbing">Plumbing</MenuItem>
+                      <MenuItem value="Construction">Construction</MenuItem>
+                      <MenuItem value="Gardening">Gardening</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -101,29 +136,25 @@ export default function Home() {
                       id="location"
                       value={location}
                       label="location"
-                      onChange={handleChange}
+                      onChange={event => setLocation(event.target.value)}
                     >
-                      <MenuItem value={10}>Toronto</MenuItem>
-                      <MenuItem value={20}>Ottawa</MenuItem>
+                      <MenuItem value="Toronto">Toronto</MenuItem>
+                      <MenuItem value="Ottawa">Ottawa</MenuItem>
                       {/* Etobicoke, York, North York, West End, Downtown, Midtown, Uptown, East York, East End, Scarborough */}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <FormControl sx={{ width: 1 }}>
-                    <InputLabel id="price">Price</InputLabel>
-                    <Select
-                      labelId="price"
-                      id="price"
-                      value={price}
-                      label="Price"
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={10}>$10.0</MenuItem>
-                      <MenuItem value={20}>$20.0</MenuItem>
-                      <MenuItem value={30}>$30.0</MenuItem>
-                    </Select>
-                  </FormControl>
+                <FormControl sx={{ width: 1 }}>
+                    <TextField
+                    required
+                    id="price"
+                    name="price"
+                    label="price"
+                    onChange={event => setPrice(event.target.value)}
+                    fullWidth
+                  />
+                </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -133,14 +164,12 @@ export default function Home() {
                       )}
                       label="DateTimePicker"
                       value={value}
-                      onChange={(newValue) => {
-                        setValue(newValue);
-                      }}
+                      onChange={event => setValue(event.target.value)}
                     />
                   </LocalizationProvider>
                 </Grid>
               </Grid>   
-          <Button onClick={handleSearch}>Search</Button>
+          <Button onClick={submitSearch}>Search</Button>
             </React.Fragment>
           </Container>
         </Box>
@@ -148,16 +177,15 @@ export default function Home() {
 
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {results.map((result) => (
+            <Grid item key={result.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: '100%',
-                    display: 'flex',
                     flexDirection: 'column',
                   }}
                 >
-                  <Service />
+                  <Service data = {result}/>
                 </Card>
               </Grid>
             ))}

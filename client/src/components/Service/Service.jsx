@@ -17,10 +17,14 @@ import {
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
+import { Link } from '@mui/material';
+import Detail from '../../pages/Detail';
 
 export default function Service(props) {
+  const {description, category, created_at, fee, first_name, service_id, title} = props.data
   return (
     <>
+     {first_name}
       <CardMedia
         component="img"
         sx={{ width: 1 }}
@@ -28,9 +32,11 @@ export default function Service(props) {
         alt="random"
       />
       <CardContent sx={{ flexGrow: 1 }}>
+
         <Typography gutterBottom variant="h5" component="h2">
-          Heading
+        {category}
         </Typography>
+
         <Typography>
           <StarIcon />
           <StarIcon />
@@ -39,14 +45,13 @@ export default function Service(props) {
           <StarTwoToneIcon />
         </Typography>
         <Typography>
-          This is a media card. You can use this section to describe the
-          content.
+        {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" variant="contained">
-          Booking
-        </Button>
+      <Link to="/Detail" style={{ textDecoration: 'none' }}>
+          <Button size="small" variant="contained">Book</Button>
+      </Link>
       </CardActions>
     </>
   );

@@ -56,7 +56,7 @@ export default function Detail() {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Heading
+                    Headings
                   </Typography>
                   <Typography>
                     <StarIcon />
