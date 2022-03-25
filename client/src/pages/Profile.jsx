@@ -1,5 +1,8 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import {useState, useEffect} from "react";
+
+
 import {
   Card,
   CardContent,
@@ -27,21 +30,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-function createData(name, calories, protein) {
-  return { name, calories, protein };
-}
 
-const rows = [
-  createData('Full Name', 'User Name', <EditIcon />),
-  createData('Email', 'user.name@example.com', <EditIcon />),
-  createData(
-    'Address',
-    '662 King Street West #101, Toronto ON, Canada',
-    <EditIcon />
-  ),
-];
+export default function Profile(props) {
 
-export default function Profile() {
+  const [userStatus, setUserStatus] = useState({}); 
+  useEffect (()=>{
+    const user = localStorage.getItem("usersinfo")
+  setUserStatus(JSON.parse(user))
+  },[])
+  // console.log(userStatus.data.created_at)
+
+//show date in properformat
+const newDate = userStatus.data && new Date(userStatus.data.created_at)
+const completeDate = newDate && newDate.toDateString()
+const yearFinal = completeDate && completeDate.slice(4)
+
+const provider = userStatus.data && userStatus.data.isserviceprovider? "yes" : "No"
+
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -71,7 +77,7 @@ export default function Profile() {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                  {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 
@@ -123,24 +129,46 @@ export default function Profile() {
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={3}>Profile</TableCell>
+                      <TableCell align="center" colSpan={3}>Profile</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.calories}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                      </TableRow>
-                    ))}
+                  <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">Name   :   {userStatus?.data?.first_name} {userStatus?.data?.last_name}</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">Email   :   {userStatus?.data?.email}</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row"> Member from : {yearFinal} </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">Is Service Prvide   :   {provider} </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -151,7 +179,6 @@ export default function Profile() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
         </Typography>
         <Typography
           variant="subtitle1"
@@ -159,7 +186,8 @@ export default function Profile() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          
+      We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

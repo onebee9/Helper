@@ -49,6 +49,11 @@ export default function Login() {
       });
       setStatus(response.data);
       console.log(response.data);
+
+      //store login info in storage
+      localStorage.setItem("usersinfo" , JSON.stringify(response.data))
+      console.log(response.data)
+
       email && login(email, password);
       // redirect to Home
       if (response) {
