@@ -21,55 +21,68 @@ import { Service } from './../components/Service/index';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
+import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
-function createData(name, calories, protein) {
-  return { name, calories, protein };
-}
-
-const rows = [
-  createData('Full Name', 'User Name', <EditIcon />),
-  createData('Email', 'user.name@example.com', <EditIcon />),
-  createData(
-    'Address',
-    '662 King Street West #101, Toronto ON, Canada',
-    <EditIcon />
-  ),
-];
-
-export default function Detail(props) {
-  const [results, setResults] = React.useState([]);
+ 
+export default function Detail() {
+  const [service, setService] = React.useState([]);
+  const params = useParams();
 
   useEffect(() => {
     axios({
       method: 'get',
-      url: `/api/services/search`,
+      url: `/api/services/${params.id}`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-      setResults(response.data.searchResults);
+      setService(response.data.services[0])
     });
   }, []);
+
+  console.log('service',service)
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
       <main>
         <Grid container>
-          {results.map((result) => (
-            <Grid item key={result.id} xs={8}>
-              <Container maxWidth="sm">
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Service data={result} />
-                </Card>
-              </Container>
-            </Grid>
-          ))}
+          <Grid item xs={8}>
+            <Container maxWidth="sm">
+              <Card
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  sx={{ width: 1 }}
+                  image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
+                  alt="random"
+                />
+                <Typography>
+                  Price : {service? service.fee : "" }
+                  </Typography>
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                   {service? service.category : "" }
+                  </Typography>
+                  <Typography>
+                    <StarIcon />
+                    <StarIcon />
+                    <StarIcon />
+                    <StarIcon />
+                    <StarTwoToneIcon />
+                  </Typography>
+                  <Typography>
+                  {service? service.description : "" }
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Container>
+          </Grid>
 
           <Grid item xs={4}>
             <Container sx={{ width: 1 }}>
