@@ -25,6 +25,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
@@ -106,44 +107,7 @@ export default function ProfileEdit() {
                   </Typography>
                 </CardContent>
 
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>
