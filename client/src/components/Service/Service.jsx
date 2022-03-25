@@ -21,10 +21,17 @@ import { Link } from '@mui/material';
 import Detail from '../../pages/Detail';
 
 export default function Service(props) {
-  const {description, category, created_at, fee, first_name, service_id, title} = props.data
+  const {
+    description,
+    category,
+    created_at,
+    fee,
+    first_name,
+    service_id,
+    title,
+  } = props.data;
   return (
     <>
-     {first_name}
       <CardMedia
         component="img"
         sx={{ width: 1 }}
@@ -32,10 +39,11 @@ export default function Service(props) {
         alt="random"
       />
       <CardContent sx={{ flexGrow: 1 }}>
-
         <Typography gutterBottom variant="h5" component="h2">
-        {category}
+          {category}
         </Typography>
+
+        <Typography gutterBottom>{first_name}</Typography>
 
         <Typography>
           <StarIcon />
@@ -44,14 +52,14 @@ export default function Service(props) {
           <StarIcon />
           <StarTwoToneIcon />
         </Typography>
-        <Typography>
-        {description}
-        </Typography>
+        <Typography>{description}</Typography>
       </CardContent>
       <CardActions>
-      <Link to="/Detail" style={{ textDecoration: 'none' }}>
-          <Button size="small" variant="contained">Book</Button>
-      </Link>
+        <Link to="/Detail" style={{ textDecoration: 'none' }}>
+          <Button size="small" variant="contained">
+            Book
+          </Button>
+        </Link>
       </CardActions>
     </>
   );
