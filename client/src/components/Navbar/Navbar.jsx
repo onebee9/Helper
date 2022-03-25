@@ -49,6 +49,9 @@ function Navbar(props) {
           <Link to="Login" style={{ textDecoration: 'none' }}>
             <Button size="small">Logout</Button>
           </Link>
+          <Link to="Profile" style={{ textDecoration: 'none' }}>
+            <Button size="small">Profile</Button>
+          </Link>
 
           <Avatar
             alt="Remy Sharp"
