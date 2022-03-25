@@ -18,7 +18,9 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
+          <Link to="/" style={{ textDecoration: 'none'}}>
             Helper
+          </Link>
           </Typography>
 
           <Link to="Login" style={{ textDecoration: 'none' }}>
@@ -43,7 +45,10 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
+          <Link to="/" style={{ textDecoration: 'none'}}>
             Helper
+          </Link>
+           
           </Typography>
 
           <Link to="Login" style={{ textDecoration: 'none' }}>
