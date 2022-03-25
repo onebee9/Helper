@@ -43,7 +43,7 @@ export default function Detail(props) {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:8080/services/search`,
+      url: `/api/services/search`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {

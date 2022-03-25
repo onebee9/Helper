@@ -6,23 +6,11 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    const userID = req.session.userID;
-    db.query(`SELECT * FROM service_bookings where user_id = $1;`,[userID] )
-      .then(data => {
-        const appointments = data.rows;
-        res.json({ appointments });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
 
+//create service booking
   router.post("/new", (req, res) => {
     const queryString = `INSERT INTO service_bookings(
       user_id,
@@ -36,7 +24,7 @@ module.exports = (db) => {
       req.session.user_id,
       req.body.title,
       req.body.services_id,
-      'pending',
+      'accepted',
       req.body.start,
       req.body.end
     ];
@@ -44,29 +32,45 @@ module.exports = (db) => {
     db.query(queryString, values)
       .then((data) => {
         const newBooking = data.rows;
-        res.json({ newBooking});
+        res.json({ newBooking });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
 
+//update service booking
+  router.put("/bookings/:id", (req, res) => {
+    const { title, rating, status} = req.params;
 
-router.get("/bookings/:id", (req, res) => {
-
-const {title,rating,status} = request.body.booking;
-
-db.query(
-  `
+  db.query(
+      `
   INSERT INTO service_booking (title, rating, status) VALUES ($1::text, $2::integer, $3::text)
   WHERE id = $4::integer
 `,
-  [title, rating, status, Number(req.params.id)]
-)
-  .then((data) => {
-    res.json('successfully updated');
-  })
-  .catch(error => console.log(error));
-});
+      [title, rating, status, Number(req.params.id)]
+    )
+      .then((data) => {
+        res.json('successfully updated');
+      })
+      .catch(error => console.log(error));
+  });
+
+  //retrieve service booking
+  router.get("/:id", (req, res) => {
+    const userID = req.params.id
+
+    db.query(`SELECT * FROM service_bookings where user_id = $1;`, [userID])
+      .then(data => {
+        const appointments = data.rows;
+        res.json({ appointments });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   return router;
 };

@@ -68,31 +68,35 @@ module.exports = (db) => {
     db.query(queryString, queryParams)
       .then((data) => {
         if (data) {
-          const searchResults = data.rows;
           // res.status(200).json(
           //   {
           //     "status": "success",
-          //     "message": "user logged in successfully",
+          //     "message": "retrieved all services offered",
           //     "data": {
           //       id: data.rows[0].id,
-          //       first_name: data.rows[0].first_name,
-          //       last_name: data.rows[0].last_name,
-          //       email: data.rows[0].email,
+          //       name :data.rows[0].first_name,
+          //       title: data.rows[0].title,
+          //       description: data.rows[0]. description,
+          //       category: data.rows[0].category,
+          //       fee: data.rows[0].fee,
+          //       user_id: data.rows[0].user_id,
           //       created_at: data.rows[0].created_at,
-          //       isserviceprovider: data.rows[0].isserviceprovider
           //     }
 
           //   }
           // );
-          res.json({ searchResults });
-          //res.json({queryString});
+          const searchResults = data.rows;
+          res.json(searchResults);
           return;
         }
         res.json("No matching search results");
       })
       .catch((err) => {
-        res.json({queryString});
-        //res.status(500).json({ error: err.message });
+        res.status(500).json(
+          { 
+            error: err.message,
+            queryData:queryString  
+          });
       });
   });
 
