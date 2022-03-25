@@ -49,8 +49,8 @@ export default function Service(props) {
         </Typography>
       </CardContent>
       <CardActions>
-      <Link to="/Detail" style={{ textDecoration: 'none' }}>
-          <Button size="small" variant="contained">Book</Button>
+      <Link to="Detail" style={{ textDecoration: 'none' }}>
+            <Button size="small">Book</Button>
       </Link>
       </CardActions>
     </>

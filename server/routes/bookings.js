@@ -51,7 +51,9 @@ module.exports = (db) => {
       });
   });
 
-router.put("/bookings/:id", (req, res) => {
+
+router.get("/bookings/:id", (req, res) => {
+
 const {title,rating,status} = request.body.booking;
 
 db.query(

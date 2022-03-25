@@ -22,8 +22,25 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  
 
+  router.get("/:id", (req, res) => {
+
+    const serviceProviderID = req.params.id;
+    let query = `SELECT * FROM services WHERE id = $1 ;`;
+
+    db.query(query,[serviceProviderID])
+      .then(data => {
+        const services = data.rows;
+        res.json({ services });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+  
+  
   router.get("/search", (req, res) => {
     const queryParams = [];
     const{keyword,category,price,location} = req.query;//read up on this
@@ -68,6 +85,21 @@ module.exports = (db) => {
       .then((data) => {
         if (data) {
           const searchResults = data.rows;
+          // res.status(200).json(
+          //   {
+          //     "status": "success",
+          //     "message": "user logged in successfully",
+          //     "data": {
+          //       id: data.rows[0].id,
+          //       first_name: data.rows[0].first_name,
+          //       last_name: data.rows[0].last_name,
+          //       email: data.rows[0].email,
+          //       created_at: data.rows[0].created_at,
+          //       isserviceprovider: data.rows[0].isserviceprovider
+          //     }
+
+          //   }
+          // );
           res.json({ searchResults });
           //res.json({queryString});
           return;
@@ -80,8 +112,9 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/delete", (req, res) => {
-    const userID = req.session.user_id;
+  router.delete("/remove", (req, res) => {
+    const userID = req.query.id;
+
     const queryString = `DELETE FROM services 
       WHERE user_id = $1 AND services_id = $2;`;
 

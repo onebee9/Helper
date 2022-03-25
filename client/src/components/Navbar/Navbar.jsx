@@ -6,7 +6,6 @@ import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
   const { auth } = useContext(authContext);
-  console.log(auth);
   return (
     <React.Fragment>
       {!auth && (
