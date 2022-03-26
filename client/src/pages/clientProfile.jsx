@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
+import ProfileService from './ProfileService';
 
 import {
   Card,
@@ -55,7 +56,7 @@ export default function Profile(props) {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-      // setClientBookings(response.data.appointments);
+      setClientBookings(response.data.clientBookings);
       console.log(response.data)
 
     }).catch((error)=>{
@@ -216,14 +217,14 @@ export default function Profile(props) {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {clientBookings.map((booking) => (
-              <Grid item key={booking.id} xs={12} sm={6} md={4}>
+              <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: '100%',
                     flexDirection: 'column',
                   }}
                 >
-                  <ServiceBooking data={booking} />
+                  <ProfileService data={booking} />
                 </Card>
               </Grid>
             ))}
