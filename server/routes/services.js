@@ -133,6 +133,8 @@ module.exports = (db) => {
       req.body.category,
       req.body.fee,
     ];
+    // console.log("req",req.body)
+    // console.log("values",values)
 
     db.query(queryString, values)
       .then((data) => {
