@@ -58,7 +58,6 @@ export default function Profile(props) {
     }).then((response) => {
       setClientBookings(response.data.clientBookings);
       console.log(response.data)
-
     }).catch((error)=>{
       console.log(error)
 
