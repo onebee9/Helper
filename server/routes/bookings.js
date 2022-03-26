@@ -10,7 +10,7 @@ const router = express.Router();
 
 module.exports = (db) => {
 
-//create service booking
+  //create service booking
   router.post("/new", (req, res) => {
     console.log(req.body);
     const queryString = `INSERT INTO service_bookings(
@@ -40,11 +40,11 @@ module.exports = (db) => {
       });
   });
 
-//update service booking
+  //update service booking
   router.put("/bookings/:id", (req, res) => {
-    const { title, rating, status} = req.params;
+    const { title, rating, status } = req.params;
 
-  db.query(
+    db.query(
       `
   INSERT INTO service_booking (title, rating, status) VALUES ($1::text, $2::integer, $3::text)
   WHERE id = $4::integer
@@ -57,7 +57,30 @@ module.exports = (db) => {
       .catch(error => console.log(error));
   });
 
-  //retrieve service booking
+  router.get("/provider/:serviceID", (req, res) => {
+    const serviceID = req.params.id
+    console.log(serviceID);
+
+    const queryString = `SELECT service_bookings.*, locations.*, users.first_name, users.email
+    FROM service_bookings
+    JOIN users ON service_bookings.users_id = users.id
+    JOIN locations ON users.id = locations.user_id
+    WHERE service_bookings.services_id = $1`;
+
+
+    db.query(queryString, [serviceID])
+      .then(data => {
+        const allBookings = data.rows;
+        res.json({allBookings });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+   //retrieve service booking
   router.get("/:id", (req, res) => {
     const userID = req.params.id
 
