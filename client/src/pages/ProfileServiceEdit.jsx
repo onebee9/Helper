@@ -30,6 +30,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
 
+// import Modal from '../components/Modal';
+
+
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
