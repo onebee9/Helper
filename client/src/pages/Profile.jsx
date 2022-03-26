@@ -33,7 +33,9 @@ const theme = createTheme();
 
 
 export default function Profile(props) {
+
   const [userStatus, setUserStatus] = useState({});
+
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
@@ -47,7 +49,7 @@ export default function Profile(props) {
   const yearFinal = completeDate && completeDate.slice(4);
 
   const provider = userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  const profileType =  provider === 'yes'? (<ServiceProfile user={userStatus}/>) : (<ClientProfile user={userStatus}/>);
+  const profileType =  provider === 'yes'? (<ServiceProfile userStatus/>) : (<ClientProfile/>);
 
   return (
     <>{profileType}</>

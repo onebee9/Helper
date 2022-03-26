@@ -7,7 +7,7 @@ import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
   const { auth } = useContext(authContext);
-  // console.log(auth);
+  console.log(auth);
   return (
     <React.Fragment>
       {!auth && (
@@ -109,9 +109,6 @@ function Navbar(props) {
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Logout</Button>
-          </Link>
-          <Link to="Profile" style={{ textDecoration: 'none' }}>
-            <Button size="small">Profile</Button>
           </Link>
 
           <Avatar
