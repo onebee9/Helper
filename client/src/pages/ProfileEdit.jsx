@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -25,6 +26,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
@@ -73,6 +75,11 @@ const rows = [
 ];
 
 export default function ProfileEdit() {
+  const [userStatus, setUserStatus] = useState({});
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -102,48 +109,11 @@ export default function ProfileEdit() {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>

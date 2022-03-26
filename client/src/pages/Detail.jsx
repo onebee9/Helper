@@ -11,6 +11,11 @@ import {
   CardMedia,
   Button,
   Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
@@ -24,12 +29,10 @@ import qs from 'qs';
 import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
- 
-export default function Detail() {
+export default function Detail(props) {
   const [service, setService] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
   const [time, setTime] = React.useState([]);
- 
 
   const start = time[0];
   const end = time[2];
@@ -44,22 +47,22 @@ export default function Detail() {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-      setService(response.data.services[0])
+      setService(response.data.services[0]);
     });
   }, [params.id]);
 
   const submitBooking = async (event) => {
+    setOpen(false);
     event.preventDefault();
     try {
-
-    const data = {      
-      id : params.id,
-      title : service.title,
-      services_id : service.services_id,
-      start: start,
-      end : end,
-      status:bookingStatus
-  }
+      const data = {
+        id: params.id,
+        title: service.title,
+        services_id: service.services_id,
+        start: start,
+        end: end,
+        status: bookingStatus,
+      };
 
       let response = await axios({
         method: 'post',
@@ -67,7 +70,7 @@ export default function Detail() {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         //data: qs.stringify(data),
         data: data,
-        withCredentials: true
+        withCredentials: true,
       });
       setBooking(response.data);
       console.log(response.data);
@@ -76,7 +79,17 @@ export default function Detail() {
       console.log(error);
     }
   };
+  // Modal
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [disable, setDisable] = React.useState(false);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -97,12 +110,9 @@ export default function Detail() {
                   image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
                   alt="random"
                 />
-                <Typography>
-                  Price : {service? service.fee : "" }
-                  </Typography>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                   {service? service.category : "" }
+                    {service ? service.category : ''}
                   </Typography>
                   <Typography>
                     <StarIcon />
@@ -111,9 +121,10 @@ export default function Detail() {
                     <StarIcon />
                     <StarTwoToneIcon />
                   </Typography>
-                  <Typography>
-                  {service? service.description : "" }
+                  <Typography variant="h5" component="h2">
+                    Price : $ {service ? service.fee : ''}
                   </Typography>
+                  <Typography>{service ? service.description : ''}</Typography>
                 </CardContent>
               </Card>
             </Container>
@@ -134,112 +145,192 @@ export default function Detail() {
                 </CardContent>
                 <Grid
                   container
-                  spacing={3}
+                  spacing={1}
                   justifyContent="center"
                   alignItems="center"
                   sx={{ mb: 3 }}
                 >
                   <Grid item xs={10}>
-                    <Link to="12:00" style={{ textDecoration: "Not available" }}>
-                      <Button 
-                      variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[9,10]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 9 + "AM" + " - " + 10 + "AM" : "Not available" } 
+                    <Link
+                      to="12:00"
+                      style={{ textDecoration: 'Not available' }}
+                    >
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[9, 10]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 9 + 'AM' + ' - ' + 10 + 'AM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button 
-                      variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[10,11]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 10 + "AM" + " - " + 11 + "AM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[10, 11]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 10 + 'AM' + ' - ' + 11 + 'AM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button 
-                      variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[11,12]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 11 + "AM" + " - " + 12 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[11, 12]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 11 + 'AM' + ' - ' + 12 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[12,1]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 12 + "PM" + " - " + 1 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[12, 1]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 12 + 'PM' + ' - ' + 1 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[1,2]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 1 + "PM" + " - " + 2 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[1, 2]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 1 + 'PM' + ' - ' + 2 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[2,3]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 2 + "PM" + " - " + 3 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[2, 3]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 2 + 'PM' + ' - ' + 3 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[3,4]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 4 + "PM" + " - " + 5 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[3, 4]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 4 + 'PM' + ' - ' + 5 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" 
-                      sx={{ width: 1 }}
-                      value = {[4,5]}
-                      onClick={(event) => setTime(event.target.value)}>
-                      {service? 5 + "PM" + " - " + 6 + "PM" : "Not available" } 
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        disabled={disable}
+                        value={[4, 5]}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
+                      >
+                        {service
+                          ? 5 + 'PM' + ' - ' + 6 + 'PM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
 
-                  <Grid item xs={10}>
+                  {/* <Grid item xs={10}>
                     <Link to="Booking" style={{ textDecoration: 'none' }}>
-                    <Button onClick={submitBooking}>Book</Button>
+                      <Button onClick={submitBooking}>Book</Button>
                     </Link>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Card>
             </Container>
           </Grid>
         </Grid>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Thank you for your booking!'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Thank you for your booking!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={submitBooking}>
+              Book
+            </Button>
+          </DialogActions>
+        </Dialog>
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">

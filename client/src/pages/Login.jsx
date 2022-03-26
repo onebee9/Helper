@@ -155,8 +155,15 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link
+                  to="/SignupService"
+                  component={RouterLink}
+                  variant="body2"
+                >
+                  Don't have an account? Signup Service
+                </Link>
+                <Link to="/SignupClient" component={RouterLink} variant="body2">
+                  Signup Client
                 </Link>
               </Grid>
             </Grid>

@@ -26,6 +26,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import ClientProfile from "./ClientProfile"
 import ServiceProfile from "./ServiceProfile"
 
@@ -46,10 +47,14 @@ export default function Profile(props) {
   const completeDate = newDate && newDate.toDateString();
   const yearFinal = completeDate && completeDate.slice(4);
 
-  const provider = userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  const profileType =  provider === 'yes'? (<ServiceProfile user={userStatus}/>) : (<ClientProfile user={userStatus}/>);
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const profileType =
+    provider === 'yes' ? (
+      <ServiceProfile user={userStatus} />
+    ) : (
+      <ClientProfile user={userStatus} />
+    );
 
-  return (
-    <>{profileType}</>
-);
+  return <>{profileType}</>;
 }

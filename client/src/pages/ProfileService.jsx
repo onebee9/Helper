@@ -19,10 +19,27 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+// import { convertLength } from '@mui/material/styles/cssUtils';
+import {useState, useEffect} from "react";
 
 const theme = createTheme();
 
-export default function ProfileService() {
+export default function ProfileService(props) {
+  console.log(props)  
+  const userInfo = props.user && props.user
+  const [services, setServices] = useState([]);
+  const url= "api/services/"
+
+  useEffect(() => {
+    axios.get(`${url}${userInfo.id}`).then((response) => {
+      setServices(response.data.services);
+      console.log("AAA",response.data.services)
+    });
+  }, []);
+  // console.log("ser", services)
+
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -52,7 +69,7 @@ export default function ProfileService() {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                  {userInfo.first_name}  {userInfo.last_name}
                   </Typography>
                 </CardContent>
 
@@ -99,6 +116,8 @@ export default function ProfileService() {
           </Grid>
 
           <Grid item xs={8}>
+          {services.map((s) => {
+        return (
             <Container maxWidth="sm">
               <Box
                 sx={{
@@ -120,23 +139,30 @@ export default function ProfileService() {
                   src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
                 />
                 <Box sx={{ width: 3 / 4 }}>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarTwoToneIcon />
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
+          <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            Category : {s.category}
+          </Typography>
+          <Typography>
+            <StarIcon />
+            <StarIcon />
+            <StarIcon />
+            <StarIcon />
+            <StarTwoToneIcon />
+          </Typography>
+          <Typography gutterBottom variant="h6" component="h4">
+            Title : {s.title}
+          </Typography>
+          <Typography>
+            Fee : {s.fee}
+          </Typography>
+          <br/>
+          <Typography>
+            Description: {s.description}
+          </Typography>
+        </CardContent>
+
+                  {/* <CardActions>
                     <Button size="small" variant="contained">
                       12:00
                     </Button>
@@ -144,7 +170,7 @@ export default function ProfileService() {
                     <Button size="small" variant="contained">
                       Booking
                     </Button>
-                  </CardActions>
+                  </CardActions> */}
 
                   <CardActions>
                     <Grid
@@ -160,7 +186,7 @@ export default function ProfileService() {
                           </Button>
                         </Link>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid  justifyContent="end" item xs={6}>
                         <Link to="Delete" style={{ textDecoration: 'none' }}>
                           <Button
                             variant="contained"
@@ -175,14 +201,16 @@ export default function ProfileService() {
                   </CardActions>
                 </Box>
               </Box>
+              <br/>
             </Container>
+                                  );
+                                })}
           </Grid>
         </Grid>
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
         </Typography>
         <Typography
           variant="subtitle1"
@@ -190,7 +218,7 @@ export default function ProfileService() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

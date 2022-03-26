@@ -127,7 +127,7 @@ export default function Profile(props) {
                   <TableHead>
                     <TableRow>
                       <TableCell align="center" colSpan={3}>
-                        Service Profile !!!!!
+                        Profile
                       </TableCell>
                     </TableRow>
                   </TableHead>
