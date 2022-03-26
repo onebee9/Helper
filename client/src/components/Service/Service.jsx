@@ -29,8 +29,11 @@ export default function Service(props) {
     fee,
     first_name,
     id,
-    title,
+    title
   } = props.data;
+
+  console.log(props);
+
   return (
     <>
       <CardMedia
@@ -58,7 +61,7 @@ export default function Service(props) {
       <CardActions>
 
         {/* <Link style={{ textDecoration: 'none' }}> */}
-          <NavLink to={`/Detail/${id}`}>
+          <NavLink to={`/Detail/${id}`} serviceid = {id}>
             <Button size="small" variant="contained">
               Book
             </Button>

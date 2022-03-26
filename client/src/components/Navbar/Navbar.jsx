@@ -6,11 +6,11 @@ import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth } = useContext(authContext);
-  console.log(auth);
+  const userinfo = localStorage.getItem('usersinfo');
+
   return (
     <React.Fragment>
-      {!auth && (
+      {!userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -19,7 +19,10 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link 
+            to="/" 
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}>
               Helper
             </Link>
           </Typography>
@@ -49,7 +52,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {auth && (
+      {userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -57,10 +60,12 @@ function Navbar(props) {
             color="inherit"
             noWrap
             sx={{ flex: 1 }}
-          >
-            <Link to="/" style={{ textDecoration: 'none' }}>
-              Helper
-            </Link>
+          ><Link 
+          to="/" 
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}>
+            Helper
+          </Link>
           </Typography>
 
           <Link

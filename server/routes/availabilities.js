@@ -9,10 +9,10 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  
-  router.get("/availabilities", (req, res) => {
 
-    const userId = req.session.user_id;
+  router.get("/availabilities/:id", (req, res) => {
+    const userId = req.params.id
+
     db.query(`SELECT availabilities.* FROM availabilities where user_id = $1;`,[userId])
       .then(data => {
         const users = data.rows;
@@ -24,6 +24,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
 
   router.post("/availabilities", (req, res) => {
 
