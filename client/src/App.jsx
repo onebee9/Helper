@@ -12,8 +12,20 @@ import ProfileServiceCreate from './pages/ProfileServiceCreate';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { authContext } from './providers/AuthProvider';
+import {useState, useEffect} from "react"; 
+
 function App() {
   const { auth, user, userStatus, login, logout } = useContext(authContext);
+  // console.log("context",auth, user, userStatus, login, logout)
+  const [userObject, setUserObject] = useState({}); 
+  useEffect (()=>{
+    const user = localStorage.getItem("usersinfo")
+  setUserObject(JSON.parse(user))
+  },[])
+
+  const currentUser = userObject.data && userObject.data
+  console.log("currnetUser", currentUser) 
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -54,7 +66,7 @@ function App() {
           }
         />
         <Route path="ProfileEdit" element={<ProfileEdit />} />
-        <Route path="ProfileService" element={<ProfileService />} />
+        <Route path="ProfileService" element={<ProfileService user={currentUser} />} />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
         <Route path="ProfileServiceCreate" element={<ProfileServiceCreate />} />
       </Routes>
