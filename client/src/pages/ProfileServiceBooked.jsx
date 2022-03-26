@@ -32,10 +32,10 @@ export default function ProfileServiceBooked(props) {
   const [services, setServices] = useState([]);
   const params = useParams();
   console.log('params', params);
-  const url = 'api/services/';
+  const url = 'api/provider/';
 
   useEffect(() => {
-    axios.get(`${url}${userInfo.id}`).then((response) => {
+    axios.get(`${url}${params.id}`).then((response) => {
       setServices(response.data.services);
       console.log('AAA', response.data.services);
     });
