@@ -44,7 +44,7 @@ export default function Detail(props) {
     axios({
       method: 'get',
       url: `/api/services/${params.id}`,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      // headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
       setService(response.data.services[0]);
@@ -67,7 +67,7 @@ export default function Detail(props) {
       let response = await axios({
         method: 'post',
         url: `/api/bookings/new`,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        // headers: { 'content-type': 'application/x-www-form-urlencoded' },
         //data: qs.stringify(data),
         data: data,
         withCredentials: true,
