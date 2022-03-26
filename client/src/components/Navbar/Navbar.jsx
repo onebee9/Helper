@@ -6,16 +6,11 @@ import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
+  const userinfo = localStorage.getItem('usersinfo');
 
-
-
-    const user = localStorage.getItem('usersinfo');
-
- 
- 
   return (
     <React.Fragment>
-      {!user  && (
+      {!userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -24,7 +19,10 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link 
+            to="/" 
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}>
               Helper
             </Link>
           </Typography>
@@ -54,7 +52,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {user && (
+      {userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -62,14 +60,12 @@ function Navbar(props) {
             color="inherit"
             noWrap
             sx={{ flex: 1 }}
-          >
-            <Link
-              to="/"
-              component={RouterLink}
-              style={{ textDecoration: 'none' }}
-            >
-              Helper
-            </Link>
+          ><Link 
+          to="/" 
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}>
+            Helper
+          </Link>
           </Typography>
 
           <Link
@@ -126,9 +122,6 @@ function Navbar(props) {
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Logout</Button>
-          </Link>
-          <Link to="Profile" style={{ textDecoration: 'none' }}>
-            <Button size="small">Profile</Button>
           </Link>
 
           <Avatar

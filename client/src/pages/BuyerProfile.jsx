@@ -27,6 +27,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ServiceBooking from '../components/Service/ServiceBooking';
 import axios from 'axios';
 
 
@@ -57,13 +58,10 @@ export default function Profile(props) {
     }).then((response) => {
       setClientBookings(response.data.clientBookings);
       console.log(response.data)
-
     }).catch((error)=>{
       console.log(error)
 
     })
-
-
   }, []);
 
   
