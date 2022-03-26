@@ -151,10 +151,12 @@ module.exports = (db) => {
   router.get("/:id", (req, res) => {
 
     const serviceProviderID = req.params.id;
-    let query = `SELECT services.*, availabilities.*,users.first_name
-    FROM services
-    JOIN Users ON users.id = services.user_id
-   JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
+    let query = `SELECT * FROM services WHERE user_id = $1 ;`;
+
+  //  `SELECT services.*, availabilities.*,users.first_name
+  //   FROM services
+  //   JOIN Users ON users.id = services.user_id
+  //  JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
 
     db.query(query,[serviceProviderID])
       .then(data => {
