@@ -8,11 +8,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -25,7 +20,6 @@ import {
   TableFooter,
   Button,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
@@ -33,13 +27,8 @@ import ProfileNav from '../components/Navbar/ProfileNav';
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
-import qs from 'qs';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 const theme = createTheme();
-
-function createData(name, data) {
-  return { name, data };
-}
 
 export default function ProfileServiceCreate(props) {
   const [userStatus, setUserStatus] = useState({});
@@ -47,16 +36,10 @@ export default function ProfileServiceCreate(props) {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
-  const [status, setStatus] = useState(false);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [title, setTitle] = React.useState([]);
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [fee, setFee] = useState('');
-  const navigate = useNavigate();
-  const { login } = useContext(authContext);
 
   console.log('++++++++++', title);
   const handleSubmit = async (event) => {
@@ -77,16 +60,8 @@ export default function ProfileServiceCreate(props) {
         withCredentials: true,
       });
 
-      //store login info in storage
-      // localStorage.setItem('usersinfo', JSON.stringify(response.data));
       console.log(response.data);
       return response;
-
-      // email && login(email, password);
-      // redirect to Home
-      // if (response) {
-      //   navigate('/');
-      // }
     } catch (error) {
       console.log(error);
     }
