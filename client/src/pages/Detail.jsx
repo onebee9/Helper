@@ -48,10 +48,19 @@ export default function Detail(props) {
       withCredentials: true,
     }).then((response) => {
       setService(response.data.services[0]);
+      // console.log('Detail+++++++++', response.data.services);
     });
   }, [params.id]);
 
   const submitBooking = async (event) => {
+    setSlot((slots) => {
+      return slots.map((slot, i) => {
+        if (i === index) {
+          return { ...slot, booked: true };
+        }
+        return slot;
+      });
+    });
     setOpen(false);
     event.preventDefault();
     try {
@@ -73,7 +82,7 @@ export default function Detail(props) {
         withCredentials: true,
       });
       setBooking(response.data);
-      console.log(response.data);
+      console.log('Post Detail++++++++++', response.data);
       return response;
     } catch (error) {
       console.log(error);
@@ -81,15 +90,48 @@ export default function Detail(props) {
   };
   // Modal
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
+  const [slot, setSlot] = React.useState([
+    { start: '9AM', end: '10AM', booked: false }, // booked is button disabled
+    { start: '10AM', end: '11AM', booked: false },
+    { start: '11AM', end: '12AM', booked: false },
+    { start: '12AM', end: '1PM', booked: false },
+    { start: '1PM', end: '2PM', booked: false },
+    { start: '2PM', end: '3PM', booked: false },
+    { start: '3PM', end: '4PM', booked: false },
+    { start: '4PM', end: '5PM', booked: false },
+    { start: '5PM', end: '6PM', booked: false },
+  ]);
+  const [index, setIndex] = React.useState(null);
+  // this is a {buttons} control
+  const buttons = slot.map((slot, index) => {
+    return (
+      <Grid item xs={10}>
+        <Link style={{ textDecoration: 'Not available' }}>
+          <Button
+            variant="contained"
+            sx={{ width: 1 }}
+            value={[slot.start, slot.end]}
+            disabled={slot.booked}
+            onClick={(event) => {
+              handleClickOpen(index);
+              setTime(event.target.value);
+            }}
+          >
+            {slot.booked ? 'Not Available' : `${slot.start} - ${slot.end}`}
+          </Button>
+        </Link>
+      </Grid>
+    );
+  });
+  const handleClickOpen = (i) => {
     setOpen(true);
+    setIndex(i);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-  const [disable, setDisable] = React.useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -150,154 +192,7 @@ export default function Detail(props) {
                   alignItems="center"
                   sx={{ mb: 3 }}
                 >
-                  <Grid item xs={10}>
-                    <Link
-                      to="12:00"
-                      style={{ textDecoration: 'Not available' }}
-                    >
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[9, 10]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 9 + 'AM' + ' - ' + 10 + 'AM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[10, 11]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 10 + 'AM' + ' - ' + 11 + 'AM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[11, 12]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 11 + 'AM' + ' - ' + 12 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[12, 1]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 12 + 'PM' + ' - ' + 1 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[1, 2]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 1 + 'PM' + ' - ' + 2 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[2, 3]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 2 + 'PM' + ' - ' + 3 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        value={[3, 4]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 4 + 'PM' + ' - ' + 5 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
-                  <Grid item xs={10}>
-                    <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button
-                        variant="contained"
-                        sx={{ width: 1 }}
-                        disabled={disable}
-                        value={[4, 5]}
-                        onClick={(event) => {
-                          handleClickOpen();
-                          setTime(event.target.value);
-                        }}
-                      >
-                        {service
-                          ? 5 + 'PM' + ' - ' + 6 + 'PM'
-                          : 'Not available'}
-                      </Button>
-                    </Link>
-                  </Grid>
-
+                  {buttons} {/* // this is a {buttons} control */}
                   {/* <Grid item xs={10}>
                     <Link to="Booking" style={{ textDecoration: 'none' }}>
                       <Button onClick={submitBooking}>Book</Button>
