@@ -36,7 +36,7 @@ export default function ProfileServiceCreate(props) {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
-  const [title, setTitle] = React.useState([]);
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [fee, setFee] = useState('');
@@ -55,11 +55,11 @@ export default function ProfileServiceCreate(props) {
       let response = await axios({
         method: 'post',
         url: `/api/services/new`,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: data,
         withCredentials: true,
       });
 
+      // console.log('data', data);
       console.log(response.data);
       return response;
     } catch (error) {

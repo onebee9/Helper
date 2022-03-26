@@ -108,6 +108,14 @@ function Navbar(props) {
           </Link>
 
           <Link
+            to="/ProfileServiceBooked"
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button size="small">Service Booked</Button>
+          </Link>
+
+          <Link
             to="/Login"
             component={RouterLink}
             style={{ textDecoration: 'none' }}

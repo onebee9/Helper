@@ -6,28 +6,24 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
+  router.get('/', (req, res) => {
     let query = `SELECT * FROM services WHERE services.id IS NOT NULL ;`;
     db.query(query)
-      .then(data => {
+      .then((data) => {
         const services = data.rows;
         res.json({ services });
       })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
       });
   });
 
-  
-  
-  router.get("/search", (req, res) => {
+  router.get('/search', (req, res) => {
     const queryParams = [];
-    const{keyword,category,price,location} = req.query;//read up on this
+    const { keyword, category, price, location } = req.query; //read up on this
 
     let queryString = `SELECT services.*, users.first_name
     FROM services
@@ -37,24 +33,24 @@ module.exports = (db) => {
     WHERE services.id IS NOT NULL `;
 
     //validate that search queries exist and then add on to the query
-    if (!keyword == "") {
+    if (!keyword == '') {
       queryParams.push(`%${keyword}%`);
       queryString += `AND services.title LIKE $${queryParams.length} `;
     }
 
-    if (!category == "") {
+    if (!category == '') {
       queryParams.push(category);
       queryString += `AND services.category = $${queryParams.length} `;
     }
 
-    if (!price == "") {
+    if (!price == '') {
       let priceToNumber = parseInt(price);
-      queryParams.push(priceToNumber) ;
+      queryParams.push(priceToNumber);
       queryString += `AND services.fee <= $${queryParams.length} `;
     }
 
-    if (!location == "") {
-      queryParams.push(location );
+    if (!location == '') {
+      queryParams.push(location);
       queryString += `AND locations.Metropolitan = $${queryParams.length} `;
     }
 
@@ -62,7 +58,7 @@ module.exports = (db) => {
     //   queryParams.push(date);
     //   queryString += `AND $${queryParams.length} BETWEEN availabilities.start_time AND availabilities.end_time `;
     // }
-   
+
     queryString += `GROUP BY services.id, users.first_name ;`;
 
     db.query(queryString, queryParams)
@@ -86,25 +82,24 @@ module.exports = (db) => {
           //   }
           // );
           const searchResults = data.rows;
+          console.log('search result', searchResults);
           res.json(searchResults);
           return;
         }
-        res.json("No matching search results");
+        res.json('No matching search results');
       })
       .catch((err) => {
-        res.status(500).json(
-          { 
-            error: err.message,
-            queryData:queryString  
-          });
+        res.status(500).json({
+          error: err.message,
+          queryData: queryString,
+        });
       });
   });
 
-  
-  router.delete("/remove", (req, res) => {
+  router.delete('/remove', (req, res) => {
     const userID = req.query.id;
 
-    const queryString = `DELETE FROM services 
+    const queryString = `DELETE FROM services
       WHERE user_id = $1 AND services_id = $2;`;
 
     const values = [userID, req.body.serviceID];
@@ -121,8 +116,9 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/new", (req, res) => {
+  router.post('/new', (req, res) => {
     const userID = req.session.user_id;
+    console.log('new test', req.body);
     const queryString = `INSERT INTO services(
       user_id,
       title,
@@ -141,32 +137,29 @@ module.exports = (db) => {
     db.query(queryString, values)
       .then((data) => {
         const service = data.rows;
-        res.json({ service});
+        res.json({ service });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
 
-  router.get("/:id", (req, res) => {
-
+  router.get('/:id', (req, res) => {
     const serviceProviderID = req.params.id;
     let query = `SELECT * FROM services WHERE user_id = $1 ;`;
 
-  //  `SELECT services.*, availabilities.*,users.first_name
-  //   FROM services
-  //   JOIN Users ON users.id = services.user_id
-  //  JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
+    //  `SELECT services.*, availabilities.*,users.first_name
+    //   FROM services
+    //   JOIN Users ON users.id = services.user_id
+    //  JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
 
-    db.query(query,[serviceProviderID])
-      .then(data => {
+    db.query(query, [serviceProviderID])
+      .then((data) => {
         const services = data.rows;
         res.json({ services });
       })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
       });
   });
 
