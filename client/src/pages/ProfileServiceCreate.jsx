@@ -41,42 +41,7 @@ function createData(name, data) {
   return { name, data };
 }
 
-const rows = [
-  createData(
-    'User ID',
-    <TextField required id="userID" name="userID" label="User ID" fullWidth />
-  ),
-  createData(
-    'Title',
-    <TextField required id="title" name="title" label="Title" fullWidth />
-  ),
-  createData(
-    'description',
-    <TextField
-      required
-      id="description"
-      name="description"
-      label="Description"
-      fullWidth
-    />
-  ),
-  createData(
-    'Category',
-    <TextField
-      required
-      id="category"
-      name="category"
-      label="Category"
-      fullWidth
-    />
-  ),
-  createData(
-    'Price',
-    <TextField required id="fee" name="fee" label="$10.00" fullWidth />
-  ),
-];
-
-export default function ProfileServiceCreate() {
+export default function ProfileServiceCreate(props) {
   const [userStatus, setUserStatus] = useState({});
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
@@ -86,43 +51,42 @@ export default function ProfileServiceCreate() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userID, setUserId] = useState('');
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = React.useState([]);
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [fee, setFee] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(authContext);
+
+  console.log('++++++++++', title);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       let data = {
-        user_id: userID,
+        user_id: userStatus?.data?.id,
         title: title,
         description: description,
         category: category,
         fee: fee,
       };
-
       let response = await axios({
         method: 'post',
         url: `/api/services/new`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
+        data: data,
         withCredentials: true,
       });
-      setStatus(response.data);
-      console.log(response.data);
 
       //store login info in storage
-      localStorage.setItem('usersinfo', JSON.stringify(response.data));
+      // localStorage.setItem('usersinfo', JSON.stringify(response.data));
       console.log(response.data);
+      return response;
 
-      email && login(email, password);
+      // email && login(email, password);
       // redirect to Home
-      if (response) {
-        navigate('/');
-      }
+      // if (response) {
+      //   navigate('/');
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -167,7 +131,7 @@ export default function ProfileServiceCreate() {
 
           <Grid item xs={8}>
             <Container maxWidth="sm">
-              <TableContainer component={Paper} onSubmit={handleSubmit}>
+              <TableContainer component={Paper}>
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
@@ -175,19 +139,92 @@ export default function ProfileServiceCreate() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.data}</TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Title
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="title"
+                          name="title"
+                          label="Title"
+                          value={title}
+                          type="text"
+                          onChange={(event) => setTitle(event.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Description
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="description"
+                          name="description"
+                          label="Description"
+                          value={description}
+                          type="text"
+                          onChange={(event) =>
+                            setDescription(event.target.value)
+                          }
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Category
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="category"
+                          name="category"
+                          label="Category"
+                          value={category}
+                          type="text"
+                          onChange={(event) => setCategory(event.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Price
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="fee"
+                          name="fee"
+                          label="$10.00"
+                          value={fee}
+                          type="text"
+                          onChange={(event) => setFee(event.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                   <TableFooter>
                     <TableRow>
@@ -197,6 +234,7 @@ export default function ProfileServiceCreate() {
                           fullWidth
                           variant="contained"
                           sx={{ mt: 3, mb: 2 }}
+                          onClick={handleSubmit}
                         >
                           Creat New Service
                         </Button>
