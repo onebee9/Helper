@@ -154,7 +154,7 @@ module.exports = (db) => {
     let query = `SELECT services.*, availabilities.*,users.first_name
     FROM services
     JOIN Users ON users.id = services.user_id
-   JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
+    JOIN availabilities ON users.id = availabilities.users_id where users.id = $1;`
 
     db.query(query,[serviceProviderID])
       .then(data => {
