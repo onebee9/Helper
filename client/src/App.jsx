@@ -72,7 +72,8 @@ function App() {
           element={<ProfileService user={currentUser} />}
         />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
-        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate />} />
+
+        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate user={currentUser} />} />
         <Route
           path="ProfileServiceBooked"
           element={<ProfileServiceBooked user={currentUser} />}
