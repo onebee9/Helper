@@ -27,11 +27,10 @@ import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import ClientProfile from "./ClientProfile"
-import ServiceProfile from "./ServiceProfile"
+import ClientProfile from './clientProfile';
+import ServiceProfile from './ServiceProfile';
 
 const theme = createTheme();
-
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
