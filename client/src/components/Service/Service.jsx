@@ -16,20 +16,14 @@ import {
   Select,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import { NavLink } from 'react-router-dom';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { Link } from '@mui/material';
 import Detail from '../../pages/Detail';
 
 export default function Service(props) {
-  const {
-    description,
-    category,
-    created_at,
-    fee,
-    first_name,
-    service_id,
-    title,
-  } = props.data;
+  const { description, category, created_at, fee, first_name, id, title } =
+    props.data;
   return (
     <>
       <CardMedia
@@ -43,7 +37,7 @@ export default function Service(props) {
           {category}
         </Typography>
 
-        <Typography>{first_name}</Typography>
+        <Typography gutterBottom>{first_name}</Typography>
 
         <Typography>
           <StarIcon />
@@ -55,11 +49,14 @@ export default function Service(props) {
         <Typography>{description}</Typography>
       </CardContent>
       <CardActions>
-        <Link to="/Detail" style={{ textDecoration: 'none' }}>
+        {/* <Link style={{ textDecoration: 'none' }}> */}
+        <NavLink to={`/Detail/${id}`}>
           <Button size="small" variant="contained">
             Book
           </Button>
-        </Link>
+        </NavLink>
+
+        {/* </Link> */}
       </CardActions>
     </>
   );

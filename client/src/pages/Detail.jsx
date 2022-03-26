@@ -16,24 +16,64 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import EditIcon from '@mui/icons-material/Edit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Service } from './../components/Service/index';
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import qs from 'qs';
+import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
-function createData(name, calories, protein) {
-  return { name, calories, protein };
-}
-
-const rows = [
-  createData('Full Name', 'User Name', <EditIcon />),
-  createData('Email', 'user.name@example.com', <EditIcon />),
-  createData(
-    'Address',
-    '662 King Street West #101, Toronto ON, Canada',
-    <EditIcon />
-  ),
-];
-
 export default function Detail() {
+  const [service, setService] = React.useState([]);
+  const [booking, setBooking] = React.useState([]);
+  const [time, setTime] = React.useState([]);
+
+  const start = time[0];
+  const end = time[2];
+  const bookingStatus = 'accepted';
+
+  const params = useParams();
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: `/api/services/${params.id}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }).then((response) => {
+      setService(response.data.services[0]);
+    });
+  }, [params.id]);
+
+  const submitBooking = async (event) => {
+    event.preventDefault();
+    try {
+      const data = {
+        id: params.id,
+        title: service.title,
+        services_id: service.services_id,
+        start: start,
+        end: end,
+        status: bookingStatus,
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `/api/bookings/new`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        //data: qs.stringify(data),
+        data: data,
+        withCredentials: true,
+      });
+      setBooking(response.data);
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -54,9 +94,10 @@ export default function Detail() {
                   image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
                   alt="random"
                 />
+                <Typography>Price : {service ? service.fee : ''}</Typography>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Headings
+                    {service ? service.category : ''}
                   </Typography>
                   <Typography>
                     <StarIcon />
@@ -65,16 +106,8 @@ export default function Detail() {
                     <StarIcon />
                     <StarTwoToneIcon />
                   </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
-                  </Typography>
+                  <Typography>{service ? service.description : ''}</Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small" variant="contained">
-                    Booking
-                  </Button>
-                </CardActions>
               </Card>
             </Container>
           </Grid>
@@ -100,24 +133,131 @@ export default function Detail() {
                   sx={{ mb: 3 }}
                 >
                   <Grid item xs={10}>
-                    <Link to="12:00" style={{ textDecoration: 'none' }}>
-                      <Button variant="contained" sx={{ width: 1 }}>
-                        12:00
+                    <Link
+                      to="12:00"
+                      style={{ textDecoration: 'Not available' }}
+                    >
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[9, 10]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 9 + 'AM' + ' - ' + 10 + 'AM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
+
                   <Grid item xs={10}>
                     <Link to="1:00" style={{ textDecoration: 'none' }}>
-                      <Button variant="contained" sx={{ width: 1 }}>
-                        1:00
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[10, 11]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 10 + 'AM' + ' - ' + 11 + 'AM'
+                          : 'Not available'}
                       </Button>
                     </Link>
                   </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[11, 12]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 11 + 'AM' + ' - ' + 12 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[12, 1]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 12 + 'PM' + ' - ' + 1 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[1, 2]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 1 + 'PM' + ' - ' + 2 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[2, 3]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 2 + 'PM' + ' - ' + 3 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[3, 4]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 4 + 'PM' + ' - ' + 5 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={10}>
+                    <Link to="1:00" style={{ textDecoration: 'none' }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: 1 }}
+                        value={[4, 5]}
+                        onClick={(event) => setTime(event.target.value)}
+                      >
+                        {service
+                          ? 5 + 'PM' + ' - ' + 6 + 'PM'
+                          : 'Not available'}
+                      </Button>
+                    </Link>
+                  </Grid>
+
                   <Grid item xs={10}>
                     <Link to="Booking" style={{ textDecoration: 'none' }}>
-                      <Button variant="contained" sx={{ width: 1 }}>
-                        Booking
-                      </Button>
+                      <Button onClick={submitBooking}>Book</Button>
                     </Link>
                   </Grid>
                 </Grid>
