@@ -61,6 +61,17 @@ function Navbar(props) {
             </ListItemButton>
           </ListItem>
         </Link>
+        <Link
+          to="/ProfileServiceCreate"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="New Service" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
       </List>
     </nav>
   );
