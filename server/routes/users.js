@@ -49,63 +49,75 @@ module.exports = (db) => {
 
             }
           );
-  } else {
-    res.status(400).json(
-      {
-        "status": "error",
-        "message": "You must enter a valid username and password"
-      }
-    );
-  }
+        } else {
+          res.status(400).json(
+            {
+              "status": "error",
+              "message": "You must enter a valid username and password"
+            }
+          );
+        }
       })
-      .catch ((err) => {
-  res.status(500).json({ error: err.message });
-});
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
   });
 
-router.get("/profile", (req, res) => {
-  const userId = req.session.user_id;
+  router.get("/profile/:id", (req, res) => {
 
-  if (!userId) {
-    res.redirect("/login");
-    return;
-  }
+    const id = req.params.id;
+    const personalData = `SELECT * FROM users WHERE id = $1;`
+    const bookings = `SELECT * FROM service_bookings WHERE users_id = $1;`
+    const address = `SELECT * FROM locations WHERE user_id = $1;`
+    const availability = `SELECT * FROM availabilities WHERE users_id = $1;`
+    const services = `SELECT * FROM services WHERE user_id = $1;`
 
-  const allUserData = `SELECT appointments.*, users.first_name, users.last_name, users.email
-    FROM appointments
-    LEFT JOIN users ON appointments.user_id = users.id
-    WHERE appointments.user_id = $1`;
+    const results = {};
 
-  const allServices = `SELECT services.*
-    FROM services
-    WHERE services.user_id = $1;`
+    Promise.all([
 
-  let results = {};
-  db.query(allUserData, [userId])
-    .then((userData) => {
-      results['userData'] = userData.rows;
+      db.query(personalData, [id]),
+      db.query(bookings, [id]),
+      db.query(address, [id]),
+      db.query(availability, [id]),
+      db.query(services, [id]),
+
+    ]).then((result) => {
+      res.json({
+        personalData: result[0].rows,
+        bookings: result[1].rows,
+        address: result[2].rows,
+        availability: result[3].rows,
+        services: result[4].rows
+      })
     })
-    .then(() => {
-      db.query(allServices, [userId])
-        .then((serviceData) => {
-          results['serviceData'] = serviceData.rows;
-          console.log(results);
-          console.log(userId);
-          res.json(results);
-        })
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(
+          {
+            status: 'failed',
+            error: err.message
+          });
+      });
 
-});
+  });
 
-router.get("/logout", (req, res) => {
-  req.session = null;
-  res.clearCookie("user_id");
-  res.redirect("/users/login");
-});
 
-return router;
+  // DELETE /api/users/logout
+  router.delete('/logout', (req, res) => {
+    if (req.session) {
+      req.session.destroy(err => {
+        if (err) {
+          res.status(400).send('Unable to log out')
+        } else {
+          res.send('Logout successful')
+        }
+      });
+    } else {
+      res.end()
+    }
+  })
+
+  return router;
 };
 
