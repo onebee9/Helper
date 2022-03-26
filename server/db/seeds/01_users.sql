@@ -1,7 +1,7 @@
 INSERT INTO
 users(first_name, last_name, email, password, isServiceProvider)
 VALUES
-    ('Pouya','Elishaee', 'p.elishaee@gmail.com', 'test' , false),
+    ('Pouya','Elishaee', 'p.elishaee@gmail.com', 'test' , true),
     ('Adam','Harvee', 'adam.harv@yahoo.com', 'test', true),
     ('Miki','Kakoura','mikiyoshi.kokura@gmail.com','test', false),
     ('Roy', 'andres', 'roy@gmail.com','test', true),

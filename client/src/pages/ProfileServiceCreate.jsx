@@ -27,45 +27,92 @@ import ProfileNav from '../components/Navbar/ProfileNav';
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import qs from 'qs';
+
 const theme = createTheme();
 
 export default function ProfileServiceCreate(props) {
+
+  const userInfo = props.user && props.user
+  console.log(userInfo)
   const [userStatus, setUserStatus] = useState({});
-  useEffect(() => {
-    const user = localStorage.getItem('usersinfo');
-    setUserStatus(JSON.parse(user));
-  }, []);
-  const [title, setTitle] = React.useState([]);
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [fee, setFee] = useState('');
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [fee, setFee] = useState("");
+  const [category, setCategory] = useState("");
 
-  console.log('++++++++++', title);
-  const handleSubmit = async (event) => {
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    try {
-      let data = {
-        user_id: userStatus?.data?.id,
-        title: title,
-        description: description,
-        category: category,
-        fee: fee,
-      };
-      let response = await axios({
-        method: 'post',
-        url: `/api/services/new`,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: data,
-        withCredentials: true,
-      });
+    try{
+      const data = {
+      title: title,
+      description: description,
+      fee: fee,
+      category: category,
+      user_id: userInfo.id,
+    };
+    console.log("data", data)
 
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    const newResponse = await axios({
+      method: 'post',
+      url: `/api/services/new`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+      withCredentials: true,
+    })
+    console.log("*****",newResponse)
+
+    // axios.post("/api/services/new", data)
+    // .then((res)=>{
+    //   console.log("RES", res)
+    // })
+    // .catch((error) => console.log(error))  
+    navigate('/');
+  } catch (error){
+    console.log(error)
+  }
+
   };
+
+
+  // const [userStatus, setUserStatus] = useState({});
+  // useEffect(() => {
+  //   const user = localStorage.getItem('usersinfo');
+  //   setUserStatus(JSON.parse(user));
+  // }, []);
+  // const [title, setTitle] = React.useState([]);
+  // const [description, setDescription] = useState('');
+  // const [category, setCategory] = useState('');
+  // const [fee, setFee] = useState('');
+
+  // console.log('++++++++++', title);
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     let data = {
+  //       user_id: userStatus?.data?.id,
+  //       title: title,
+  //       description: description,
+  //       category: category,
+  //       fee: fee,
+  //     };
+  //     let response = await axios({
+  //       method: 'post',
+  //       url: `/api/services/new`,
+  //       headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //       data: data,
+  //       withCredentials: true,
+  //     });
+
+  //     console.log(response.data);
+  //     return response;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -95,7 +142,7 @@ export default function ProfileServiceCreate(props) {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
+                  {userInfo.first_name}  {userInfo.last_name}
                   </Typography>
                 </CardContent>
 

@@ -68,7 +68,7 @@ function App() {
         <Route path="ProfileEdit" element={<ProfileEdit />} />
         <Route path="ProfileService" element={<ProfileService user={currentUser} />} />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
-        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate />} />
+        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate user={currentUser} />} />
       </Routes>
     </BrowserRouter>
   );
