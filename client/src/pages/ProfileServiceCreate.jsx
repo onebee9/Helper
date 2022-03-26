@@ -19,6 +19,8 @@ import {
   TextField,
   TableFooter,
   Button,
+  Select,
+  MenuItem
 } from '@mui/material';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -167,16 +169,22 @@ export default function ProfileServiceCreate(props) {
                         Category
                       </TableCell>
                       <TableCell>
-                        <TextField
-                          required
-                          id="category"
-                          name="category"
-                          label="Category"
-                          value={category}
-                          type="text"
-                          onChange={(event) => setCategory(event.target.value)}
-                          fullWidth
-                        />
+                      <Select
+                      labelId="category"
+                      id="category"
+                      value={category}
+                      onChange={(event) => setCategory(event.target.value)}
+                      fullWidth
+                    >
+                      <MenuItem value="">All Categories</MenuItem>
+                      <MenuItem value="Repair">Repair</MenuItem>
+                      <MenuItem value="Babysitter">Babysitter</MenuItem>
+                      <MenuItem value="Delivery">Delivery</MenuItem>
+                      <MenuItem value="Carpentry">Carpentry</MenuItem>
+                      <MenuItem value="Plumbing">Plumbing</MenuItem>
+                      <MenuItem value="Construction">Construction</MenuItem>
+                      <MenuItem value="Gardening">Gardening</MenuItem>
+                    </Select>
                       </TableCell>
                     </TableRow>
                     <TableRow
