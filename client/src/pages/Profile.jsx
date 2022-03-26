@@ -49,7 +49,7 @@ export default function Profile(props) {
   const yearFinal = completeDate && completeDate.slice(4);
 
   const provider = userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  const profileType =  provider === 'yes'? (<ServiceProfile userStatus/>) : (<ClientProfile/>);
+  const profileType =  provider === 'yes'? (<ServiceProfile userStatus/>) : (<BuyerProfile/>);
 
   return <>{profileType}</>;
 }
