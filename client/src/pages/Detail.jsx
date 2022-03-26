@@ -11,6 +11,11 @@ import {
   CardMedia,
   Button,
   Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
@@ -24,7 +29,7 @@ import qs from 'qs';
 import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
-export default function Detail() {
+export default function Detail(props) {
   const [service, setService] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
   const [time, setTime] = React.useState([]);
@@ -47,6 +52,7 @@ export default function Detail() {
   }, [params.id]);
 
   const submitBooking = async (event) => {
+    setOpen(false);
     event.preventDefault();
     try {
       const data = {
@@ -73,7 +79,17 @@ export default function Detail() {
       console.log(error);
     }
   };
+  // Modal
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [disable, setDisable] = React.useState(false);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -94,7 +110,6 @@ export default function Detail() {
                   image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
                   alt="random"
                 />
-                <Typography>Price : {service ? service.fee : ''}</Typography>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {service ? service.category : ''}
@@ -105,6 +120,9 @@ export default function Detail() {
                     <StarIcon />
                     <StarIcon />
                     <StarTwoToneIcon />
+                  </Typography>
+                  <Typography variant="h5" component="h2">
+                    Price : $ {service ? service.fee : ''}
                   </Typography>
                   <Typography>{service ? service.description : ''}</Typography>
                 </CardContent>
@@ -127,7 +145,7 @@ export default function Detail() {
                 </CardContent>
                 <Grid
                   container
-                  spacing={3}
+                  spacing={1}
                   justifyContent="center"
                   alignItems="center"
                   sx={{ mb: 3 }}
@@ -141,7 +159,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[9, 10]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 9 + 'AM' + ' - ' + 10 + 'AM'
@@ -156,7 +177,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[10, 11]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 10 + 'AM' + ' - ' + 11 + 'AM'
@@ -171,7 +195,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[11, 12]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 11 + 'AM' + ' - ' + 12 + 'PM'
@@ -186,7 +213,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[12, 1]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 12 + 'PM' + ' - ' + 1 + 'PM'
@@ -201,7 +231,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[1, 2]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 1 + 'PM' + ' - ' + 2 + 'PM'
@@ -216,7 +249,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[2, 3]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 2 + 'PM' + ' - ' + 3 + 'PM'
@@ -231,7 +267,10 @@ export default function Detail() {
                         variant="contained"
                         sx={{ width: 1 }}
                         value={[3, 4]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 4 + 'PM' + ' - ' + 5 + 'PM'
@@ -245,8 +284,12 @@ export default function Detail() {
                       <Button
                         variant="contained"
                         sx={{ width: 1 }}
+                        disabled={disable}
                         value={[4, 5]}
-                        onClick={(event) => setTime(event.target.value)}
+                        onClick={(event) => {
+                          handleClickOpen();
+                          setTime(event.target.value);
+                        }}
                       >
                         {service
                           ? 5 + 'PM' + ' - ' + 6 + 'PM'
@@ -255,16 +298,39 @@ export default function Detail() {
                     </Link>
                   </Grid>
 
-                  <Grid item xs={10}>
+                  {/* <Grid item xs={10}>
                     <Link to="Booking" style={{ textDecoration: 'none' }}>
                       <Button onClick={submitBooking}>Book</Button>
                     </Link>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Card>
             </Container>
           </Grid>
         </Grid>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Thank you for your booking!'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Thank you for your booking!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={submitBooking}>
+              Book
+            </Button>
+          </DialogActions>
+        </Dialog>
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
