@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import ProfileService from './pages/ProfileService';
 import ProfileServiceEdit from './pages/ProfileServiceEdit';
+import ProfileServiceCreate from './pages/ProfileServiceCreate';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { authContext } from './providers/AuthProvider';
@@ -55,6 +56,7 @@ function App() {
         <Route path="ProfileEdit" element={<ProfileEdit />} />
         <Route path="ProfileService" element={<ProfileService />} />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
+        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate />} />
       </Routes>
     </BrowserRouter>
   );

@@ -58,18 +58,14 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
-
-          <Link
-            to="/Detail"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Detail</Button>
-          </Link>
 
           <Link
             to="/Profile"
@@ -101,6 +97,14 @@ function Navbar(props) {
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Profile Service Edit</Button>
+          </Link>
+
+          <Link
+            to="/ProfileServiceCreate"
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button size="small">New Service</Button>
           </Link>
 
           <Link
