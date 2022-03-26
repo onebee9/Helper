@@ -29,6 +29,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ClientProfile from "./ClientProfile"
 import ServiceProfile from "./ServiceProfile"
 
+
 const theme = createTheme();
 
 
@@ -52,4 +53,3 @@ export default function Profile(props) {
   return (
     <>{profileType}</>
 );
-}

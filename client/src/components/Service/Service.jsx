@@ -22,15 +22,8 @@ import { Link } from '@mui/material';
 import Detail from '../../pages/Detail';
 
 export default function Service(props) {
-  const {
-    description,
-    category,
-    created_at,
-    fee,
-    first_name,
-    id,
-    title,
-  } = props.data;
+  const { description, category, created_at, fee, first_name, id, title } =
+    props.data;
   return (
     <>
       <CardMedia
@@ -56,13 +49,12 @@ export default function Service(props) {
         <Typography>{description}</Typography>
       </CardContent>
       <CardActions>
-
         {/* <Link style={{ textDecoration: 'none' }}> */}
-          <NavLink to={`/Detail/${id}`}>
-            <Button size="small" variant="contained">
-              Book
-            </Button>
-          </NavLink>
+        <NavLink to={`/Detail/${id}`}>
+          <Button size="small" variant="contained">
+            Book
+          </Button>
+        </NavLink>
 
         {/* </Link> */}
       </CardActions>

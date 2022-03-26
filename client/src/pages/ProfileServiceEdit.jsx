@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -20,28 +21,113 @@ import {
   TableRow,
   Paper,
   Grid,
+  TextField,
+  TableFooter,
+  Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileNav from '../components/Navbar/ProfileNav';
+import Modal from '../components/Modal';
 
+import { authContext } from './../providers/AuthProvider';
+import { useContext } from 'react';
+import axios from 'axios';
+import qs from 'qs';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 const theme = createTheme();
 
-function createData(name, calories, protein) {
-  return { name, calories, protein };
+function createData(name, data) {
+  return { name, data };
 }
 
 const rows = [
-  createData('Full Name', 'User Name', <EditIcon />),
-  createData('Email', 'user.name@example.com', <EditIcon />),
   createData(
-    'Address',
-    '662 King Street West #101, Toronto ON, Canada',
-    <EditIcon />
+    'User ID',
+    <TextField required id="userID" name="userID" label="User ID" fullWidth />
+  ),
+  createData(
+    'Title',
+    <TextField required id="title" name="title" label="Title" fullWidth />
+  ),
+  createData(
+    'description',
+    <TextField
+      required
+      id="description"
+      name="description"
+      label="Description"
+      fullWidth
+    />
+  ),
+  createData(
+    'Category',
+    <TextField
+      required
+      id="category"
+      name="category"
+      label="Category"
+      fullWidth
+    />
+  ),
+  createData(
+    'Price',
+    <TextField required id="fee" name="fee" label="$10.00" fullWidth />
   ),
 ];
 
 export default function ProfileServiceEdit() {
+  const [userStatus, setUserStatus] = useState({});
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
+  const [status, setStatus] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userID, setUserId] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [fee, setFee] = useState('');
+  const navigate = useNavigate();
+  const { login } = useContext(authContext);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let data = {
+        user_id: userID,
+        title: title,
+        description: description,
+        category: category,
+        fee: fee,
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `/api/services/new`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        withCredentials: true,
+      });
+      setStatus(response.data);
+      console.log(response.data);
+
+      //store login info in storage
+      localStorage.setItem('usersinfo', JSON.stringify(response.data));
+      console.log(response.data);
+
+      email && login(email, password);
+      // redirect to Home
+      if (response) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -71,59 +157,22 @@ export default function ProfileServiceEdit() {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    User Name
+                    {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
 
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>
 
           <Grid item xs={8}>
             <Container maxWidth="sm">
-              <TableContainer component={Paper}>
+              <TableContainer component={Paper} onSubmit={handleSubmit}>
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={3}>Profile</TableCell>
+                      <TableCell colSpan={2}>Profile</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -137,11 +186,24 @@ export default function ProfileServiceEdit() {
                         <TableCell component="th" scope="row">
                           {row.name}
                         </TableCell>
-                        <TableCell>{row.calories}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
+                        <TableCell>{row.data}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={2}>
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2 }}
+                        >
+                          Creat New Service
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </TableContainer>
             </Container>
