@@ -77,8 +77,8 @@ module.exports = (db) => {
 
     db.query(queryString, [serviceID])
       .then(data => {
-        const allBookings = data.rows;
-        res.json({clientBookings});
+        const serviceBookings = data.rows;
+        res.json({ serviceBookings});
       })
       .catch(err => {
         res
@@ -108,8 +108,8 @@ module.exports = (db) => {
 
     db.query(queryString, [userID])
       .then(data => {
-        const appointments = data.rows;
-        res.json({ serviceBookings});
+        const clientBookings = data.rows;
+        res.json({clientBookings});
       })
       .catch(err => {
         res
