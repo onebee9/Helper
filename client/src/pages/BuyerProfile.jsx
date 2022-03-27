@@ -27,7 +27,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ServiceBooking from '../components/Service/ServiceBooking';
+// import ServiceBooking from '../components/Service/ServiceBooking';
 import axios from 'axios';
 import BuyerNav from '../components/Navbar/BuyerNav';
 

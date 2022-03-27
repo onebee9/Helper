@@ -6,11 +6,11 @@ import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth } = useContext(authContext);
-  // console.log(auth);
+  const userinfo = localStorage.getItem('usersinfo');
+
   return (
     <React.Fragment>
-      {!auth && (
+      {!userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -19,7 +19,11 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
@@ -47,9 +51,17 @@ function Navbar(props) {
           >
             <Button size="small">Signup Client</Button>
           </Link>
+
+          <Link
+            to="/Login"
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button size="small">Logout</Button>
+          </Link>
         </Toolbar>
       )}
-      {auth && (
+      {userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -76,27 +88,11 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/ProfileEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Edit</Button>
-          </Link>
-
-          <Link
             to="/ProfileService"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Profile Service</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service Edit</Button>
           </Link>
 
           <Link
@@ -108,22 +104,11 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/ProfileServiceBooked"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Service Booked</Button>
-          </Link>
-
-          <Link
             to="/Login"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Logout</Button>
-          </Link>
-          <Link to="Profile" style={{ textDecoration: 'none' }}>
-            <Button size="small">Profile</Button>
           </Link>
 
           <Avatar
