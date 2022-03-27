@@ -23,8 +23,8 @@ import {
 } from '@mui/material';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Booked from './../components/Service/Booked';
-import ProfileNav from '../components/Navbar/ProfileNav';
+import ProfileServiceProvider from './ProfileServiceProvider';
+
 
 const theme = createTheme();
 
@@ -183,7 +183,16 @@ export default function Profile(props) {
               </Container>
             </Grid>
             {serviceBookings.map((booking) => (
-              <Booked key={booking.booking_id} data={booking} />
+              <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <ProfileServiceProvider data={booking} />
+                </Card>
+              </Grid>
             ))}
           </Grid>
         </Grid>

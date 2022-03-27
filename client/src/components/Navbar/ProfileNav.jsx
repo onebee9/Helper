@@ -12,8 +12,10 @@ import { Link as RouterLink } from 'react-router-dom';
 // import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  // const { auth } = useContext(authContext);
-  // console.log(auth);
+
+  const { auth } = useContext(authContext);
+
+
   return (
     <nav aria-label="secondary mailbox folders">
       <List>

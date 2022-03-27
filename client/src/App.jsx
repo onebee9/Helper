@@ -17,15 +17,18 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const { auth, user, userStatus, login, logout } = useContext(authContext);
-  // console.log("context",auth, user, userStatus, login, logout)
+
   const [userObject, setUserObject] = useState({});
+  
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
-    setUserObject(JSON.parse(user));
+    if(user){
+      setUserObject(JSON.parse(user));
+    }
   }, []);
 
-  const currentUser = userObject.data && userObject.data;
-  // console.log('currnetUser', currentUser);
+  const currentUser = userObject.data;
+
 
   return (
     <BrowserRouter>
