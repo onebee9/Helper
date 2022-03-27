@@ -36,7 +36,6 @@ export default function Profile(props) {
     const userinfo = localStorage.getItem('usersinfo');
     const user = JSON.parse(userinfo);
 
-    console.log(user);
 
     setUserStatus(user);
 
@@ -47,6 +46,12 @@ export default function Profile(props) {
       url: `/api/bookings/${userID}`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
+    }).then((response) => {
+      setClientBookings(response.data.clientBookings);
+    }).catch((error)=>{
+      console.log(error)
+
+
     })
       .then((response) => {
         setClientBookings(response.data.clientBookings);

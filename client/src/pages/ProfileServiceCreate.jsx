@@ -35,7 +35,6 @@ const theme = createTheme();
 export default function ProfileServiceCreate(props) {
 
   const userInfo = props.user && props.user
-  console.log(userInfo)
   const [userStatus, setUserStatus] = useState({});
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -54,7 +53,7 @@ export default function ProfileServiceCreate(props) {
       category: category,
       user_id: userInfo.id,
     };
-    console.log("data", data)
+    console.log("new service data", data)
 
     const newResponse = await axios({
       method: 'post',

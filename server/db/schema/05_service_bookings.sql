@@ -11,6 +11,6 @@ CREATE TABLE service_bookings(
     rejected_at TIMESTAMPTZ DEFAULT NULL,
     finished_at TIMESTAMPTZ DEFAULT NULL,
     services_id INTEGER REFERENCES services(id) ON DELETE CASCADE,
-    users_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+    users_id INTEGER REFERENCES users(id) ON DELETE CASCADE 
 
 );

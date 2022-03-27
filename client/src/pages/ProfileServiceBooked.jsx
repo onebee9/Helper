@@ -27,17 +27,15 @@ import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
 export default function ProfileServiceBooked(props) {
-  console.log('props', props);
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
   const params = useParams();
-  console.log('params', params);
-  const url = 'api/provider/';
+  const url = 'api/bookings/provider/';
 
   useEffect(() => {
     axios.get(`${url}${params.id}`).then((response) => {
       setServices(response.data.services);
-      console.log('AAA', response.data.services);
+      console.log('service provider booking data', response.data.services);
     });
   }, []);
 

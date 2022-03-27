@@ -50,6 +50,8 @@ export default function Home() {
         status
       };
 
+      console.log('filtered search data ',data);
+
       let response = await axios({
         method: 'get',
         url: `/api/services/search`,
@@ -57,15 +59,15 @@ export default function Home() {
         params: data,
         withCredentials: true,
       });
-      setResults(response.data.searchResults);
-      console.log(response.data.searchResults);
+      setResults(response.data);
+      console.log("Response\n",response.data);
       return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log('result++++++++', results);
+
   useEffect(() => {
     axios({
       method: 'get',
@@ -75,7 +77,6 @@ export default function Home() {
     })
       .then((response) => {
         setResults(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

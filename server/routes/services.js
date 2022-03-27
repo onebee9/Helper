@@ -25,10 +25,14 @@ module.exports = (db) => {
     const queryParams = [];
     const { keyword, category, price, location } = req.query; //read up on this
 
+    console.log('=================================================');
+    console.log('QUERY');
+    console.log(req.query);
+    console.log('=================================================');
+
     let queryString = `SELECT services.*, users.first_name
     FROM services
     JOIN Users ON users.id = services.user_id
-    JOIN availabilities ON users.id = availabilities.users_id
     JOIN locations ON users.id = locations.user_id
     WHERE services.id IS NOT NULL `;
 
@@ -59,30 +63,14 @@ module.exports = (db) => {
     //   queryString += `AND $${queryParams.length} BETWEEN availabilities.start_time AND availabilities.end_time `;
     // }
 
-    queryString += `GROUP BY services.id, users.first_name ;`;
+    //queryString += `GROUP BY services.id, users.first_name ;`;
+    queryString += `;`;
 
     db.query(queryString, queryParams)
       .then((data) => {
         if (data) {
-          // res.status(200).json(
-          //   {
-          //     "status": "success",
-          //     "message": "retrieved all services offered",
-          //     "data": {
-          //       id: data.rows[0].id,
-          //       name :data.rows[0].first_name,
-          //       title: data.rows[0].title,
-          //       description: data.rows[0]. description,
-          //       category: data.rows[0].category,
-          //       fee: data.rows[0].fee,
-          //       user_id: data.rows[0].user_id,
-          //       created_at: data.rows[0].created_at,
-          //     }
-
-          //   }
-          // );
           const searchResults = data.rows;
-          console.log('search result', searchResults);
+          console.log('server response',searchResults)
           res.json(searchResults);
           return;
         }
@@ -118,7 +106,6 @@ module.exports = (db) => {
 
   router.post('/new', (req, res) => {
     const userID = req.session.user_id;
-    console.log('new test', req.body);
     const queryString = `INSERT INTO services(
       user_id,
       title,
@@ -133,8 +120,6 @@ module.exports = (db) => {
       req.body.category,
       req.body.fee,
     ];
-    // console.log("req",req.body)
-    // console.log("values",values)
 
     db.query(queryString, values)
       .then((data) => {
@@ -148,7 +133,7 @@ module.exports = (db) => {
 
   router.get('/:id', (req, res) => {
     const serviceProviderID = req.params.id;
-    let query = `SELECT * FROM services where services.id = $1;`
+    let query = `SELECT * FROM services where id = $1;`
 
     db.query(query, [serviceProviderID])
       .then((data) => {

@@ -32,7 +32,7 @@ export default function Service(props) {
     title
   } = props.data;
 
-  console.log(props);
+
 
   return (
     <>
