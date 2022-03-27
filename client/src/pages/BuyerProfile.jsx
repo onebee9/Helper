@@ -10,11 +10,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -24,10 +19,9 @@ import {
   Paper,
   Grid,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ServiceBooking from '../components/Service/ServiceBooking';
+// import ServiceBooking from '../components/Service/ServiceBooking';
 import axios from 'axios';
 import BuyerNav from '../components/Navbar/BuyerNav';
 
@@ -169,24 +163,11 @@ export default function Profile(props) {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Container sx={{ py: 8 }} maxWidth="md">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                  {clientBookings.map((booking) => (
-                    <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
-                      <Card
-                        sx={{
-                          height: '100%',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        <ProfileService data={booking} />
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Container>
             </Container>
+
+            {clientBookings.map((booking) => (
+              <ProfileService key={booking.booking_id} data={booking} />
+            ))}
           </Grid>
         </Grid>
       </main>

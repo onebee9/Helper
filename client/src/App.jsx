@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   const currentUser = userObject.data && userObject.data;
-  console.log('currnetUser', currentUser);
+  // console.log('currnetUser', currentUser);
 
   return (
     <BrowserRouter>
@@ -73,7 +73,10 @@ function App() {
         />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
 
-        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate user={currentUser} />} />
+        <Route
+          path="ProfileServiceCreate"
+          element={<ProfileServiceCreate user={currentUser} />}
+        />
         <Route
           path="ProfileServiceBooked"
           element={<ProfileServiceBooked user={currentUser} />}
