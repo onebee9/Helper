@@ -12,7 +12,6 @@ module.exports = (db) => {
 
   //create service booking
   router.post("/new", (req, res) => {
-    console.log(req.body);
     const queryString = `INSERT INTO service_bookings(
       users_id,
       title,
@@ -26,7 +25,7 @@ module.exports = (db) => {
       req.body.title,
       req.body.services_id,
       req.body.status,
-      req.body.start,
+      req.body.start, // 9AM
       req.body.end
     ];
 

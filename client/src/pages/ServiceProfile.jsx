@@ -28,7 +28,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ProfileService from './ProfileService';
+import ProfileServiceProvider from './ProfileServiceProvider';
 
 const theme = createTheme();
 
@@ -222,7 +222,7 @@ export default function Profile(props) {
                     flexDirection: 'column',
                   }}
                 >
-                  <ProfileService data={booking} />
+                  <ProfileServiceProvider data={booking} />
                 </Card>
               </Grid>
             ))}

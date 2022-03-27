@@ -41,8 +41,6 @@ export default function Profile(props) {
     setUserStatus(JSON.parse(user));
   }, []);
 
-  console.log(userStatus);
-
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);
   const completeDate = newDate && newDate.toDateString();

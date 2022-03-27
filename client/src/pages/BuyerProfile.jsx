@@ -44,7 +44,7 @@ export default function Profile(props) {
     const userinfo = localStorage.getItem('usersinfo');
     const user = JSON.parse(userinfo);
 
-    console.log(user);
+
    
     setUserStatus(user);
 
@@ -57,7 +57,7 @@ export default function Profile(props) {
       withCredentials: true,
     }).then((response) => {
       setClientBookings(response.data.clientBookings);
-      console.log(response.data)
+      console.log('client bookings',response.data)
     }).catch((error)=>{
       console.log(error)
 

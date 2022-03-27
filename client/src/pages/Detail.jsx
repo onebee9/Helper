@@ -21,44 +21,52 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import EditIcon from '@mui/icons-material/Edit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Service } from './../components/Service/index';
+
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import { useParams } from 'react-router-dom';
+import { format, setHours } from 'date-fns';
 const theme = createTheme();
 
- 
+
 export default function Detail(props) {
   const [service, setService] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
   const [time, setTime] = React.useState([]);
+  const [client, setClient] = useState();
   const serviceid = props;
 
-  console.log(serviceid);
- 
 
-  const start = time[0];
-  const end = time[2];
+  //get the service data id to identify service
+  const params = useParams();
   const bookingStatus = 'accepted';
 
-  const params = useParams();
-  console.log(params);
+
+  //get client data to associate to booking
+  const user = localStorage.getItem('usersinfo');
+  const formattedUser = (JSON.parse(user));
+  const id = formattedUser.data.id;
+
 
   useEffect(() => {
+
+    // get service data to append to booking
     axios({
       method: 'get',
       url: `/api/services/${params.id}`,
-      // headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
+
       setService(response.data.services[0]);
-      // console.log('Detail+++++++++', response.data.services);
     });
   }, [params.id]);
 
+  //create booking
   const submitBooking = async (event) => {
+
     setSlot((slots) => {
       return slots.map((slot, i) => {
         if (i === index) {
@@ -67,45 +75,56 @@ export default function Detail(props) {
         return slot;
       });
     });
+
     setOpen(false);
     event.preventDefault();
+
+    const start = time[0];
+    const end = time[1];
+    console.log('service', service)
+
     try {
       const data = {
-        id: params.id,
+        // id: client.id,
+        id: id,
         title: service.title,
-        services_id: service.services_id,
-        start: start,
-        end: end,
+        services_id: service.id,
+        start: time[0],
+        end: time[1],
         status: bookingStatus,
       };
+      console.log('booking data', data);
 
       let response = await axios({
         method: 'post',
         url: `/api/bookings/new`,
         // headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        //data: qs.stringify(data),
         data: data,
         withCredentials: true,
       });
+
       setBooking(response.data);
       console.log('Post Detail++++++++++', response.data);
       return response;
     } catch (error) {
+      console.log('got an error')
       console.log(error);
     }
   };
   // Modal
   const [open, setOpen] = React.useState(false);
+  const today = new Date();
+
   const [slot, setSlot] = React.useState([
-    { start: '9AM', end: '10AM', booked: false }, // booked is button disabled
-    { start: '10AM', end: '11AM', booked: false },
-    { start: '11AM', end: '12AM', booked: false },
-    { start: '12AM', end: '1PM', booked: false },
-    { start: '1PM', end: '2PM', booked: false },
-    { start: '2PM', end: '3PM', booked: false },
-    { start: '3PM', end: '4PM', booked: false },
-    { start: '4PM', end: '5PM', booked: false },
-    { start: '5PM', end: '6PM', booked: false },
+    { start: setHours(today, 9).toISOString(), end: setHours(today, 10).toISOString(), booked: false }, // booked is button disabled
+    { start: setHours(today, 10).toISOString(), end: setHours(today, 11).toISOString(), booked: false },
+    { start: setHours(today, 11).toISOString(), end: setHours(today, 12).toISOString(), booked: false },
+    { start: setHours(today, 12).toISOString(), end: setHours(today, 13).toISOString(), booked: false },
+    { start: setHours(today, 13).toISOString(), end: setHours(today, 14).toISOString(), booked: false },
+    { start: setHours(today, 14).toISOString(), end: setHours(today, 15).toISOString(), booked: false },
+    { start: setHours(today, 15).toISOString(), end: setHours(today, 16).toISOString(), booked: false },
+    { start: setHours(today, 16).toISOString(), end: setHours(today, 17).toISOString(), booked: false },
+    { start: setHours(today, 17).toISOString(), end: setHours(today, 18).toISOString(), booked: false },
   ]);
   const [index, setIndex] = React.useState(null);
   // this is a {buttons} control
@@ -120,10 +139,10 @@ export default function Detail(props) {
             disabled={slot.booked}
             onClick={(event) => {
               handleClickOpen(index);
-              setTime(event.target.value);
+              setTime([slot.start, slot.end]);
             }}
           >
-            {slot.booked ? 'Not Available' : `${slot.start} - ${slot.end}`}
+            {slot.booked ? 'Not Available' : `${format(new Date(slot.start), 'ha')} - ${format(new Date(slot.end), 'ha')}`}
           </Button>
         </Link>
       </Grid>
@@ -188,7 +207,7 @@ export default function Detail(props) {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    Booking
+                    Avavilable Time Slots
                   </Typography>
                 </CardContent>
                 <Grid
@@ -198,12 +217,7 @@ export default function Detail(props) {
                   alignItems="center"
                   sx={{ mb: 3 }}
                 >
-                  {buttons} {/* // this is a {buttons} control */}
-                  {/* <Grid item xs={10}>
-                    <Link to="Booking" style={{ textDecoration: 'none' }}>
-                      <Button onClick={submitBooking}>Book</Button>
-                    </Link>
-                  </Grid> */}
+                  {buttons}
                 </Grid>
               </Card>
             </Container>
