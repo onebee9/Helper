@@ -22,14 +22,12 @@ import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import EditIcon from '@mui/icons-material/Edit';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import { useParams } from 'react-router-dom';
 import { format, setHours } from 'date-fns';
 const theme = createTheme();
-
 
 export default function Detail(props) {
   const [service, setService] = React.useState([]);
@@ -42,15 +40,12 @@ export default function Detail(props) {
   const params = useParams();
   const bookingStatus = 'accepted';
 
-
   //get client data to associate to booking
   const user = localStorage.getItem('usersinfo');
-  const formattedUser = (JSON.parse(user));
+  const formattedUser = JSON.parse(user);
   const id = formattedUser.data.id;
 
-
   useEffect(() => {
-
     // get service data to append to booking
     axios({
       method: 'get',
@@ -58,14 +53,12 @@ export default function Detail(props) {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-
       setService(response.data.services[0]);
     });
   }, [params.id]);
 
   //create booking
   const submitBooking = async (event) => {
-
     setSlot((slots) => {
       return slots.map((slot, i) => {
         if (i === index) {
@@ -80,7 +73,7 @@ export default function Detail(props) {
 
     const start = time[0];
     const end = time[1];
-    console.log('service', service)
+    console.log('service', service);
 
     try {
       const data = {
@@ -106,7 +99,7 @@ export default function Detail(props) {
       console.log('Post Detail++++++++++', data);
       return response;
     } catch (error) {
-      console.log('got an error')
+      console.log('got an error');
       console.log(error);
     }
   };
@@ -115,15 +108,51 @@ export default function Detail(props) {
   const today = new Date();
 
   const [slot, setSlot] = React.useState([
-    { start: setHours(today, 9).toISOString(), end: setHours(today, 10).toISOString(), booked: false }, // booked is button disabled
-    { start: setHours(today, 10).toISOString(), end: setHours(today, 11).toISOString(), booked: false },
-    { start: setHours(today, 11).toISOString(), end: setHours(today, 12).toISOString(), booked: false },
-    { start: setHours(today, 12).toISOString(), end: setHours(today, 13).toISOString(), booked: false },
-    { start: setHours(today, 13).toISOString(), end: setHours(today, 14).toISOString(), booked: false },
-    { start: setHours(today, 14).toISOString(), end: setHours(today, 15).toISOString(), booked: false },
-    { start: setHours(today, 15).toISOString(), end: setHours(today, 16).toISOString(), booked: false },
-    { start: setHours(today, 16).toISOString(), end: setHours(today, 17).toISOString(), booked: false },
-    { start: setHours(today, 17).toISOString(), end: setHours(today, 18).toISOString(), booked: false },
+    {
+      start: setHours(today, 9).toISOString(),
+      end: setHours(today, 10).toISOString(),
+      booked: false,
+    }, // booked is button disabled
+    {
+      start: setHours(today, 10).toISOString(),
+      end: setHours(today, 11).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 11).toISOString(),
+      end: setHours(today, 12).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 12).toISOString(),
+      end: setHours(today, 13).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 13).toISOString(),
+      end: setHours(today, 14).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 14).toISOString(),
+      end: setHours(today, 15).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 15).toISOString(),
+      end: setHours(today, 16).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 16).toISOString(),
+      end: setHours(today, 17).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 17).toISOString(),
+      end: setHours(today, 18).toISOString(),
+      booked: false,
+    },
   ]);
   const [index, setIndex] = React.useState(null);
   // this is a {buttons} control
@@ -141,8 +170,12 @@ export default function Detail(props) {
               setTime([slot.start, slot.end]);
             }}
           >
-            {slot.booked ? 'Not Available' : `${format(new Date(slot.start), 'ha')} - ${format(new Date(slot.end), 'ha')}`}
-
+            {slot.booked
+              ? 'Not Available'
+              : `${format(new Date(slot.start), 'ha')} - ${format(
+                  new Date(slot.end),
+                  'ha'
+                )}`}
           </Button>
         </Link>
       </Grid>

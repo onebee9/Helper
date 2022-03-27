@@ -24,7 +24,7 @@ import {
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileServiceProvider from './ProfileServiceProvider';
-
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
