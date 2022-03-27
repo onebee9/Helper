@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
-import ProfileService from './ProfileService';
+import Booked from './../components/Service/Booked';
 
 import {
   Card,
@@ -166,7 +166,7 @@ export default function Profile(props) {
             </Container>
 
             {clientBookings.map((booking) => (
-              <ProfileService key={booking.booking_id} data={booking} />
+              <Booked key={booking.booking_id} data={booking} />
             ))}
           </Grid>
         </Grid>
