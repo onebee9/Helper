@@ -29,16 +29,22 @@ import qs from 'qs';
 import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
+ 
 export default function Detail(props) {
   const [service, setService] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
   const [time, setTime] = React.useState([]);
+  const serviceid = props;
+
+  console.log(serviceid);
+ 
 
   const start = time[0];
   const end = time[2];
   const bookingStatus = 'accepted';
 
   const params = useParams();
+  console.log(params);
 
   useEffect(() => {
     axios({

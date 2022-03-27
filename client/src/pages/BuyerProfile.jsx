@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
+import ProfileService from './ProfileService';
 
 import {
   Card,
@@ -26,16 +27,44 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ServiceBooking from '../components/Service/ServiceBooking';
+import axios from 'axios';
+
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
+  const [clientBookings, setClientBookings] = useState([]);
+ 
+
   useEffect(() => {
-    const user = localStorage.getItem('usersinfo');
-    setUserStatus(JSON.parse(user));
+
+    //retrive data from storage 
+    const userinfo = localStorage.getItem('usersinfo');
+    const user = JSON.parse(userinfo);
+
+    console.log(user);
+   
+    setUserStatus(user);
+
+    //fetch bookings
+    const userID = user.data.id;
+    axios({
+      method: 'get',
+      url: `/api/bookings/${userID}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }).then((response) => {
+      setClientBookings(response.data.clientBookings);
+      console.log(response.data)
+    }).catch((error)=>{
+      console.log(error)
+
+    })
   }, []);
-  // console.log(userStatus.data.created_at)
+
+  
 
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);
@@ -127,7 +156,7 @@ export default function Profile(props) {
                   <TableHead>
                     <TableRow>
                       <TableCell align="center" colSpan={3}>
-                        Profile
+                      Client Profile
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -181,6 +210,23 @@ export default function Profile(props) {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <Container sx={{ py: 8 }} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {clientBookings.map((booking) => (
+              <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <ProfileService data={booking} />
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
             </Container>
           </Grid>
         </Grid>

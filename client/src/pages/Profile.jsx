@@ -26,13 +26,15 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ClientProfile from './clientProfile';
+
+import BuyerProfile from './BuyerProfile';
 import ServiceProfile from './ServiceProfile';
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
+
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
@@ -48,11 +50,7 @@ export default function Profile(props) {
   const provider =
     userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
   const profileType =
-    provider === 'yes' ? (
-      <ServiceProfile user={userStatus} />
-    ) : (
-      <ClientProfile user={userStatus} />
-    );
+    provider === 'yes' ? <ServiceProfile userStatus /> : <BuyerProfile />;
 
   return <>{profileType}</>;
 }
