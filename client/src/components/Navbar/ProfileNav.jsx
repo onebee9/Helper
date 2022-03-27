@@ -7,12 +7,12 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Toolbar, Button, Typography, Avatar } from '@mui/material';
-import { useContext } from 'react';
-import { authContext } from './../../providers/AuthProvider';
+// import { Toolbar, Button, Typography, Avatar } from '@mui/material';
+// import { useContext } from 'react';
+// import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth } = useContext(authContext);
+  // const { auth } = useContext(authContext);
   // console.log(auth);
   return (
     <nav aria-label="secondary mailbox folders">
@@ -46,7 +46,7 @@ function Navbar(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="New Servic Create" />
+              <ListItemText primary="New Service Create" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -57,7 +57,7 @@ function Navbar(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="My Servic" />
+              <ListItemText primary="My Service" />
             </ListItemButton>
           </ListItem>
         </Link>

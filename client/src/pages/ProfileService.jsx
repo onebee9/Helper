@@ -8,10 +8,6 @@ import {
   Container,
   Avatar,
   Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Grid,
   Button,
   CardActions,
@@ -37,7 +33,7 @@ export default function ProfileService(props) {
       setServices(response.data.services);
       console.log('AAA', response.data.services);
     });
-  }, []);
+  });
   // console.log("ser", services)
 
   return (
