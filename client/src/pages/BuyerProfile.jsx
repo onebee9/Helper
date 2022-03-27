@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
-import ProfileService from './ProfileService';
+import Booked from './../components/Service/Booked';
 
 import {
   Card,
@@ -10,11 +10,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -24,28 +19,24 @@ import {
   Paper,
   Grid,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ServiceBooking from '../components/Service/ServiceBooking';
+// import ServiceBooking from '../components/Service/ServiceBooking';
 import axios from 'axios';
-
+import BuyerNav from '../components/Navbar/BuyerNav';
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
   const [clientBookings, setClientBookings] = useState([]);
- 
 
   useEffect(() => {
-
-    //retrive data from storage 
+    //retrive data from storage
     const userinfo = localStorage.getItem('usersinfo');
     const user = JSON.parse(userinfo);
 
 
-   
     setUserStatus(user);
 
     //fetch bookings
@@ -57,14 +48,19 @@ export default function Profile(props) {
       withCredentials: true,
     }).then((response) => {
       setClientBookings(response.data.clientBookings);
-      console.log('client bookings',response.data)
     }).catch((error)=>{
       console.log(error)
 
-    })
-  }, []);
 
-  
+    })
+      .then((response) => {
+        setClientBookings(response.data.clientBookings);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);
@@ -106,128 +102,79 @@ export default function Profile(props) {
                     {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
-
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <BuyerNav />
               </Card>
             </Container>
           </Grid>
 
-          <Grid item xs={8}>
-            <Container maxWidth="sm">
-              <TableContainer component={Paper}>
-                <Table sx={{ width: 1 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" colSpan={3}>
-                      Client Profile
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Name : {userStatus?.data?.first_name}{' '}
-                        {userStatus?.data?.last_name}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Email : {userStatus?.data?.email}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {' '}
-                        Member from : {yearFinal}{' '}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Is Service Prvide : {provider}{' '}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
+          <Grid container xs={8} spacing={2}>
+            <Grid item sx={{ width: 1 }}>
+              <Container maxWidth="sm">
+                <TableContainer component={Paper}>
+                  <Table sx={{ width: 1 }}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center" colSpan={3}>
+                          Client Profile
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Name : {userStatus?.data?.first_name}{' '}
+                          {userStatus?.data?.last_name}
+                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Email : {userStatus?.data?.email}
+                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {' '}
+                          Member from : {yearFinal}{' '}
+                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Is Service Prvide : {provider}{' '}
+                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Container>
+            </Grid>
+
             {clientBookings.map((booking) => (
-              <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <ProfileService data={booking} />
-                </Card>
-              </Grid>
+              <Booked key={booking.booking_id} data={booking} />
             ))}
-          </Grid>
-        </Container>
-            </Container>
           </Grid>
         </Grid>
       </main>

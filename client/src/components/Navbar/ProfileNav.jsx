@@ -7,12 +7,14 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Toolbar, Button, Typography, Avatar } from '@mui/material';
-import { useContext } from 'react';
-import { authContext } from './../../providers/AuthProvider';
+// import { Toolbar, Button, Typography, Avatar } from '@mui/material';
+// import { useContext } from 'react';
+// import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
+
   const { auth } = useContext(authContext);
+
 
   return (
     <nav aria-label="secondary mailbox folders">
@@ -40,13 +42,24 @@ function Navbar(props) {
           </ListItem>
         </Link>
         <Link
+          to="/ProfileServiceCreate"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="New Service Create" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link
           to="/ProfileService"
           component={RouterLink}
           style={{ textDecoration: 'none' }}
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Profile Servic" />
+              <ListItemText primary="My Service" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -57,18 +70,7 @@ function Navbar(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Profile Service Edit" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link
-          to="/ProfileServiceCreate"
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}
-        >
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="New Service" />
+              <ListItemText primary="My Service Edit" />
             </ListItemButton>
           </ListItem>
         </Link>

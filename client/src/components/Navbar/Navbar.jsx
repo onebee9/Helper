@@ -19,10 +19,11 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link 
-            to="/" 
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
@@ -50,6 +51,14 @@ function Navbar(props) {
           >
             <Button size="small">Signup Client</Button>
           </Link>
+
+          <Link
+            to="/Login"
+            component={RouterLink}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button size="small">Logout</Button>
+          </Link>
         </Toolbar>
       )}
       {userinfo && (
@@ -60,12 +69,14 @@ function Navbar(props) {
             color="inherit"
             noWrap
             sx={{ flex: 1 }}
-          ><Link 
-          to="/" 
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}>
-            Helper
-          </Link>
+          >
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
+              Helper
+            </Link>
           </Typography>
 
           <Link
@@ -77,14 +88,6 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/ProfileEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Edit</Button>
-          </Link>
-
-          <Link
             to="/ProfileService"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
@@ -93,27 +96,11 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/ProfileServiceEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service Edit</Button>
-          </Link>
-
-          <Link
             to="/ProfileServiceCreate"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">New Service</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceBooked"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Service Booked</Button>
           </Link>
 
           <Link

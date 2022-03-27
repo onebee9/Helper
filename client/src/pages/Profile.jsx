@@ -33,7 +33,6 @@ import ServiceProfile from './ServiceProfile';
 const theme = createTheme();
 
 export default function Profile(props) {
-
   const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
@@ -46,8 +45,10 @@ export default function Profile(props) {
   const completeDate = newDate && newDate.toDateString();
   const yearFinal = completeDate && completeDate.slice(4);
 
-  const provider = userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  const profileType =  provider === 'yes'? (<ServiceProfile userStatus/>) : (<BuyerProfile/>);
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const profileType =
+    provider === 'yes' ? <ServiceProfile userStatus /> : <BuyerProfile />;
 
   return <>{profileType}</>;
 }

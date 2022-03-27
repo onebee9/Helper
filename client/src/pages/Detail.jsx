@@ -38,7 +38,6 @@ export default function Detail(props) {
   const [client, setClient] = useState();
   const serviceid = props;
 
-
   //get the service data id to identify service
   const params = useParams();
   const bookingStatus = 'accepted';
@@ -98,13 +97,13 @@ export default function Detail(props) {
       let response = await axios({
         method: 'post',
         url: `/api/bookings/new`,
-        // headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: data,
         withCredentials: true,
       });
 
       setBooking(response.data);
-      console.log('Post Detail++++++++++', response.data);
+      console.log('Post Detail++++++++++', data);
       return response;
     } catch (error) {
       console.log('got an error')
@@ -143,6 +142,7 @@ export default function Detail(props) {
             }}
           >
             {slot.booked ? 'Not Available' : `${format(new Date(slot.start), 'ha')} - ${format(new Date(slot.end), 'ha')}`}
+
           </Button>
         </Link>
       </Grid>
