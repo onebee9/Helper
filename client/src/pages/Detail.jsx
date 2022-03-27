@@ -91,7 +91,7 @@ export default function Detail(props) {
   // Modal
   const [open, setOpen] = React.useState(false);
   const [slot, setSlot] = React.useState([
-    { start: '9AM', end: '10AM', booked: false }, // booked is button disabled
+    { start: '9AM', end: '10AM', booked: false }, // booked is button
     { start: '10AM', end: '11AM', booked: false },
     { start: '11AM', end: '12AM', booked: false },
     { start: '12AM', end: '1PM', booked: false },
