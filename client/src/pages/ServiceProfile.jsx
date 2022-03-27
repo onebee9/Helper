@@ -18,6 +18,8 @@ import {
   TableRow,
   Paper,
   Grid,
+  TableFooter,
+  Button,
 } from '@mui/material';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -61,6 +63,9 @@ export default function Profile(props) {
 
   const provider =
     userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,7 +112,7 @@ export default function Profile(props) {
                   <Table sx={{ width: 1 }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell align="center" colSpan={3}>
+                        <TableCell align="center" colSpan={2}>
                           Profile
                         </TableCell>
                       </TableRow>
@@ -119,11 +124,12 @@ export default function Profile(props) {
                         }}
                       >
                         <TableCell component="th" scope="row">
-                          Name : {userStatus?.data?.first_name}{' '}
+                          Name
+                        </TableCell>
+                        <TableCell>
+                          {userStatus?.data?.first_name}{' '}
                           {userStatus?.data?.last_name}
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell align="right"></TableCell>
                       </TableRow>
                       <TableRow
                         sx={{
@@ -131,10 +137,9 @@ export default function Profile(props) {
                         }}
                       >
                         <TableCell component="th" scope="row">
-                          Email : {userStatus?.data?.email}
+                          Email
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell>{userStatus?.data?.email}</TableCell>
                       </TableRow>
                       <TableRow
                         sx={{
@@ -143,10 +148,9 @@ export default function Profile(props) {
                       >
                         <TableCell component="th" scope="row">
                           {' '}
-                          Member from : {yearFinal}{' '}
+                          Member from :
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell>{yearFinal} </TableCell>
                       </TableRow>
                       <TableRow
                         sx={{
@@ -154,12 +158,26 @@ export default function Profile(props) {
                         }}
                       >
                         <TableCell component="th" scope="row">
-                          Is Service Prvide : {provider}{' '}
+                          Is Service Prvide
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell>{provider} </TableCell>
                       </TableRow>
                     </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TableCell colSpan={2}>
+                          <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={handleSubmit}
+                          >
+                            Update Profile
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    </TableFooter>
                   </Table>
                 </TableContainer>
               </Container>
