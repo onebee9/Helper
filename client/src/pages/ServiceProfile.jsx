@@ -29,20 +29,19 @@ import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileService from './ProfileService';
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
   const [serviceBookings, setServiceBookings] = useState([]);
- 
 
   useEffect(() => {
-
-    //retrive data from storage 
+    //retrive data from storage
     const userinfo = localStorage.getItem('usersinfo');
     const user = JSON.parse(userinfo);
-   
+
     setUserStatus(user);
 
     //fetch bookings
@@ -52,16 +51,14 @@ export default function Profile(props) {
       url: `/api/bookings/provider/${userID}`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
-    }).then((response) => {
-      setServiceBookings(response.data.serviceBookings);
-      console.log(response.data)
-
-    }).catch((error)=>{
-      console.log(error)
-
     })
-
-
+      .then((response) => {
+        setServiceBookings(response.data.serviceBookings);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   //show date in properformat
@@ -105,44 +102,7 @@ export default function Profile(props) {
                   </Typography>
                 </CardContent>
 
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>

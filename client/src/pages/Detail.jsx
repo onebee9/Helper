@@ -29,7 +29,6 @@ import qs from 'qs';
 import { useParams } from 'react-router-dom';
 const theme = createTheme();
 
- 
 export default function Detail(props) {
   const [service, setService] = React.useState([]);
   const [booking, setBooking] = React.useState([]);
@@ -37,7 +36,6 @@ export default function Detail(props) {
   const serviceid = props;
 
   console.log(serviceid);
- 
 
   const start = time[0];
   const end = time[2];
@@ -50,7 +48,7 @@ export default function Detail(props) {
     axios({
       method: 'get',
       url: `/api/services/${params.id}`,
-      // headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
       setService(response.data.services[0]);
@@ -82,13 +80,13 @@ export default function Detail(props) {
       let response = await axios({
         method: 'post',
         url: `/api/bookings/new`,
-        // headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         //data: qs.stringify(data),
         data: data,
         withCredentials: true,
       });
       setBooking(response.data);
-      console.log('Post Detail++++++++++', response.data);
+      console.log('Post Detail++++++++++', data);
       return response;
     } catch (error) {
       console.log(error);
@@ -97,15 +95,15 @@ export default function Detail(props) {
   // Modal
   const [open, setOpen] = React.useState(false);
   const [slot, setSlot] = React.useState([
-    { start: '9AM', end: '10AM', booked: false }, // booked is button
-    { start: '10AM', end: '11AM', booked: false },
-    { start: '11AM', end: '12AM', booked: false },
-    { start: '12AM', end: '1PM', booked: false },
-    { start: '1PM', end: '2PM', booked: false },
-    { start: '2PM', end: '3PM', booked: false },
-    { start: '3PM', end: '4PM', booked: false },
-    { start: '4PM', end: '5PM', booked: false },
-    { start: '5PM', end: '6PM', booked: false },
+    { start: 9, end: 10, time: '9AM - 10AM', booked: false }, // booked is button
+    { start: 10, end: 11, time: '10AM - 11AM', booked: false },
+    { start: 11, end: 12, time: '11AM - 12AM', booked: false },
+    { start: 12, end: 1, time: '12AM - 1PM', booked: false },
+    { start: 1, end: 2, time: '1PM - 2PM', booked: false },
+    { start: 2, end: 3, time: '2PM - 3PM', booked: false },
+    { start: 3, end: 4, time: '3PM - 4PM', booked: false },
+    { start: 4, end: 5, time: '4PM - 5PM', booked: false },
+    { start: 5, end: 6, time: '5PM - 6PM', booked: false },
   ]);
   const [index, setIndex] = React.useState(null);
   // this is a {buttons} control
@@ -123,7 +121,7 @@ export default function Detail(props) {
               setTime(event.target.value);
             }}
           >
-            {slot.booked ? 'Not Available' : `${slot.start} - ${slot.end}`}
+            {slot.booked ? 'Not Available' : `${slot.time}`}
           </Button>
         </Link>
       </Grid>

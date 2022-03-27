@@ -11,7 +11,7 @@ import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
-function Navbar(props) {
+function BuyerNav(props) {
   const { auth } = useContext(authContext);
   // console.log(auth);
   return (
@@ -39,42 +39,9 @@ function Navbar(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link
-          to="/ProfileServiceCreate"
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}
-        >
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="New Servic Create" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link
-          to="/ProfileService"
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}
-        >
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="My Servic" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link
-          to="/ProfileServiceEdit"
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}
-        >
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="My Service Edit" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
       </List>
     </nav>
   );
 }
 
-export default Navbar;
+export default BuyerNav;
