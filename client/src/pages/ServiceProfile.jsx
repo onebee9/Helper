@@ -183,16 +183,7 @@ export default function Profile(props) {
               </Container>
             </Grid>
             {serviceBookings.map((booking) => (
-              <Grid item key={booking.booking_id} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <ProfileServiceProvider data={booking} />
-                </Card>
-              </Grid>
+              <ProfileServiceProvider data={booking} />
             ))}
           </Grid>
         </Grid>
