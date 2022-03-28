@@ -151,7 +151,7 @@ export default function Profile(props) {
                         }}
                       >
                         <TableCell component="th" scope="row">
-                          Is Service Prvide
+                          Service Provider
                         </TableCell>
                         <TableCell>{provider} </TableCell>
                       </TableRow>

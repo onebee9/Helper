@@ -52,77 +52,77 @@ module.exports = (db) => {
       });
   });
 
-  // //update service 
-  // router.put("/update/:id", (req, res) => {
+  //update service 
+  router.put("/update/:id", (req, res) => {
 
-  // const queryParams = [];
-  // const id = req.params.id;
-  // const { title, category, description, fee} = req.body;
-  // let columns = [];
-  // let values = [];
+  const queryParams = [];
+  const id = req.params.id;
+  const { title, category, description, fee} = req.body;
+  let columns = [];
+  let values = [];
 
-  //   console.log(id);
-  //   console.log(queryParams);
+    console.log(id);
+    console.log(queryParams);
 
-  //   /*
-  //   let queryString = `
-  //   UPDATE services
-  //   SET `;
-  //   */
+    /*
+    let queryString = `
+    UPDATE services
+    SET `;
+    */
 
-  //   //Check what the user would like to update and add on to the query
-  //   if (!title == '') {
-  //     queryParams.push(title);
-  //     columns.push("title");
-  //     values.push(title);
-  //     //queryString += `title = $${multipleOrNot(title)} `;
-  //   }
+    //Check what the user would like to update and add on to the query
+    if (!title == '') {
+      queryParams.push(title);
+      columns.push("title");
+      values.push(title);
+      //queryString += `title = $${multipleOrNot(title)} `;
+    }
 
-  //   if (!category == '') {
-  //     queryParams.push(category);
-  //     columns.push("category");
-  //     values.push(category);
-  //     //queryString += `category = $${multipleOrNot(category)} `;
-  //   }
+    if (!category == '') {
+      queryParams.push(category);
+      columns.push("category");
+      values.push(category);
+      //queryString += `category = $${multipleOrNot(category)} `;
+    }
 
-  //   if (!fee == '') {
-  //     let feeToNumber = parseInt(fee);
-  //     queryParams.push(feeToNumber);
-  //     columns.push("fee");
-  //     values.push(feeToNumber);
-  //     //queryString += `fee = $${multipleOrNot(fee)} `;
-  //   }
+    if (!fee == '') {
+      let feeToNumber = parseInt(fee);
+      queryParams.push(feeToNumber);
+      columns.push("fee");
+      values.push(feeToNumber);
+      //queryString += `fee = $${multipleOrNot(fee)} `;
+    }
 
-  //   if (!description == '') {
-  //     queryParams.push(description);
-  //     columns.push("description");
-  //     values.push(description);
-  //     //queryString += `description = $${multipleOrNot(description)} `;
-  //   }
+    if (!description == '') {
+      queryParams.push(description);
+      columns.push("description");
+      values.push(description);
+      //queryString += `description = $${multipleOrNot(description)} `;
+    }
 
-  //   //queryParams.push(id);
-  //   //queryString += `WHERE id = $${multipleOrNot(id)} ;`;
+    //queryParams.push(id);
+    //queryString += `WHERE id = $${multipleOrNot(id)} ;`;
 
-  //   let params = [id];
-  //   let query = "UPDATE users SET ";
-  //   for(let i = 0; i < columns.length; i++) {
-  //     //query = `${query}${columns[i]} = $${params.length + 1},`
+    let params = [id];
+    let query = "UPDATE users SET ";
+    for(let i = 0; i < columns.length; i++) {
+      //query = `${query}${columns[i]} = $${params.length + 1},`
 
-  //     query += query + " " + columns[i] + " = " + params.length + 1;
-  //     params.push(queryParams[columns[i]]);
-  //   }
-  //   //query = `${query.substring(0, query.length-1)} WHERE id = $1`
+      query += query + " " + columns[i] + " = " + params.length + 1;
+      params.push(queryParams[columns[i]]);
+    }
+    //query = `${query.substring(0, query.length-1)} WHERE id = $1`
     
-  //   query = query.substring(0, query.length - 1) + " WHERE id = $1";
-  //   console.log("QUERY:", query);
-  //   console.log("PARAMS:", params);
+    query = query.substring(0, query.length - 1) + " WHERE id = $1";
+    console.log("QUERY:", query);
+    console.log("PARAMS:", params);
 
-  //   db.query(query, params)
-  //     .then((data) => {
-  //       res.json('successfully updated');
-  //     })
-  //     .catch(error => console.log(error));
-  // });
+    db.query(query, params)
+      .then((data) => {
+        res.json('successfully updated');
+      })
+      .catch(error => console.log(error));
+  });
 
 
   

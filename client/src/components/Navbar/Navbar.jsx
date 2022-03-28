@@ -2,13 +2,21 @@ import * as React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
+// import { useContext } from 'react';
+// import { authContext } from './../../providers/AuthProvider';
 
-// import { useState, useEffect } from 'react';
 function Navbar(props) {
   const userinfo = localStorage.getItem('usersinfo');
+  // const { auth } = React.useContext(authContext);
+
+  const logout = () => {
+    localStorage.removeItem('usersinfo');
+}
+
+
   return (
     <React.Fragment>
-      {!userinfo && (
+      {!userinfo  && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -81,6 +89,7 @@ function Navbar(props) {
             to="/Login"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
+             onClick={logout}
           >
             <Button size="small">Logout</Button>
           </Link>
