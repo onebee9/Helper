@@ -40,7 +40,7 @@ module.exports = (db) => {
   });
 
   //update service booking
-  router.put("/bookings/:id", (req, res) => {
+  router.put("/update/:id", (req, res) => {
     const { title, rating, status } = req.params;
 
     db.query(
@@ -63,7 +63,7 @@ module.exports = (db) => {
     S1.id as booking_id,  S1.rating, S1.status, S1.created_at, S1. st_date as start_time, S1.end_date as end_time,
     U1.id as client_id, U1.first_name as client_first_name, U1.last_name as client_last_name, U1.email as client_email,
     S2.id as services_id, S2.title, S2.category, S2.description, S2.fee,
-    U2.first_name as provider_first_name, U2.email as provider_email_address,
+    U2.first_name as provider_first_name, U2.email as provider_email_address,U2.id as provider_id,
     CONCAT(L.num, ' ', L.street,', ', L.Metropolitan, ', ', L.city, ',', L.postal_code) as address
     FROM
     service_bookings S1
@@ -77,7 +77,7 @@ module.exports = (db) => {
     db.query(queryString, [serviceID])
       .then(data => {
         const serviceBookings = data.rows;
-        res.json({ serviceBookings});
+        res.json( serviceBookings);
       })
       .catch(err => {
         res
@@ -90,6 +90,7 @@ module.exports = (db) => {
   router.get("/:id", (req, res) => {
     const userID = req.params.id
 
+    //filter by date as well when you have more dates.
     const queryString = `SELECT 
     S1.id as booking_id,  S1.rating, S1.status, S1.created_at, S1. st_date as start_time, S1.end_date as end_time,
     U1.id as client_id, U1.first_name as client_first_name, U1.last_name as client_last_name, U1.email as client_email,
