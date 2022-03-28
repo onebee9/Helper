@@ -63,7 +63,6 @@ module.exports = (db) => {
 
   router.get("/profile/:id", (req, res) => {
 
-    const id = req.params.id;
     const personalData = `SELECT * FROM users WHERE id = $1;`
     const bookings = `SELECT * FROM service_bookings WHERE users_id = $1;`
     const address = `SELECT * FROM locations WHERE user_id = $1;`
