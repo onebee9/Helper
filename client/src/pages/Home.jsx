@@ -171,8 +171,12 @@ export default function Home() {
                     />
                   </LocalizationProvider>
                 </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button onClick={submitSearch} variant="contained">
+                    Search
+                  </Button>
+                </Grid>
               </Grid>
-              <Button onClick={submitSearch}>Search</Button>
             </React.Fragment>
           </Container>
         </Box>
