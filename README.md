@@ -14,23 +14,53 @@ This project aims to provide a platform that connects home keepers to domestic s
 
 ### PC screen capture
 
+#### Home Service List
+
 ![Home](/resources/home.png)
+
+#### Service Detail
+
 ![Detail](/resources/detail.png)
+
+#### User Login
+
 ![Login](/resources/login.png)
 
 #### Service Provider
 
+#### Service Provider Profile
+
 ![Profile Service Provider](/resources/profile_service.png)
+
+#### Service Provider Profile Edit
+
 ![Profile Edit](/resources/profile_edit.png)
+
+#### Service Provider's Service List
+
 ![Service List](/resources/profile_service_list.png)
+
+#### Create New Service
+
 ![Create New Service](/resources/service_create.png)
+
+#### Service Edit
+
 ![Service Edit](/resources/profile_service_edit.png)
+
+#### Signup for Service Provider
+
 ![Signu for Service](/resources/signup_service.png)
 
 #### Service Client
 
-![Profile Client](/resouces/profile.png)
-![Signup for Client](/resouces/signup_client.png)
+#### Client Profile
+
+![Profile Client](/resources/profile.png)
+
+#### Signup for Client
+
+![Signup for Client](/resources/signup_client.png)
 
 ## Setup
 
