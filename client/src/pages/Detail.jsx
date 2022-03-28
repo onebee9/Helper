@@ -24,15 +24,35 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import { useParams } from 'react-router-dom';
-import { format, setHours } from 'date-fns';
+import { format, getHours, isToday, setHours } from 'date-fns';
+
 const theme = createTheme();
 
 export default function Detail(props) {
-  const [service, setService] = React.useState([]);
+  const [service, setService] = React.useState();
   const [booking, setBooking] = React.useState([]);
   const [time, setTime] = React.useState([]);
   const [client, setClient] = useState();
-  const serviceid = props;
+  const [open, setOpen] = React.useState(false);
+  const today = new Date();
+  const [slot, setSlot] = React.useState([
+    { start: setHours(today, 9).toISOString(), end: setHours(today, 10).toISOString(), booked: false }, // booked is button disabled
+    { start: setHours(today, 10).toISOString(), end: setHours(today, 11).toISOString(), booked: false },
+    { start: setHours(today, 11).toISOString(), end: setHours(today, 12).toISOString(), booked: false },
+    { start: setHours(today, 12).toISOString(), end: setHours(today, 13).toISOString(), booked: false },
+    { start: setHours(today, 13).toISOString(), end: setHours(today, 14).toISOString(), booked: false },
+    { start: setHours(today, 14).toISOString(), end: setHours(today, 15).toISOString(), booked: false },
+    { start: setHours(today, 15).toISOString(), end: setHours(today, 16).toISOString(), booked: false },
+    { start: setHours(today, 16).toISOString(), end: setHours(today, 17).toISOString(), booked: false },
+    { start: setHours(today, 17).toISOString(), end: setHours(today, 18).toISOString(), booked: false },
+  ]);
+  const [index, setIndex] = React.useState(null);
+
+  //service provider ID
+  const serviceProviderId = props.serviceid ;
+  // console.log(serviceProviderId);
+
+  console.log('service data new', service)
 
   //get the service data id to identify service
   const params = useParams();
@@ -43,6 +63,47 @@ export default function Detail(props) {
   const formattedUser = JSON.parse(user);
   const id = formattedUser.data.id;
 
+  const findMatchingBooking = (slot) => {
+    
+  }
+
+  const updateAvailableSlots = (bookings) => {
+
+
+    // const updated = slots.map((slot) => {
+    //   const foundOne = bookings.filter((booking) => {
+    //     const isTod = isToday(new Date(), booking.start_time);
+    //     const bookingHour = getHours(new Date(booking.start_time));
+    //     const slotHour = getHours(new Date(slot.start_time));
+
+    //     return bookingHour === slotHour && isTod;
+    //   })
+    //   return {...slot, booked: foundOne.length != 0 }
+    // });
+
+
+    const updatedSlots = [];
+    for(let i=0; i < slot.length; i++) {
+      let foundOne = false;
+      const currentSlot = slot[i]
+      for(let j=0; j < bookings.length; j++) {
+        const booking = bookings[j]
+        const isTod = isToday(new Date(), booking.start_time);
+        const bookingHour = getHours(new Date(booking.start_time));
+        const slotHour = getHours(new Date(currentSlot.start));
+
+        foundOne = bookingHour === slotHour && isTod;
+        if (foundOne) {
+          console.log(foundOne, 'found a booked date', booking.start_time)
+          break;
+        }
+      }
+      updatedSlots.push({...currentSlot, booked: foundOne })
+    }
+
+    setSlot(updatedSlots);
+  }
+
   useEffect(() => {
     // get service data to append to booking
     axios({
@@ -51,9 +112,33 @@ export default function Detail(props) {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-      setService(response.data.services[0]);
+
+      setService(response.data);
     });
+
+    
   }, [params.id]);
+
+  React.useEffect(() => {
+    if (!service) {
+      return;
+    }
+    // get booking data to append to page
+    axios({
+      method: 'get',
+      url: `/api/bookings/provider/${service.user_id}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    }).then((response) => {
+      setBooking(response.data);
+      // update slots with response.data(booking)
+      updateAvailableSlots(response.data);
+      console.log(booking)
+    });
+
+  }, [service])
+
+
 
   //create booking
   const submitBooking = async (event) => {
@@ -102,57 +187,7 @@ export default function Detail(props) {
     }
   };
   // Modal
-  const [open, setOpen] = React.useState(false);
-  const today = new Date();
-
-  const [slot, setSlot] = React.useState([
-    {
-      start: setHours(today, 9).toISOString(),
-      end: setHours(today, 10).toISOString(),
-      booked: false,
-    }, // booked is button disabled
-    {
-      start: setHours(today, 10).toISOString(),
-      end: setHours(today, 11).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 11).toISOString(),
-      end: setHours(today, 12).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 12).toISOString(),
-      end: setHours(today, 13).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 13).toISOString(),
-      end: setHours(today, 14).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 14).toISOString(),
-      end: setHours(today, 15).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 15).toISOString(),
-      end: setHours(today, 16).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 16).toISOString(),
-      end: setHours(today, 17).toISOString(),
-      booked: false,
-    },
-    {
-      start: setHours(today, 17).toISOString(),
-      end: setHours(today, 18).toISOString(),
-      booked: false,
-    },
-  ]);
-  const [index, setIndex] = React.useState(null);
+  
   // this is a {buttons} control
   const buttons = slot.map((slot, index) => {
     return (
@@ -165,6 +200,7 @@ export default function Detail(props) {
             disabled={slot.booked}
             onClick={(event) => {
               handleClickOpen(index);
+              console.log('start', slot.start, 'end', slot.end)
               setTime([slot.start, slot.end]);
             }}
           >

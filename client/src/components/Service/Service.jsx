@@ -20,6 +20,7 @@ import { NavLink } from 'react-router-dom';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { Link } from '@mui/material';
 import Detail from '../../pages/Detail';
+import { convertValueToMeridiem } from '@mui/lab/internal/pickers/time-utils';
 
 export default function Service(props) {
   const {
@@ -29,8 +30,10 @@ export default function Service(props) {
     fee,
     first_name,
     id,
-    title
+    title,
+    user_id
   } = props.data;
+
 
 
 
@@ -60,7 +63,7 @@ export default function Service(props) {
       </CardContent>
       <CardActions>
         {/* <Link style={{ textDecoration: 'none' }}> */}
-          <NavLink to={`/Detail/${id}`} serviceid = {id}>
+          <NavLink to={`/Detail/${id}`}>
             <Button size="small" variant="contained">
               Book
             </Button>
