@@ -32,6 +32,7 @@ import ProfileNav from '../components/Navbar/ProfileNav';
 
 // import Modal from '../components/Modal';
 
+
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
@@ -173,7 +174,7 @@ export default function ProfileServiceEdit() {
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={2}>New Service</TableCell>
+                      <TableCell colSpan={2}>Profile</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

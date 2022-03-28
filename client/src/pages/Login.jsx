@@ -26,7 +26,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 const theme = createTheme();
 
 export default function Login() {
-  // const [userStatus, setStatus] = useState(false);
+  const [userStatus, setStatus] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,8 +48,8 @@ export default function Login() {
         data: qs.stringify(data),
         withCredentials: true,
       });
-      // setStatus(response.data);
-
+      setStatus(response.data);
+      
       //store login info in storage
       localStorage.setItem('usersinfo', JSON.stringify(response.data));
 
