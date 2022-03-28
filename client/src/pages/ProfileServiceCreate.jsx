@@ -19,6 +19,10 @@ import {
   TextField,
   TableFooter,
   Button,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
 } from '@mui/material';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -174,16 +178,29 @@ export default function ProfileServiceCreate(props) {
                         Category
                       </TableCell>
                       <TableCell>
-                        <TextField
-                          required
-                          id="category"
-                          name="category"
-                          label="Category"
-                          value={category}
-                          type="text"
-                          onChange={(event) => setCategory(event.target.value)}
-                          fullWidth
-                        />
+                        <FormControl sx={{ width: 1 }}>
+                          <InputLabel id="category">Category</InputLabel>
+                          <Select
+                            labelId="category"
+                            id="category"
+                            value={category}
+                            label="Category"
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
+                          >
+                            <MenuItem value="">All Categories</MenuItem>
+                            <MenuItem value="Repair">Repair</MenuItem>
+                            <MenuItem value="Babysitter">Babysitter</MenuItem>
+                            <MenuItem value="Delivery">Delivery</MenuItem>
+                            <MenuItem value="Carpentry">Carpentry</MenuItem>
+                            <MenuItem value="Plumbing">Plumbing</MenuItem>
+                            <MenuItem value="Construction">
+                              Construction
+                            </MenuItem>
+                            <MenuItem value="Gardening">Gardening</MenuItem>
+                          </Select>
+                        </FormControl>
                       </TableCell>
                     </TableRow>
                     <TableRow
