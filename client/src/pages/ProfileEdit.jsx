@@ -59,14 +59,7 @@ export default function ProfileEdit() {
         data: data,
         withCredentials: true,
       });
-      console.log('signup+++++++++', response.data);
-      console.log('data+++++++++', data);
-
-      // email && login(email, password);
-      // redirect to Home
-      // if (response) {
-      //   navigate('/');
-      // }
+     
     } catch (error) {
       console.log(error);
     }

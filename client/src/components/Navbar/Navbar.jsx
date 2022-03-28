@@ -6,7 +6,6 @@ import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 // import { useState, useEffect } from 'react';
 function Navbar(props) {
   const userinfo = localStorage.getItem('usersinfo');
-  console.log('header nav', userinfo);
   return (
     <React.Fragment>
       {!userinfo && (

@@ -109,7 +109,7 @@ module.exports = (db) => {
     db.query(queryString, [userID])
       .then(data => {
         const clientBookings = data.rows;
-        res.json({clientBookings});
+        res.json(clientBookings);
       })
       .catch(err => {
         res
