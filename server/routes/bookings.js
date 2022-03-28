@@ -9,9 +9,8 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
-
   //create service booking
-  router.post("/new", (req, res) => {
+  router.post('/new', (req, res) => {
     const queryString = `INSERT INTO service_bookings(
       users_id,
       title,
@@ -26,7 +25,7 @@ module.exports = (db) => {
       req.body.services_id,
       req.body.status,
       req.body.start, // 9AM
-      req.body.end
+      req.body.end,
     ];
 
     db.query(queryString, values)
@@ -40,7 +39,7 @@ module.exports = (db) => {
   });
 
   //update service booking
-  router.put("/update/:id", (req, res) => {
+  router.put('/update/:id', (req, res) => {
     const { title, rating, status } = req.params;
 
     db.query(
@@ -53,13 +52,13 @@ module.exports = (db) => {
       .then((data) => {
         res.json('successfully updated');
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   });
 
-  router.get("/provider/:id", (req, res) => {
-    const serviceID = req.params.id
+  router.get('/provider/:id', (req, res) => {
+    const serviceID = req.params.id;
 
-    const queryString = `SELECT 
+    const queryString = `SELECT
     S1.id as booking_id,  S1.rating, S1.status, S1.created_at, S1. st_date as start_time, S1.end_date as end_time,
     U1.id as client_id, U1.first_name as client_first_name, U1.last_name as client_last_name, U1.email as client_email,
     S2.id as services_id, S2.title, S2.category, S2.description, S2.fee,
@@ -71,27 +70,24 @@ module.exports = (db) => {
     LEFT JOIN services S2 ON S1.services_id = S2.id
     LEFT JOIN users U2 ON S2.user_id = U2.id
     LEFT JOIN locations L ON L.user_id = U1.id
-    WHERE U2.id = $1`
-
+    WHERE U2.id = $1`;
 
     db.query(queryString, [serviceID])
-      .then(data => {
+      .then((data) => {
         const serviceBookings = data.rows;
-        res.json( serviceBookings);
+        res.json(serviceBookings);
       })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
       });
   });
 
-   //retrieve service booking
-  router.get("/:id", (req, res) => {
-    const userID = req.params.id
+  //retrieve service booking
+  router.get('/:id', (req, res) => {
+    const userID = req.params.id;
 
     //filter by date as well when you have more dates.
-    const queryString = `SELECT 
+    const queryString = `SELECT
     S1.id as booking_id,  S1.rating, S1.status, S1.created_at, S1. st_date as start_time, S1.end_date as end_time,
     U1.id as client_id, U1.first_name as client_first_name, U1.last_name as client_last_name, U1.email as client_email,
     S2.id as services_id, S2.title, S2.category, S2.description, S2.fee,
@@ -103,18 +99,15 @@ module.exports = (db) => {
     LEFT JOIN services S2 ON S1.services_id = S2.id
     LEFT JOIN users U2 ON S2.user_id = U2.id
     LEFT JOIN locations L ON L.user_id = U1.id
-    WHERE U1.id = $1`
-
+    WHERE U1.id = $1`;
 
     db.query(queryString, [userID])
-      .then(data => {
+      .then((data) => {
         const clientBookings = data.rows;
-        res.json({clientBookings});
+        res.json({ clientBookings });
       })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
       });
   });
   return router;
