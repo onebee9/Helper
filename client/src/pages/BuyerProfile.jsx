@@ -45,8 +45,7 @@ export default function Profile(props) {
       withCredentials: true,
     })
       .then((response) => {
-        setClientBookings(response.data.clientBookings);
-        console.log('client bookings', response.data);
+        setClientBookings(response.data);
       })
       .catch((error) => {
         console.log(error);

@@ -36,8 +36,8 @@ export default function ProfileServiceBooked(props) {
 
   useEffect(() => {
     axios.get(`${url}${params.id}`).then((response) => {
-      setServices(response.data.services);
-      console.log('service provider booking data', response.data.services);
+      setServices(response.data);
+      console.log('service provider booking data', response.data);
     });
   }, []);
 

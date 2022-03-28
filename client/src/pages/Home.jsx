@@ -127,7 +127,7 @@ export default function Home() {
                       <MenuItem value="Carpentry">Carpentry</MenuItem>
                       <MenuItem value="Plumbing">Plumbing</MenuItem>
                       <MenuItem value="Construction">Construction</MenuItem>
-                      <MenuItem value="Gardening">Gardening</MenuItem>
+                      <MenuItem value="Writing">Writing</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

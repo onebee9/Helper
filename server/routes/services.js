@@ -10,6 +10,20 @@ const router = express.Router();
 
 module.exports = (db) => {
 
+  //Get all services provided on the platform, for use outside the search page if needed.
+  router.get('/', (req, res) => {
+    let query = `SELECT * FROM services WHERE services.id IS NOT NULL ;`;
+    db.query(query)
+      .then((data) => {
+        const services = data.rows;
+        res.json({ services });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+
   //create new services
   router.post('/new', (req, res) => {
     const userID = req.session.user_id;
@@ -38,64 +52,80 @@ module.exports = (db) => {
       });
   });
 
-  //update service booking
-  router.put("/update", (req, res) => {
-    const queryParams = [];
-    const { title, category, description, fee, id } = req.body;
+  // //update service 
+  // router.put("/update/:id", (req, res) => {
 
-    console.log(req.body);
+  // const queryParams = [];
+  // const id = req.params.id;
+  // const { title, category, description, fee} = req.body;
+  // let columns = [];
+  // let values = [];
 
-    let queryString = `
-    UPDATE services
-    SET `;
+  //   console.log(id);
+  //   console.log(queryParams);
 
-    //Check what the user would like to update and add on to the query
-    if (!title == '') {
-      queryParams.push(title);
-      queryString += `title = $${queryParams.length} , `;
-    }
+  //   /*
+  //   let queryString = `
+  //   UPDATE services
+  //   SET `;
+  //   */
 
-    if (!category == '') {
-      queryParams.push(category);
-      queryString += `category = $${queryParams.length} , `;
-    }
+  //   //Check what the user would like to update and add on to the query
+  //   if (!title == '') {
+  //     queryParams.push(title);
+  //     columns.push("title");
+  //     values.push(title);
+  //     //queryString += `title = $${multipleOrNot(title)} `;
+  //   }
 
-    if (!fee == '') {
-      let feeToNumber = parseInt(fee);
-      queryParams.push(feeToNumber);
-      queryString += `fee = $${queryParams.length} `;
-    }
+  //   if (!category == '') {
+  //     queryParams.push(category);
+  //     columns.push("category");
+  //     values.push(category);
+  //     //queryString += `category = $${multipleOrNot(category)} `;
+  //   }
 
-    if (!description == '') {
-      queryParams.push(description);
-      queryString += `description = $${queryParams.length} `;
-    }
+  //   if (!fee == '') {
+  //     let feeToNumber = parseInt(fee);
+  //     queryParams.push(feeToNumber);
+  //     columns.push("fee");
+  //     values.push(feeToNumber);
+  //     //queryString += `fee = $${multipleOrNot(fee)} `;
+  //   }
 
-    queryParams.push(id);
-    queryString += `WHERE id = $${queryParams.length} RETURNING *;`;
+  //   if (!description == '') {
+  //     queryParams.push(description);
+  //     columns.push("description");
+  //     values.push(description);
+  //     //queryString += `description = $${multipleOrNot(description)} `;
+  //   }
 
-    console.log(queryString);
-    db.query(queryString, queryParams)
-      .then((data) => {
-        res.json('successfully updated');
-      })
-      .catch(error => console.log(error));
-  });
+  //   //queryParams.push(id);
+  //   //queryString += `WHERE id = $${multipleOrNot(id)} ;`;
+
+  //   let params = [id];
+  //   let query = "UPDATE users SET ";
+  //   for(let i = 0; i < columns.length; i++) {
+  //     //query = `${query}${columns[i]} = $${params.length + 1},`
+
+  //     query += query + " " + columns[i] + " = " + params.length + 1;
+  //     params.push(queryParams[columns[i]]);
+  //   }
+  //   //query = `${query.substring(0, query.length-1)} WHERE id = $1`
+    
+  //   query = query.substring(0, query.length - 1) + " WHERE id = $1";
+  //   console.log("QUERY:", query);
+  //   console.log("PARAMS:", params);
+
+  //   db.query(query, params)
+  //     .then((data) => {
+  //       res.json('successfully updated');
+  //     })
+  //     .catch(error => console.log(error));
+  // });
 
 
-  //Get all services provided on the platform, for use outside the search page if needed.
-  router.get('/', (req, res) => {
-    let query = `SELECT * FROM services WHERE services.id IS NOT NULL ;`;
-    db.query(query)
-      .then((data) => {
-        const services = data.rows;
-        res.json({ services });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err.message });
-      });
-  });
-
+  
   //Return all services from database, uses filters when provided
   router.get('/search', (req, res) => {
     const queryParams = [];
@@ -156,19 +186,16 @@ module.exports = (db) => {
   });
 
   //Delete a service
-  router.delete('/remove', (req, res) => {
-    const userID = req.query.id;
+  router.delete('/remove/:id', (req, res) => {
+    const serviceId = Number(req.params.id);
+    const queryString = `DELETE FROM services WHERE services_id = $1;`;
 
-    const queryString = `DELETE FROM services
-      WHERE user_id = $1 AND services_id = $2;`;
-
-    const values = [userID, req.body.serviceID];
-    db.query(queryString, values)
+    db.query(queryString, [serviceId])
       .then((data) => {
         if (data.rows.length > 0) {
           res.status(200).json('success');
         } else {
-          res.status(202).json('failed');
+          res.status(500).send('Account not found.');
         }
       })
       .catch((err) => {
@@ -184,7 +211,7 @@ module.exports = (db) => {
     db.query(query, [serviceProviderID])
       .then((data) => {
         const services = data.rows;
-        res.json({ services });
+        res.json(services);
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -200,7 +227,7 @@ module.exports = (db) => {
     db.query(query, [serviceProviderID])
       .then((data) => {
         const services = data.rows;
-        if (services.length == 0){
+        if (services.length == 0) {
           res.status(404).json({ error: 'Not Found' });
           return;
         }
@@ -210,6 +237,30 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
+
+  // router.post("/payment", (req, res) => {
+  //   const { amount, id } = req.body
+  //   try {
+  //     const payment = await stripe.paymentIntents.create({
+  //       amount,
+  //       currency: "USD",
+  //       description: "Spatula company",
+  //       payment_method: id,
+  //       confirm: true
+  //     })
+  //     console.log("Payment", payment)
+  //     res.json({
+  //       message: "Payment successful",
+  //       success: true
+  //     })
+  //   } catch (error) {
+  //     console.log("Error", error)
+  //     res.json({
+  //       message: "Payment failed",
+  //       success: false
+  //     })
+  //   }
+  // })
 
 
   return router;

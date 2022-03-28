@@ -133,7 +133,6 @@ export default function Detail(props) {
       setBooking(response.data);
       // update slots with response.data(booking)
       updateAvailableSlots(response.data);
-      console.log(booking)
     });
 
   }, [service])

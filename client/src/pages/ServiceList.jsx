@@ -25,17 +25,20 @@ import { format } from 'date-fns';
 const theme = createTheme();
 
 export default function ProfileService(props) {
-  console.log('Service List', props);
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
-  const url = 'api/services/';
+  const url = 'api/services/provider/';
+
+
 
   useEffect(() => {
     axios.get(`${url}${userInfo.id}`).then((response) => {
-      setServices(response.data.services);
-      console.log('AAA++++++++++', response.data.services);
+      setServices(response.data);
+      console.log('AAA++++++++++', response.data);
     });
   }, [userInfo.id]);
+
+  console.log(services);
 
   // remove service
 
@@ -43,20 +46,19 @@ export default function ProfileService(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = {
-        // title: title,
-        // description: description,
-        // fee: fee,
-        // category: category,
-        user_id: userInfo.id,
-      };
-      console.log('remove service data', data);
+      // const data = {
+      //   // title: title,
+      //   // description: description,
+      //   // fee: fee,
+      //   // category: category,
+      //   user_id: userInfo.id,
+      // };
+      // console.log('remove service data', data);
 
       const newResponse = await axios({
-        method: 'post',
-        url: `api/services/remove`,
+        method: 'delete',
+        url: `api/services/remove/${services.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: data,
         withCredentials: true,
       });
       console.log('*****', newResponse);

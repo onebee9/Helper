@@ -45,7 +45,7 @@ export default function Profile(props) {
       withCredentials: true,
     })
       .then((response) => {
-        setServiceBookings(response.data.serviceBookings);
+        setServiceBookings(response.data);
         console.log(response.data);
       })
       .catch((error) => {
