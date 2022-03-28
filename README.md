@@ -4,7 +4,7 @@
 
 [<img src='https://img.shields.io/badge/Github-Ibifuro-blue?style=flat-square&logo=github'>](https://github.com/onebee9)
 [<img src='https://img.shields.io/badge/Github-Pouya-blue?style=flat-square&logo=github'>](https://github.com/Paules2021)
-[<img src='https://img.shields.io/badge/Github-Mikiyoshi-Kokura-blue?style=flat-square&logo=github'>](https://github.com/mikiyoshi)
+[<img src='https://img.shields.io/badge/Github-Mikiyoshi-blue?style=flat-square&logo=github'>](https://github.com/mikiyoshi)
 
 ## OVERVIEW
 
