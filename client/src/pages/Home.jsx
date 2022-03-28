@@ -47,10 +47,10 @@ export default function Home() {
         price,
         city,
         keyword,
-        status
+        status,
       };
 
-      console.log('filtered search data ',data);
+      console.log('filtered search data ', data);
 
       let response = await axios({
         method: 'get',
@@ -60,13 +60,12 @@ export default function Home() {
         withCredentials: true,
       });
       setResults(response.data);
-      console.log("Response\n",response.data);
+      console.log('Response\n', response.data);
       return response;
     } catch (error) {
       console.log(error);
     }
   };
-
 
   useEffect(() => {
     axios({
@@ -198,7 +197,7 @@ export default function Home() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -206,7 +205,7 @@ export default function Home() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

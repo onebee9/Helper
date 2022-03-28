@@ -10,9 +10,8 @@ import {
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
-import { format } from 'date-fns';
 
-export default function ProfileService(props) {
+export default function Booked(props) {
   console.log(props);
 
   return (
@@ -44,9 +43,11 @@ export default function ProfileService(props) {
                   {props.data.title}
                 </Typography>
                 <Typography>
-                  Client name: {props.data.client_first_name}
+                  Service offered by {props.data.provider_first_name}
                 </Typography>
-                <Typography>Contact: {props.data.client_email}</Typography>
+                <Typography>
+                  Contact: {props.data.provider_email_address}
+                </Typography>
                 <Typography>
                   <StarIcon />
                   <StarIcon />
@@ -58,8 +59,7 @@ export default function ProfileService(props) {
               </CardContent>
               <CardActions>
                 <Button size="small" variant="contained">
-                  {format(new Date(props.data.start_time), 'ha')} -{' '}
-                  {format(new Date(props.data.end_time), 'ha')}
+                  {props.data.start_time}AM - {props.data.end_time}AM
                 </Button>
               </CardActions>
             </Box>

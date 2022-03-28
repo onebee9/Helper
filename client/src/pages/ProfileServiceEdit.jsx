@@ -8,11 +8,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -25,13 +20,9 @@ import {
   TableFooter,
   Button,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-// import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
-
-// import Modal from '../components/Modal';
-
+import BuyerNav from '../components/Navbar/BuyerNav';
 
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
@@ -45,10 +36,6 @@ function createData(name, data) {
 }
 
 const rows = [
-  createData(
-    'User ID',
-    <TextField required id="userID" name="userID" label="User ID" fullWidth />
-  ),
   createData(
     'Title',
     <TextField required id="title" name="title" label="Title" fullWidth />
@@ -130,6 +117,9 @@ export default function ProfileServiceEdit() {
       console.log(error);
     }
   };
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const subnav = provider === 'yes' ? <ProfileNav userStatus /> : <BuyerNav />;
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -163,7 +153,7 @@ export default function ProfileServiceEdit() {
                   </Typography>
                 </CardContent>
 
-                <ProfileNav />
+                {subnav}
               </Card>
             </Container>
           </Grid>
@@ -174,7 +164,7 @@ export default function ProfileServiceEdit() {
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={2}>Profile</TableCell>
+                      <TableCell colSpan={2}>Edit Service</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -215,7 +205,7 @@ export default function ProfileServiceEdit() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -223,7 +213,7 @@ export default function ProfileServiceEdit() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

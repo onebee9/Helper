@@ -23,9 +23,8 @@ import {
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
+import BuyerNav from '../components/Navbar/BuyerNav';
 
-import { authContext } from './../providers/AuthProvider';
-import { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
@@ -33,85 +32,47 @@ import qs from 'qs';
 const theme = createTheme();
 
 export default function ProfileServiceCreate(props) {
-
-  const userInfo = props.user && props.user
+  const userInfo = props.user && props.user;
   const [userStatus, setUserStatus] = useState({});
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [fee, setFee] = useState("");
-  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [fee, setFee] = useState('');
+  const [category, setCategory] = useState('');
 
-
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
+    try {
       const data = {
-      title: title,
-      description: description,
-      fee: fee,
-      category: category,
-      user_id: userInfo.id,
-    };
-    console.log("new service data", data)
+        title: title,
+        description: description,
+        fee: fee,
+        category: category,
+        user_id: userInfo.id,
+      };
+      console.log('new service data', data);
 
-    const newResponse = await axios({
-      method: 'post',
-      url: `/api/services/new`,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
-      withCredentials: true,
-    })
-    console.log("*****",newResponse)
+      const newResponse = await axios({
+        method: 'post',
+        url: `/api/services/new`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        withCredentials: true,
+      });
+      console.log('*****', newResponse);
 
-    // axios.post("/api/services/new", data)
-    // .then((res)=>{
-    //   console.log("RES", res)
-    // })
-    // .catch((error) => console.log(error))  
-    navigate('/');
-  } catch (error){
-    console.log(error)
-  }
-
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-
-  // const [userStatus, setUserStatus] = useState({});
-  // useEffect(() => {
-  //   const user = localStorage.getItem('usersinfo');
-  //   setUserStatus(JSON.parse(user));
-  // }, []);
-  // const [title, setTitle] = React.useState([]);
-  // const [description, setDescription] = useState('');
-  // const [category, setCategory] = useState('');
-  // const [fee, setFee] = useState('');
-
-  // console.log('++++++++++', title);
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     let data = {
-  //       user_id: userStatus?.data?.id,
-  //       title: title,
-  //       description: description,
-  //       category: category,
-  //       fee: fee,
-  //     };
-  //     let response = await axios({
-  //       method: 'post',
-  //       url: `/api/services/new`,
-  //       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  //       data: data,
-  //       withCredentials: true,
-  //     });
-
-  //     console.log(response.data);
-  //     return response;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const subnav = provider === 'yes' ? <ProfileNav userStatus /> : <BuyerNav />;
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -141,11 +102,11 @@ export default function ProfileServiceCreate(props) {
                   }}
                 >
                   <Typography variant="h5" color="text.secondary">
-                  {userInfo.first_name}  {userInfo.last_name}
+                    {userInfo.first_name} {userInfo.last_name}
                   </Typography>
                 </CardContent>
 
-                <ProfileNav />
+                {subnav}
               </Card>
             </Container>
           </Grid>
@@ -156,7 +117,7 @@ export default function ProfileServiceCreate(props) {
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={2}>Profile</TableCell>
+                      <TableCell colSpan={2}>Add New Service</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -271,7 +232,7 @@ export default function ProfileServiceCreate(props) {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -279,7 +240,7 @@ export default function ProfileServiceCreate(props) {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          We Help You!
         </Typography>
         {/* <Copyright /> */}
       </Box>

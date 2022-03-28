@@ -6,7 +6,7 @@ import SignupClient from './pages/SignupClient';
 import Detail from './pages/Detail';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
-import ProfileService from './pages/ProfileService';
+import ServiceList from './pages/ServiceList';
 import ProfileServiceEdit from './pages/ProfileServiceEdit';
 import ProfileServiceCreate from './pages/ProfileServiceCreate';
 import ProfileServiceBooked from './pages/ProfileServiceBooked';
@@ -19,16 +19,15 @@ function App() {
   const { auth, user, userStatus, login, logout } = useContext(authContext);
 
   const [userObject, setUserObject] = useState({});
-  
+
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
-    if(user){
+    if (user) {
       setUserObject(JSON.parse(user));
     }
   }, []);
 
   const currentUser = userObject.data;
-
 
   return (
     <BrowserRouter>
@@ -71,12 +70,15 @@ function App() {
         />
         <Route path="ProfileEdit" element={<ProfileEdit />} />
         <Route
-          path="ProfileService"
-          element={<ProfileService user={currentUser} />}
+          path="ServiceList"
+          element={<ServiceList user={currentUser} />}
         />
         <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
 
-        <Route path="ProfileServiceCreate" element={<ProfileServiceCreate user={currentUser} />} />
+        <Route
+          path="ProfileServiceCreate"
+          element={<ProfileServiceCreate user={currentUser} />}
+        />
         <Route
           path="ProfileServiceBooked"
           element={<ProfileServiceBooked user={currentUser} />}

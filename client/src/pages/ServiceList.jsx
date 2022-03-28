@@ -8,43 +8,64 @@ import {
   Container,
   Avatar,
   Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Grid,
   Button,
   CardActions,
 } from '@mui/material';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 // import { convertLength } from '@mui/material/styles/cssUtils';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import ProfileNav from '../components/Navbar/ProfileNav';
-import BuyerNav from '../components/Navbar/BuyerNav';
+import { format } from 'date-fns';
 
 const theme = createTheme();
 
-export default function ProfileServiceBooked(props) {
+export default function ProfileService(props) {
+  console.log('Service List', props);
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
-  const params = useParams();
-  const url = 'api/bookings/provider/';
+  const url = 'api/services/';
 
   useEffect(() => {
-    axios.get(`${url}${params.id}`).then((response) => {
+    axios.get(`${url}${userInfo.id}`).then((response) => {
       setServices(response.data.services);
-      console.log('service provider booking data', response.data.services);
+      console.log('AAA++++++++++', response.data.services);
     });
-  }, []);
+  }, [userInfo.id]);
 
-  const [userStatus, setUserStatus] = useState({});
-  const provider =
-    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  const subnav = provider === 'yes' ? <ProfileNav userStatus /> : <BuyerNav />;
+  // remove service
+
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const data = {
+        // title: title,
+        // description: description,
+        // fee: fee,
+        // category: category,
+        user_id: userInfo.id,
+      };
+      console.log('remove service data', data);
+
+      const newResponse = await axios({
+        method: 'post',
+        url: `api/services/remove`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: data,
+        withCredentials: true,
+      });
+      console.log('*****', newResponse);
+
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -78,7 +99,7 @@ export default function ProfileServiceBooked(props) {
                   </Typography>
                 </CardContent>
 
-                {subnav}
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>
@@ -128,11 +149,14 @@ export default function ProfileServiceBooked(props) {
 
                       <CardActions>
                         <Button size="small" variant="contained">
-                          12:00
+                          1PM - 2PM
+                          {/* {format(new Date(s.start_time), 'ha')} -{' '}
+                          {format(new Date(s.end_time), 'ha')} */}
                         </Button>
-
                         <Button size="small" variant="contained">
-                          Booking
+                          1PM - 2PM
+                          {/* {format(new Date(s.start_time), 'ha')} -{' '}
+                          {format(new Date(s.end_time), 'ha')} */}
                         </Button>
                       </CardActions>
 
@@ -144,7 +168,12 @@ export default function ProfileServiceBooked(props) {
                           alignItems="center"
                         >
                           <Grid item xs={6}>
-                            <Link to="Edit" style={{ textDecoration: 'none' }}>
+                            <Link
+                              to={`/ProfileServiceEdit/${s.id}`}
+                              serviceid={s.id}
+                              component={RouterLink}
+                              style={{ textDecoration: 'none' }}
+                            >
                               <Button variant="contained" sx={{ width: 1 }}>
                                 Edit
                               </Button>
@@ -152,7 +181,7 @@ export default function ProfileServiceBooked(props) {
                           </Grid>
                           <Grid justifyContent="end" item xs={6}>
                             <Link
-                              to="Delete"
+                              onClick={handleSubmit}
                               style={{ textDecoration: 'none' }}
                             >
                               <Button

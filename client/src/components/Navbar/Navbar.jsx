@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
-import { useContext } from 'react';
-import { authContext } from './../../providers/AuthProvider';
 
+// import { useState, useEffect } from 'react';
 function Navbar(props) {
   const userinfo = localStorage.getItem('usersinfo');
-
+  console.log('header nav', userinfo);
   return (
     <React.Fragment>
       {!userinfo && (
@@ -19,10 +18,11 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link 
-            to="/" 
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
@@ -60,12 +60,14 @@ function Navbar(props) {
             color="inherit"
             noWrap
             sx={{ flex: 1 }}
-          ><Link 
-          to="/" 
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}>
-            Helper
-          </Link>
+          >
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
+              Helper
+            </Link>
           </Typography>
 
           <Link
@@ -74,46 +76,6 @@ function Navbar(props) {
             style={{ textDecoration: 'none' }}
           >
             <Button size="small">Profile</Button>
-          </Link>
-
-          <Link
-            to="/ProfileEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Edit</Button>
-          </Link>
-
-          <Link
-            to="/ProfileService"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service Edit</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceCreate"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">New Service</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceBooked"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Service Booked</Button>
           </Link>
 
           <Link
