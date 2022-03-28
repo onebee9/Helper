@@ -66,6 +66,53 @@ export default function ProfileService(props) {
       console.log(error);
     }
   };
+  // category image
+
+  const [pic, setPic] = React.useState([
+    {
+      category: 'Carpentry',
+      url: '/images/carpentry.jpg',
+    },
+    {
+      category: 'Plumbing',
+      url: '/images/plumbing.jpg',
+    },
+    {
+      category: 'Education',
+      url: '/images/education.jpg',
+    },
+    {
+      category: 'Cleaning',
+      url: '/images/cleaning.jpg',
+    },
+    {
+      category: 'Gardening',
+      url: '/images/gardening.jpg',
+    },
+    {
+      category: 'Construction',
+      url: '/images/construction.jpg',
+    },
+    {
+      category: 'Translation',
+      url: '/images/translation.jpg',
+    },
+  ]);
+  // const categoryimg = pic.map((pic) => {
+  //   return pic.category === props.data.category ? (
+  //     <Box
+  //       component="img"
+  //       sx={{
+  //         height: 1,
+  //         width: 1 / 4,
+  //       }}
+  //       alt={pic.category}
+  //       src={pic.url}
+  //     />
+  //   ) : (
+  //     ''
+  //   );
+  // });
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -125,7 +172,7 @@ export default function ProfileService(props) {
                         width: 1 / 4,
                       }}
                       alt="The house from the offer."
-                      src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                      src="/images/carpentry.jpg"
                     />
                     <Box sx={{ width: 3 / 4 }}>
                       <CardContent sx={{ flexGrow: 1 }}>
