@@ -2,13 +2,22 @@ import * as React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
+import { useState, useEffect } from 'react';
 // import { useContext } from 'react';
 // import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const userinfo = localStorage.getItem('usersinfo');
-  // const { auth } = React.useContext(authContext);
-  console.log('++++++++++++', userinfo);
+  // const userinfo = localStorage.getItem('usersinfo');
+  // // const { auth } = React.useContext(authContext);
+  // console.log('++++++++++++', userinfo);
+
+  const [userStatus, setUserStatus] = useState({});
+
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
+  console.log('header', userStatus.data);
 
   const logout = () => {
     localStorage.removeItem('usersinfo');
@@ -16,7 +25,7 @@ function Navbar(props) {
 
   return (
     <React.Fragment>
-      {!userinfo && (
+      {!userStatus.data && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -59,7 +68,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {userinfo && (
+      {userStatus.data && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -95,8 +104,8 @@ function Navbar(props) {
           </Link>
 
           <Avatar
-            alt={`${userinfo.first_name} ${userinfo.last_name}`}
-            src={`/images/phototest${userinfo.id}.jpg`}
+            alt={`${userStatus.data.first_name} ${userStatus.data.last_name}`}
+            src={`/images/phototest${userStatus.data.id}.jpg`}
           />
         </Toolbar>
       )}
