@@ -137,7 +137,7 @@ export default function ProfileService(props) {
                         color="error"
                         sx={{ width: 1 }}
                       >
-                        Delete
+                        Cancel
                       </Button>
                     </Link>
                   </Grid>
