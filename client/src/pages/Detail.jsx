@@ -372,11 +372,11 @@ export default function Detail(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'Thank you for your booking!'}
+          {service ? `Please confirm`: ""}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Thank you for your booking!
+            {service ? `You're booking ${service.title}, at $${service.fee}/hr`: ""}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -384,7 +384,7 @@ export default function Detail(props) {
               Cancel
             </Button>
             <Button variant="contained" onClick={submitBooking}>
-              Book
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

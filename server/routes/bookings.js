@@ -55,6 +55,8 @@ module.exports = (db) => {
       .catch((error) => console.log(error));
   });
 
+  //retrive service booking
+  
   router.get('/provider/:id', (req, res) => {
     const serviceID = req.params.id;
 
@@ -82,7 +84,7 @@ module.exports = (db) => {
       });
   });
 
-  //retrieve service booking
+  //retrieve client bookings
   router.get('/:id', (req, res) => {
     const userID = req.params.id;
 
