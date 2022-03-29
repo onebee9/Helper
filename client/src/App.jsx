@@ -25,7 +25,7 @@ function App() {
     if (user) {
       setUserObject(JSON.parse(user));
     }
-  }, []);
+  }, [user]);
 
   const currentUser = userObject.data;
 

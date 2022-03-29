@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
+const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
 
 // PG database client/connection setup
 const { Pool } = require('pg');

@@ -20,7 +20,6 @@ import { format } from 'date-fns';
 const theme = createTheme();
 
 export default function ProfileService(props) {
-  console.log(props);
 
   return (
     <Grid item sx={{ width: 1 }}>
