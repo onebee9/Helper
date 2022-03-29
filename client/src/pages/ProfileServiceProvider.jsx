@@ -64,6 +64,18 @@ export default function ProfileService(props) {
       category: 'Translation',
       url: '/images/translation.jpg',
     },
+    {
+      category: 'Delivery',
+      url: '/images/delivery.jpg',
+    },
+    {
+      category: 'Babysitter',
+      url: '/images/babysitter.jpg',
+    },
+    {
+      category: 'Repair',
+      url: '/images/repair.jpg',
+    },
   ]);
   const categoryimg = pic.map((pic) => {
     return pic.category === props.data.category ? (

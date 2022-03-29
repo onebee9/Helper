@@ -95,6 +95,18 @@ export default function ProfileService(props) {
       category: 'Translation',
       url: '/images/translation.jpg',
     },
+    {
+      category: 'Delivery',
+      url: '/images/delivery.jpg',
+    },
+    {
+      category: 'Babysitter',
+      url: '/images/babysitter.jpg',
+    },
+    {
+      category: 'Repair',
+      url: '/images/repair.jpg',
+    },
   ];
   return (
     <ThemeProvider theme={theme}>
