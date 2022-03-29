@@ -30,7 +30,18 @@ function Navbar(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Client Booking List" />
+              <ListItemText primary="My Job" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link
+          to="/ServiceBuyerBooking"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="My Booking" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -53,17 +64,6 @@ function Navbar(props) {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemText primary="Service List" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link
-          to="/ProfileServiceEdit"
-          component={RouterLink}
-          style={{ textDecoration: 'none' }}
-        >
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="Service Edit" />
             </ListItemButton>
           </ListItem>
         </Link>

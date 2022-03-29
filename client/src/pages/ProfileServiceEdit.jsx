@@ -70,7 +70,8 @@ const rows = [
   ),
 ];
 
-export default function ProfileServiceEdit() {
+export default function ProfileServiceEdit(props) {
+  console.log('++++++++++++++++++', props);
   const [userStatus, setUserStatus] = useState({});
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
@@ -100,7 +101,7 @@ export default function ProfileServiceEdit() {
 
       let response = await axios({
         method: 'post',
-        url: `/api/services/new`,
+        url: `/api/services/update/`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         withCredentials: true,
@@ -226,7 +227,7 @@ export default function ProfileServiceEdit() {
                           variant="contained"
                           sx={{ mt: 3, mb: 2 }}
                         >
-                          Creat New Service
+                          Update Service
                         </Button>
                       </TableCell>
                     </TableRow>
