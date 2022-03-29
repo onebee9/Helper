@@ -8,15 +8,15 @@ import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 function Navbar(props) {
   const userinfo = localStorage.getItem('usersinfo');
   // const { auth } = React.useContext(authContext);
+  console.log('++++++++++++', userinfo);
 
   const logout = () => {
     localStorage.removeItem('usersinfo');
-}
-
+  };
 
   return (
     <React.Fragment>
-      {!userinfo  && (
+      {!userinfo && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -89,14 +89,14 @@ function Navbar(props) {
             to="/Login"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
-             onClick={logout}
+            onClick={logout}
           >
             <Button size="small">Logout</Button>
           </Link>
 
           <Avatar
-            alt="Remy Sharp"
-            src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+            alt={`${userinfo.first_name} ${userinfo.last_name}`}
+            src={`/images/phototest${userinfo.id}.jpg`}
           />
         </Toolbar>
       )}

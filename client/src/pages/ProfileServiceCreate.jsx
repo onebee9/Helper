@@ -94,8 +94,8 @@ export default function ProfileServiceCreate(props) {
                   }}
                 >
                   <Avatar
-                    alt="Remy Sharp"
-                    src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+                    alt={`${userStatus?.data?.first_name} ${userStatus?.data?.last_name}`}
+                    src={`/images/phototest${userStatus?.data?.id}.jpg`}
                     sx={{ width: 1 / 2, height: 1 / 2 }}
                   />
                 </Box>
