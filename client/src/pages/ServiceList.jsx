@@ -203,19 +203,6 @@ export default function ProfileService(props) {
                           </CardContent>
 
                           <CardActions>
-                            <Button size="small" variant="contained">
-                              1PM - 2PM
-                              {/* {format(new Date(s.start_time), 'ha')} -{' '}
-                          {format(new Date(s.end_time), 'ha')} */}
-                            </Button>
-                            <Button size="small" variant="contained">
-                              1PM - 2PM
-                              {/* {format(new Date(s.start_time), 'ha')} -{' '}
-                          {format(new Date(s.end_time), 'ha')} */}
-                            </Button>
-                          </CardActions>
-
-                          <CardActions>
                             <Grid
                               container
                               spacing={1}
