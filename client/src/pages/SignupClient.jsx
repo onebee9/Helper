@@ -172,14 +172,6 @@ export default function SignupClient() {
                   onChange={(event) => setAddress(event.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="Service Provider"
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"

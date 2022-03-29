@@ -171,7 +171,7 @@ export default function Home() {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} dir="rtl">
                   <Button onClick={submitSearch} variant="contained">
                     Search
                   </Button>

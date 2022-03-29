@@ -31,20 +31,56 @@ export default function Service(props) {
     first_name,
     id,
     title,
-    user_id
+    user_id,
   } = props.data;
 
+  // category image
 
-
-
-  return (
-    <>
+  const [pic, setPic] = React.useState([
+    {
+      category: 'Carpentry',
+      url: '/images/carpentry.jpg',
+    },
+    {
+      category: 'Plumbing',
+      url: '/images/plumbing.jpg',
+    },
+    {
+      category: 'Education',
+      url: '/images/education.jpg',
+    },
+    {
+      category: 'Cleaning',
+      url: '/images/cleaning.jpg',
+    },
+    {
+      category: 'Gardening',
+      url: '/images/gardening.jpg',
+    },
+    {
+      category: 'Construction',
+      url: '/images/construction.jpg',
+    },
+    {
+      category: 'Translation',
+      url: '/images/translation.jpg',
+    },
+  ]);
+  const categoryimg = pic.map((pic) => {
+    return pic.category === category ? (
       <CardMedia
         component="img"
         sx={{ width: 1 }}
-        image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
-        alt="random"
+        image={pic.url}
+        alt={pic.category}
       />
+    ) : (
+      ''
+    );
+  });
+  return (
+    <>
+      {categoryimg}
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="h2">
           {category}
@@ -63,11 +99,11 @@ export default function Service(props) {
       </CardContent>
       <CardActions>
         {/* <Link style={{ textDecoration: 'none' }}> */}
-          <NavLink to={`/Detail/${id}`}>
-            <Button size="small" variant="contained">
-              Book
-            </Button>
-          </NavLink>
+        <NavLink to={`/Detail/${id}`}>
+          <Button size="small" variant="contained">
+            Book
+          </Button>
+        </NavLink>
 
         {/* </Link> */}
       </CardActions>

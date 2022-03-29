@@ -19,6 +19,10 @@ import {
   TextField,
   TableFooter,
   Button,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
@@ -28,7 +32,7 @@ import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const theme = createTheme();
 
 function createData(name, data) {
@@ -167,19 +171,51 @@ export default function ProfileServiceEdit() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.data}</TableCell>
-                      </TableRow>
-                    ))}
+                    {rows.map((row) => {
+                      const select_category = (
+                        <FormControl sx={{ width: 1 }}>
+                          <InputLabel id="category">Category</InputLabel>
+                          <Select
+                            labelId="category"
+                            id="category"
+                            value={category}
+                            label="Category"
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
+                          >
+                            <MenuItem value="">All Categories</MenuItem>
+                            <MenuItem value="Repair">Repair</MenuItem>
+                            <MenuItem value="Babysitter">Babysitter</MenuItem>
+                            <MenuItem value="Delivery">Delivery</MenuItem>
+                            <MenuItem value="Carpentry">Carpentry</MenuItem>
+                            <MenuItem value="Plumbing">Plumbing</MenuItem>
+                            <MenuItem value="Construction">
+                              Construction
+                            </MenuItem>
+                            <MenuItem value="Gardening">Gardening</MenuItem>
+                          </Select>
+                        </FormControl>
+                      );
+                      console.log('ttttttt', row.name);
+                      return (
+                        <TableRow
+                          key={row.name}
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell>
+                            {row.name === 'Category'
+                              ? select_category
+                              : row.data}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                   <TableFooter>
                     <TableRow>

@@ -49,7 +49,7 @@ export default function Login() {
         withCredentials: true,
       });
       setStatus(response.data);
-      
+
       //store login info in storage
       localStorage.setItem('usersinfo', JSON.stringify(response.data));
 
@@ -147,28 +147,8 @@ export default function Login() {
             >
               Login
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link
-                  to="/SignupService"
-                  component={RouterLink}
-                  variant="body2"
-                >
-                  Don't have an account? Signup Service
-                </Link>
-                <Link to="/SignupClient" component={RouterLink} variant="body2">
-                  Signup Client
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

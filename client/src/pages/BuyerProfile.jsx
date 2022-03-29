@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
-import ProfileService from './ProfileService';
 
 import {
   Card,
@@ -20,14 +19,12 @@ import {
   Grid,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
 import BuyerNav from '../components/Navbar/BuyerNav';
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
-  const [clientBookings, setClientBookings] = useState([]);
 
   useEffect(() => {
     //retrive data from storage
@@ -35,21 +32,6 @@ export default function Profile(props) {
     const user = JSON.parse(userinfo);
 
     setUserStatus(user);
-
-    //fetch bookings
-    const userID = user.data.id;
-    axios({
-      method: 'get',
-      url: `/api/bookings/${userID}`,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      withCredentials: true,
-    })
-      .then((response) => {
-        setClientBookings(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, []);
 
   //show date in properformat
@@ -159,10 +141,6 @@ export default function Profile(props) {
                 </TableContainer>
               </Container>
             </Grid>
-            {/* End hero unit */}
-            {clientBookings.map((booking) => (
-              <ProfileService key={booking.booking_id} data={booking} />
-            ))}
           </Grid>
         </Grid>
       </main>

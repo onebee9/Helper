@@ -24,6 +24,17 @@ function BuyerNav(props) {
           </ListItem>
         </Link>
         <Link
+          to="/BuyerBooking"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="My Booking List" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link
           to="/ProfileEdit"
           component={RouterLink}
           style={{ textDecoration: 'none' }}

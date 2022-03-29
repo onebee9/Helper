@@ -36,23 +36,59 @@ export default function Detail(props) {
   const [open, setOpen] = React.useState(false);
   const today = new Date();
   const [slot, setSlot] = React.useState([
-    { start: setHours(today, 9).toISOString(), end: setHours(today, 10).toISOString(), booked: false }, // booked is button disabled
-    { start: setHours(today, 10).toISOString(), end: setHours(today, 11).toISOString(), booked: false },
-    { start: setHours(today, 11).toISOString(), end: setHours(today, 12).toISOString(), booked: false },
-    { start: setHours(today, 12).toISOString(), end: setHours(today, 13).toISOString(), booked: false },
-    { start: setHours(today, 13).toISOString(), end: setHours(today, 14).toISOString(), booked: false },
-    { start: setHours(today, 14).toISOString(), end: setHours(today, 15).toISOString(), booked: false },
-    { start: setHours(today, 15).toISOString(), end: setHours(today, 16).toISOString(), booked: false },
-    { start: setHours(today, 16).toISOString(), end: setHours(today, 17).toISOString(), booked: false },
-    { start: setHours(today, 17).toISOString(), end: setHours(today, 18).toISOString(), booked: false },
+    {
+      start: setHours(today, 9).toISOString(),
+      end: setHours(today, 10).toISOString(),
+      booked: false,
+    }, // booked is button disabled
+    {
+      start: setHours(today, 10).toISOString(),
+      end: setHours(today, 11).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 11).toISOString(),
+      end: setHours(today, 12).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 12).toISOString(),
+      end: setHours(today, 13).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 13).toISOString(),
+      end: setHours(today, 14).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 14).toISOString(),
+      end: setHours(today, 15).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 15).toISOString(),
+      end: setHours(today, 16).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 16).toISOString(),
+      end: setHours(today, 17).toISOString(),
+      booked: false,
+    },
+    {
+      start: setHours(today, 17).toISOString(),
+      end: setHours(today, 18).toISOString(),
+      booked: false,
+    },
   ]);
   const [index, setIndex] = React.useState(null);
 
   //service provider ID
-  const serviceProviderId = props.serviceid ;
+  const serviceProviderId = props.serviceid;
   // console.log(serviceProviderId);
 
-  console.log('service data new', service)
+  console.log('service data new', service);
 
   //get the service data id to identify service
   const params = useParams();
@@ -63,13 +99,9 @@ export default function Detail(props) {
   const formattedUser = JSON.parse(user);
   const id = formattedUser.data.id;
 
-  const findMatchingBooking = (slot) => {
-    
-  }
+  const findMatchingBooking = (slot) => {};
 
   const updateAvailableSlots = (bookings) => {
-
-
     // const updated = slots.map((slot) => {
     //   const foundOne = bookings.filter((booking) => {
     //     const isTod = isToday(new Date(), booking.start_time);
@@ -81,28 +113,27 @@ export default function Detail(props) {
     //   return {...slot, booked: foundOne.length != 0 }
     // });
 
-
     const updatedSlots = [];
-    for(let i=0; i < slot.length; i++) {
+    for (let i = 0; i < slot.length; i++) {
       let foundOne = false;
-      const currentSlot = slot[i]
-      for(let j=0; j < bookings.length; j++) {
-        const booking = bookings[j]
+      const currentSlot = slot[i];
+      for (let j = 0; j < bookings.length; j++) {
+        const booking = bookings[j];
         const isTod = isToday(new Date(), booking.start_time);
         const bookingHour = getHours(new Date(booking.start_time));
         const slotHour = getHours(new Date(currentSlot.start));
 
         foundOne = bookingHour === slotHour && isTod;
         if (foundOne) {
-          console.log(foundOne, 'found a booked date', booking.start_time)
+          console.log(foundOne, 'found a booked date', booking.start_time);
           break;
         }
       }
-      updatedSlots.push({...currentSlot, booked: foundOne })
+      updatedSlots.push({ ...currentSlot, booked: foundOne });
     }
 
     setSlot(updatedSlots);
-  }
+  };
 
   useEffect(() => {
     // get service data to append to booking
@@ -112,11 +143,8 @@ export default function Detail(props) {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
-
       setService(response.data);
     });
-
-    
   }, [params.id]);
 
   React.useEffect(() => {
@@ -134,10 +162,7 @@ export default function Detail(props) {
       // update slots with response.data(booking)
       updateAvailableSlots(response.data);
     });
-
-  }, [service])
-
-
+  }, [service]);
 
   //create booking
   const submitBooking = async (event) => {
@@ -186,7 +211,7 @@ export default function Detail(props) {
     }
   };
   // Modal
-  
+
   // this is a {buttons} control
   const buttons = slot.map((slot, index) => {
     return (
@@ -199,7 +224,7 @@ export default function Detail(props) {
             disabled={slot.booked}
             onClick={(event) => {
               handleClickOpen(index);
-              console.log('start', slot.start, 'end', slot.end)
+              console.log('start', slot.start, 'end', slot.end);
               setTime([slot.start, slot.end]);
             }}
           >
@@ -223,6 +248,50 @@ export default function Detail(props) {
     setOpen(false);
   };
 
+  // category image
+
+  const [pic, setPic] = React.useState([
+    {
+      category: 'Carpentry',
+      url: '/images/carpentry.jpg',
+    },
+    {
+      category: 'Plumbing',
+      url: '/images/plumbing.jpg',
+    },
+    {
+      category: 'Education',
+      url: '/images/education.jpg',
+    },
+    {
+      category: 'Cleaning',
+      url: '/images/cleaning.jpg',
+    },
+    {
+      category: 'Gardening',
+      url: '/images/gardening.jpg',
+    },
+    {
+      category: 'Construction',
+      url: '/images/construction.jpg',
+    },
+    {
+      category: 'Translation',
+      url: '/images/translation.jpg',
+    },
+  ]);
+  const categoryimg = pic.map((pic) => {
+    return service && pic.category === service.category ? (
+      <CardMedia
+        component="img"
+        sx={{ width: 1 }}
+        image={pic.url}
+        alt={pic.category}
+      />
+    ) : (
+      ''
+    );
+  });
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -237,12 +306,7 @@ export default function Detail(props) {
                   flexDirection: 'column',
                 }}
               >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 1 }}
-                  image="https://demo.themesberg.com/bootstrap/spaces/assets/img/image-office.jpg"
-                  alt="random"
-                />
+                {categoryimg}
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {service ? service.category : ''}

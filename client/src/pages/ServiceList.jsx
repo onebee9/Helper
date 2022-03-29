@@ -28,8 +28,7 @@ export default function ProfileService(props) {
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
   const url = 'api/services/provider/';
-
-
+  // console.log('+++++++++++++++UUU', services);
 
   useEffect(() => {
     axios.get(`${url}${userInfo.id}`).then((response) => {
@@ -37,8 +36,6 @@ export default function ProfileService(props) {
       console.log('AAA++++++++++', response.data);
     });
   }, [userInfo.id]);
-
-  console.log(services);
 
   // remove service
 
@@ -68,6 +65,37 @@ export default function ProfileService(props) {
       console.log(error);
     }
   };
+  // category image it's not same as Home / Detail / Booking
+  const pics = [
+    {
+      category: 'Carpentry',
+      url: '/images/carpentry.jpg',
+    },
+    {
+      category: 'Plumbing',
+      url: '/images/plumbing.jpg',
+    },
+    {
+      category: 'Education',
+      url: '/images/education.jpg',
+    },
+    {
+      category: 'Cleaning',
+      url: '/images/cleaning.jpg',
+    },
+    {
+      category: 'Gardening',
+      url: '/images/gardening.jpg',
+    },
+    {
+      category: 'Construction',
+      url: '/images/construction.jpg',
+    },
+    {
+      category: 'Translation',
+      url: '/images/translation.jpg',
+    },
+  ];
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -108,100 +136,115 @@ export default function ProfileService(props) {
 
           <Grid item xs={8}>
             {services.map((s) => {
-              return (
-                <Container maxWidth="sm">
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: { xs: 'column', md: 'row' },
-                      bgcolor: 'background.paper',
-                      overflow: 'hidden',
-                      boxShadow: 1,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      sx={{
-                        height: 1,
-                        width: 1 / 4,
-                      }}
-                      alt="The house from the offer."
-                      src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                    />
-                    <Box sx={{ width: 3 / 4 }}>
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          Category : {s.category}
-                        </Typography>
-                        <Typography>
-                          <StarIcon />
-                          <StarIcon />
-                          <StarIcon />
-                          <StarIcon />
-                          <StarTwoToneIcon />
-                        </Typography>
-                        <Typography gutterBottom variant="h6" component="h4">
-                          Title : {s.title}
-                        </Typography>
-                        <Typography>Fee : {s.fee}</Typography>
-                        <br />
-                        <Typography>Description: {s.description}</Typography>
-                      </CardContent>
-
-                      <CardActions>
-                        <Button size="small" variant="contained">
-                          1PM - 2PM
-                          {/* {format(new Date(s.start_time), 'ha')} -{' '}
-                          {format(new Date(s.end_time), 'ha')} */}
-                        </Button>
-                        <Button size="small" variant="contained">
-                          1PM - 2PM
-                          {/* {format(new Date(s.start_time), 'ha')} -{' '}
-                          {format(new Date(s.end_time), 'ha')} */}
-                        </Button>
-                      </CardActions>
-
-                      <CardActions>
-                        <Grid
-                          container
-                          spacing={1}
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          <Grid item xs={6}>
-                            <Link
-                              to={`/ProfileServiceEdit/${s.id}`}
-                              serviceid={s.id}
-                              component={RouterLink}
-                              style={{ textDecoration: 'none' }}
+              // add category pic
+              for (const pic of pics) {
+                if (pic.category === s.category) {
+                  return (
+                    <Container maxWidth="sm">
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: { xs: 'column', md: 'row' },
+                          bgcolor: 'background.paper',
+                          overflow: 'hidden',
+                          boxShadow: 1,
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        <Box
+                          component="img"
+                          sx={{
+                            height: 1,
+                            width: 1 / 4,
+                          }}
+                          alt="The house from the offer."
+                          src={pic.url}
+                        />
+                        <Box sx={{ width: 3 / 4 }}>
+                          <CardContent sx={{ flexGrow: 1 }}>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
                             >
-                              <Button variant="contained" sx={{ width: 1 }}>
-                                Edit
-                              </Button>
-                            </Link>
-                          </Grid>
-                          <Grid justifyContent="end" item xs={6}>
-                            <Link
-                              onClick={handleSubmit}
-                              style={{ textDecoration: 'none' }}
+                              Category : {s.category}
+                            </Typography>
+                            <Typography>
+                              <StarIcon />
+                              <StarIcon />
+                              <StarIcon />
+                              <StarIcon />
+                              <StarTwoToneIcon />
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h4"
                             >
-                              <Button
-                                variant="contained"
-                                color="error"
-                                sx={{ width: 1 }}
-                              >
-                                Delete
-                              </Button>
-                            </Link>
-                          </Grid>
-                        </Grid>
-                      </CardActions>
-                    </Box>
-                  </Box>
-                  <br />
-                </Container>
-              );
+                              Title : {s.title}
+                            </Typography>
+                            <Typography>Fee : {s.fee}</Typography>
+                            <br />
+                            <Typography>
+                              Description: {s.description}
+                            </Typography>
+                          </CardContent>
+
+                          <CardActions>
+                            <Button size="small" variant="contained">
+                              1PM - 2PM
+                              {/* {format(new Date(s.start_time), 'ha')} -{' '}
+                          {format(new Date(s.end_time), 'ha')} */}
+                            </Button>
+                            <Button size="small" variant="contained">
+                              1PM - 2PM
+                              {/* {format(new Date(s.start_time), 'ha')} -{' '}
+                          {format(new Date(s.end_time), 'ha')} */}
+                            </Button>
+                          </CardActions>
+
+                          <CardActions>
+                            <Grid
+                              container
+                              spacing={1}
+                              justifyContent="center"
+                              alignItems="center"
+                            >
+                              <Grid item xs={6}>
+                                <Link
+                                  to={`/ProfileServiceEdit/${s.id}`}
+                                  serviceid={s.id}
+                                  component={RouterLink}
+                                  style={{ textDecoration: 'none' }}
+                                >
+                                  <Button variant="contained" sx={{ width: 1 }}>
+                                    Edit
+                                  </Button>
+                                </Link>
+                              </Grid>
+                              <Grid justifyContent="end" item xs={6}>
+                                <Link
+                                  onClick={handleSubmit}
+                                  style={{ textDecoration: 'none' }}
+                                >
+                                  <Button
+                                    variant="contained"
+                                    color="error"
+                                    sx={{ width: 1 }}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Link>
+                              </Grid>
+                            </Grid>
+                          </CardActions>
+                        </Box>
+                      </Box>
+                      <br />
+                    </Container>
+                  );
+                }
+              }
             })}
           </Grid>
         </Grid>

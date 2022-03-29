@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import {
   Card,
@@ -19,12 +20,14 @@ import {
   Grid,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileServiceProvider from './ProfileServiceProvider';
 import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
-export default function Profile(props) {
+export default function ServiceBooking(props) {
   const [userStatus, setUserStatus] = useState({});
+  const [serviceBookings, setServiceBookings] = useState([]);
 
   useEffect(() => {
     //retrive data from storage
@@ -32,6 +35,22 @@ export default function Profile(props) {
     const user = JSON.parse(userinfo);
 
     setUserStatus(user);
+
+    //fetch bookings
+    const userID = user.data.id;
+    axios({
+      method: 'get',
+      url: `/api/bookings/provider/${userID}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setServiceBookings(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   //show date in properformat
@@ -80,67 +99,9 @@ export default function Profile(props) {
           </Grid>
 
           <Grid container xs={8} spacing={2}>
-            <Grid item sx={{ width: 1 }}>
-              <Container maxWidth="sm">
-                <TableContainer component={Paper}>
-                  <Table sx={{ width: 1 }}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center" colSpan={2}>
-                          Profile
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          Name
-                        </TableCell>
-                        <TableCell>
-                          {userStatus?.data?.first_name}{' '}
-                          {userStatus?.data?.last_name}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          Email
-                        </TableCell>
-                        <TableCell>{userStatus?.data?.email}</TableCell>
-                      </TableRow>
-                      <TableRow
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {' '}
-                          Member from
-                        </TableCell>
-                        <TableCell>{yearFinal} </TableCell>
-                      </TableRow>
-                      <TableRow
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          Service Provider
-                        </TableCell>
-                        <TableCell>{provider} </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Container>
-            </Grid>
+            {serviceBookings.map((booking) => (
+              <ProfileServiceProvider key={booking.booking_id} data={booking} />
+            ))}
           </Grid>
         </Grid>
       </main>
