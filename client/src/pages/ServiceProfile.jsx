@@ -41,7 +41,7 @@ export default function Profile(props) {
 
   const provider =
     userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-
+  console.log('user+++++++++++++++', userStatus);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
