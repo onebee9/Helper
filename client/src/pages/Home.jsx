@@ -3,9 +3,6 @@ import Navbar from '../components/Navbar/Navbar';
 import {
   Button,
   Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   Grid,
   Box,
   Typography,
@@ -21,10 +18,10 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import StripeContainer from '../components/Stripe/StripeContainer';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
-import qs from 'qs';
 
 const theme = createTheme();
 
@@ -38,6 +35,7 @@ export default function Home() {
   const [value, setValue] = React.useState(new Date());
 
   const submitSearch = async (event) => {
+   
     const status = 'accepted';
     event.preventDefault();
     try {
@@ -202,6 +200,7 @@ export default function Home() {
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Helper
+        
         </Typography>
         <Typography
           variant="subtitle1"

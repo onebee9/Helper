@@ -226,7 +226,7 @@ export default function ProfileServiceEdit() {
                           variant="contained"
                           sx={{ mt: 3, mb: 2 }}
                         >
-                          Creat New Service
+                          Edit Service
                         </Button>
                       </TableCell>
                     </TableRow>

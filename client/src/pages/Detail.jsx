@@ -25,6 +25,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { useParams } from 'react-router-dom';
 import { format, getHours, isToday, setHours } from 'date-fns';
+import PaymentForm from '../components/Stripe/PaymentForm';
 
 const theme = createTheme();
 
@@ -88,8 +89,6 @@ export default function Detail(props) {
   const serviceProviderId = props.serviceid;
   // console.log(serviceProviderId);
 
-  console.log('service data new', service);
-
   //get the service data id to identify service
   const params = useParams();
   const bookingStatus = 'accepted';
@@ -99,7 +98,6 @@ export default function Detail(props) {
   const formattedUser = JSON.parse(user);
   const id = formattedUser.data.id;
 
-  const findMatchingBooking = (slot) => {};
 
   const updateAvailableSlots = (bookings) => {
     // const updated = slots.map((slot) => {
@@ -220,6 +218,7 @@ export default function Detail(props) {
           <Button
             variant="contained"
             sx={{ width: 1 }}
+            key ={index}
             value={[slot.start, slot.end]}
             disabled={slot.booked}
             onClick={(event) => {

@@ -188,7 +188,7 @@ module.exports = (db) => {
   //Delete a service
   router.delete('/remove/:id', (req, res) => {
     const serviceId = Number(req.params.id);
-    const queryString = `DELETE FROM services WHERE services_id = $1;`;
+    const queryString = `DELETE FROM services WHERE id = $1;`;
 
     db.query(queryString, [serviceId])
       .then((data) => {
@@ -237,31 +237,25 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-  //stripe implementation
-  router.post("/payment", async (req, res) => {
-    let { amount, id } = req.body
-    try {
-      const payment = await stripe.paymentIntents.create({
-        amount,
-        currency: "USD",
-        description: "Services company",
-        payment_method: id,
-        confirm: true
-      })
-      console.log("Payment", payment)
-      res.json({
-        message: "Payment successful",
-        success: true
-      })
-    } catch (error) {
-      console.log("Error", error)
-      res.json({
-        message: "Payment failed",
-        success: false
-      })
-    }
-  })
+ 
+  // router.post('/payment', async (req, res) => {
+  //   const session = await stripe.checkout.sessions.create({
+  //     line_items: [
+  //       {
+  //         price_data: {
+  //           currency: 'usd',
+  //           product_data: {
+  //             name: 'T-shirt',
+  //           },
+  //           unit_amount: 2000,
+  //         },
+  //         quantity: 1,
+  //       },
+  //     ],
+  //     mode: 'payment',
+  //     success_url: 'http://localhost:8000/feedback.html',
+  //     cancel_url: 'http://localhost:8000/feedback.html',
+  //   });
   
   return router;
 };

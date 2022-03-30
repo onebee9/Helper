@@ -2,30 +2,8 @@ import * as React from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import { useState, useEffect } from 'react';
 
-import {
-  Card,
-  CardContent,
-  Box,
-  Typography,
-  Container,
-  Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Grid,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme} from '@mui/material/styles';
 
 import BuyerProfile from './BuyerProfile';
 import ServiceProfile from './ServiceProfile';

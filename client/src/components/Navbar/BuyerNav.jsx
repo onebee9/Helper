@@ -30,7 +30,7 @@ function BuyerNav(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="My Booking List" />
+              <ListItemText primary="My Bookings" />
             </ListItemButton>
           </ListItem>
         </Link>

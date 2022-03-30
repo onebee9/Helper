@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { useState, useEffect } from 'react';
+
 import {
   CardContent,
   Box,
@@ -13,9 +16,13 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { format } from 'date-fns';
 import axios from 'axios';
+import qs from 'qs';
 
 export default function ProfileService(props) {
-  console.log(props);
+
+  // const stripe = useStripe();
+
+  console.log("bookingdata", props);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,6 +40,39 @@ export default function ProfileService(props) {
       console.log(error);
     }
   };
+
+  const handlePayment = (event) => {
+    event.preventDefault();
+
+    // if(!stripe|| !elements){
+    //   return;
+    // }
+    const data = {
+      name: props.data.description,
+      unit_amount: props.data.fee,
+      link: window.location.href,
+      bookingId: props.data.booking_id
+    };
+
+
+    axios({
+      method: 'post',
+      url: `/payment`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+      withCredentials: true
+    })
+      .then((response) => {
+        console.log(response.data);
+        window.open(response.data);
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
   // category image
   const [pic] = React.useState([
     {
@@ -84,6 +124,7 @@ export default function ProfileService(props) {
           height: 1,
           width: 1 / 4,
         }}
+        key = {pic}
         alt={pic.category}
         src={pic.url}
       />
@@ -91,6 +132,58 @@ export default function ProfileService(props) {
       ''
     );
   });
+  const cardActions =  props.data.status  === 'paid'? (
+    <CardActions>
+    <Grid
+      justifyContent="end"
+      alignItems="right"
+    >
+      {}
+      <Grid justifyContent="end" item xs={6} >
+        <Button
+          variant="contained">
+          Paid
+        </Button>
+      </Grid>
+    </Grid>
+  </CardActions>) : 
+  ( <CardActions>
+    <Grid
+      container
+      spacing={1}
+      justifyContent="end"
+      alignItems="end"
+    >
+      <Grid justifyContent="end" item xs={6}>
+        <Link
+          onClick={handleSubmit}
+          style={{ textDecoration: 'none' }}
+        >
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ width: 1 }}
+          >
+            Cancel
+          </Button>
+        </Link>
+      </Grid>
+      <Grid justifyContent="end" item xs={6} >
+        <Button
+          onClick={handlePayment}
+          variant="contained">
+          Pay
+        </Button>
+      </Grid>
+    </Grid>
+    <Grid justifyContent="end" item xs={6} >
+      <Button>
+        {/* payment status: {message} */}
+      </Button>
+    </Grid>
+  </CardActions>);
+
+
   return (
     <Grid item sx={{ width: 1 }}>
       <Grid item>
@@ -132,30 +225,7 @@ export default function ProfileService(props) {
                   {format(new Date(props.data.end_time), 'ha')}
                 </Button>
               </CardActions>
-
-              <CardActions>
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="end"
-                  alignItems="end"
-                >
-                  <Grid justifyContent="end" item xs={6}>
-                    <Link
-                      onClick={handleSubmit}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="error"
-                        sx={{ width: 1 }}
-                      >
-                        Cancel
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </CardActions>
+              {cardActions}
             </Box>
           </Box>
         </Container>
