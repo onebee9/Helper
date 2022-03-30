@@ -65,6 +65,7 @@ export default function Booked(props) {
             </Box>
           </Box>
         </Container>
+        <Button type="submit">Checkout</Button>
       </Grid>
     </Grid>
   );

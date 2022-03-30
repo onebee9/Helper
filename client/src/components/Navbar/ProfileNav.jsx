@@ -30,7 +30,7 @@ function Navbar(props) {
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="My Job" />
+              <ListItemText primary="My Jobs" />
             </ListItemButton>
           </ListItem>
         </Link>

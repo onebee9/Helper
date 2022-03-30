@@ -11,6 +11,10 @@ const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
 
+const stripe = require('stripe')('sk_test_51IVeTDI0afQjVTUZlmKqi484beUHQ7VAX05eoME17pMqm1Lur3fMPJ3OP5q1271pEeTJyiP1DNL06zoIC7XMbOyI009ef70myJ');
+const qs = require('qs');
+
+
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
@@ -64,6 +68,53 @@ app.use('/api/availabilities', availabilitiesRoutes(db));
 app.get('/', (req, res) => {
   res.render('index');
 });
+
+app.post('/payment', async (req, res) => {
+  const { name,unit_amount,link,bookingId} = req.body;
+  console.log('req body', req.body);
+
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name : name,
+          },
+          unit_amount : unit_amount * 100,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    
+    //Happends booking and redirect data on success
+    success_url: `http://localhost:8080/paidBooking?bookingId=${bookingId}&redirectUrl=${link}`,
+    cancel_url: link
+  });
+
+  console.log("SESSION:\n",session);
+  console.log("RESULT:\n",res);
+  
+  res.json(session.url);
+});
+
+//Handles updating the booking when the payment is successful
+app.get('/paidBooking', async (req, res) => {
+
+  const {bookingId,redirectUrl } = req.query;
+  console.log(req.params);
+  const bookingPaymentStatus = 'paid';
+
+    const params = [bookingPaymentStatus,parseInt(bookingId,10)];
+    const query = "UPDATE service_bookings SET status = $1 where id = $2";
+
+    db.query(query, params)
+      .then((data) => {
+        res.redirect(redirectUrl);
+      })
+      .catch(error => console.log(error));
+  });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
