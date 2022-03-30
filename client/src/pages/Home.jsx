@@ -73,6 +73,7 @@ export default function Home() {
     })
       .then((response) => {
         setResults(response.data);
+        console.log('search results',response.data )
       })
       .catch((error) => {
         console.log(error);

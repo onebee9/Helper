@@ -65,7 +65,7 @@ export default function ProfileServiceCreate(props) {
       });
       console.log('*****', newResponse);
 
-      navigate('/');
+      navigate('/ServiceList');
     } catch (error) {
       console.log(error);
     }
