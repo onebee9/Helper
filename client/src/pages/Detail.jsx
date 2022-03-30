@@ -97,7 +97,6 @@ export default function Detail(props) {
   const formattedUser = JSON.parse(user);
   const id = formattedUser.data.id;
 
-
   const updateAvailableSlots = (bookings) => {
     // const updated = slots.map((slot) => {
     //   const foundOne = bookings.filter((booking) => {
@@ -217,7 +216,7 @@ export default function Detail(props) {
           <Button
             variant="contained"
             sx={{ width: 1 }}
-            key ={index}
+            key={index}
             value={[slot.start, slot.end]}
             disabled={slot.booked}
             onClick={(event) => {
@@ -370,18 +369,20 @@ export default function Detail(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-          {service ? `Please confirm`: ""}
+            {service ? `Please confirm` : ''}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            {service ? `You're booking ${service.title}, at $${service.fee}/hr`: ""}
+              {service
+                ? `You're booking ${service.title}, at $${service.fee}/hr`
+                : ''}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="contained" color="error" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained" onClick={submitBooking}>
+            <Button variant="contained" color="success" onClick={submitBooking}>
               Confirm
             </Button>
           </DialogActions>
