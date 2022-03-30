@@ -11,15 +11,14 @@ import {
   Container,
   Avatar,
   Grid,
-  Button
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
-import BuyerNav from '../components/Navbar/BuyerNav';
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
-export default function BuyerBooking(props) {
+export default function ServiceBuyerBooking(props) {
   const [userStatus, setUserStatus] = useState({});
   const [clientBookings, setClientBookings] = useState([]);
 
@@ -78,7 +77,7 @@ export default function BuyerBooking(props) {
                     {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
-                <BuyerNav />
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>

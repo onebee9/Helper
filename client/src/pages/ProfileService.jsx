@@ -205,10 +205,11 @@ export default function ProfileService(props) {
                   {props.data.title}
                 </Typography>
                 <Typography>
-                  Client :  {`${props.data.client_first_name} ${props.data.client_last_name}`}
+                  Provider :{' '}
+                  {`${props.data.provider_first_name} ${props.data.provider_last_name}`}
                 </Typography>
                 <Typography>
-                  Contact: {props.data.client_email}
+                  Contact: {props.data.provider_email_address}
                 </Typography>
                 <Typography>
                   <StarIcon />

@@ -12,6 +12,7 @@ import ProfileServiceCreate from './pages/ProfileServiceCreate';
 import ProfileServiceBooked from './pages/ProfileServiceBooked';
 import ServiceBooking from './pages/ServiceBooking';
 import BuyerBooking from './pages/BuyerBooking';
+import ServiceBuyerBooking from './pages/ServiceBuyerBooking';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { authContext } from './providers/AuthProvider';
@@ -75,7 +76,7 @@ function App() {
           path="ServiceList"
           element={<ServiceList user={currentUser} />}
         />
-        <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
+        <Route path="ProfileServiceEdit/:id" element={<ProfileServiceEdit />} />
 
         <Route
           path="ProfileServiceCreate"
@@ -92,6 +93,10 @@ function App() {
         <Route
           path="BuyerBooking"
           element={<BuyerBooking user={currentUser} />}
+        />
+        <Route
+          path="ServiceBuyerBooking"
+          element={<ServiceBuyerBooking user={currentUser} />}
         />
       </Routes>
     </BrowserRouter>

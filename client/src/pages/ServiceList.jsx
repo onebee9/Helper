@@ -125,8 +125,8 @@ export default function ProfileService(props) {
                   }}
                 >
                   <Avatar
-                    alt="Remy Sharp"
-                    src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+                    alt={`${userInfo.first_name} ${userInfo.last_name}`}
+                    src={`/images/phototest${userInfo.id}.jpg`}
                     sx={{ width: 1 / 2, height: 1 / 2 }}
                   />
                 </Box>
@@ -212,11 +212,14 @@ export default function ProfileService(props) {
                               <Grid item xs={6}>
                                 <Link
                                   to={`/ProfileServiceEdit/${s.id}`}
-                                  serviceid={s.id}
                                   component={RouterLink}
                                   style={{ textDecoration: 'none' }}
                                 >
-                                  <Button variant="contained" sx={{ width: 1 }}>
+                                  <Button
+                                    datatest={s.id}
+                                    variant="contained"
+                                    sx={{ width: 1 }}
+                                  >
                                     Edit
                                   </Button>
                                 </Link>

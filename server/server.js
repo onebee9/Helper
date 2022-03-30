@@ -10,8 +10,10 @@ const bcrypt = require('bcryptjs');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
+
 const stripe = require('stripe')('sk_test_51IVeTDI0afQjVTUZlmKqi484beUHQ7VAX05eoME17pMqm1Lur3fMPJ3OP5q1271pEeTJyiP1DNL06zoIC7XMbOyI009ef70myJ');
 const qs = require('qs');
+
 
 // PG database client/connection setup
 const { Pool } = require('pg');
