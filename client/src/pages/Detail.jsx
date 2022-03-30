@@ -25,7 +25,6 @@ import axios from 'axios';
 import qs from 'qs';
 import { useParams } from 'react-router-dom';
 import { format, getHours, isToday, setHours } from 'date-fns';
-import PaymentForm from '../components/Stripe/PaymentForm';
 
 const theme = createTheme();
 
