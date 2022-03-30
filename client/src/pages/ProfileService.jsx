@@ -180,8 +180,7 @@ export default function ProfileService(props) {
                   {props.data.title}
                 </Typography>
                 <Typography>
-                  Provider :{' '}
-                  {`${props.data.provider_first_name} ${props.data.provider_last_name}`}
+                  Provider : {`${props.data.provider_first_name}`}
                 </Typography>
                 <Typography>
                   Contact: {props.data.provider_email_address}

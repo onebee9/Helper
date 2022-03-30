@@ -15,7 +15,6 @@ import axios from 'axios';
 import { format } from 'date-fns';
 
 export default function ProfileService(props) {
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -91,6 +90,36 @@ export default function ProfileService(props) {
       ''
     );
   });
+  const cardActions =
+    props.data.status === 'paid' ? (
+      <CardActions>
+        <Grid justifyContent="end" item xs={6}>
+          <Button variant="contained">Contact</Button>
+        </Grid>
+        <Grid justifyContent="end" item xs={6} dir="rtl">
+          <Button
+            variant="contained"
+            color="success"
+            // onClick={}
+          >
+            Paid
+          </Button>
+        </Grid>
+      </CardActions>
+    ) : (
+      <CardActions>
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Link onClick={handleSubmit} style={{ textDecoration: 'none' }}>
+              <Button variant="contained" color="error" sx={{ width: 1 }}>
+                Reject
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+      </CardActions>
+    );
+
   return (
     <Grid item sx={{ width: 1 }}>
       <Grid item>
@@ -130,30 +159,7 @@ export default function ProfileService(props) {
                   {format(new Date(props.data.end_time), 'ha')}
                 </Button>
               </CardActions>
-
-              <CardActions>
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="end"
-                  alignItems="end"
-                >
-                  <Grid justifyContent="end" item xs={6}>
-                    <Link
-                      onClick={handleSubmit}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="error"
-                        sx={{ width: 1 }}
-                      >
-                        Cancel
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </CardActions>
+              {cardActions}
             </Box>
           </Box>
         </Container>
