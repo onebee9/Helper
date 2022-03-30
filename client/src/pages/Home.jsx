@@ -18,7 +18,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import StripeContainer from '../components/Stripe/StripeContainer';
 
 import { useEffect } from 'react';
 import axios from 'axios';
