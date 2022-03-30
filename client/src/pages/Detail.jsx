@@ -98,16 +98,6 @@ export default function Detail(props) {
   const id = formattedUser.data.id;
 
   const updateAvailableSlots = (bookings) => {
-    // const updated = slots.map((slot) => {
-    //   const foundOne = bookings.filter((booking) => {
-    //     const isTod = isToday(new Date(), booking.start_time);
-    //     const bookingHour = getHours(new Date(booking.start_time));
-    //     const slotHour = getHours(new Date(slot.start_time));
-
-    //     return bookingHour === slotHour && isTod;
-    //   })
-    //   return {...slot, booked: foundOne.length != 0 }
-    // });
 
     const updatedSlots = [];
     for (let i = 0; i < slot.length; i++) {
@@ -226,7 +216,7 @@ export default function Detail(props) {
             }}
           >
             {slot.booked
-              ? 'Not Available'
+              ? 'Booked'
               : `${format(new Date(slot.start), 'ha')} - ${format(
                   new Date(slot.end),
                   'ha'
