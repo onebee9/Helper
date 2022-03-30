@@ -42,24 +42,18 @@ export default function ProfileService(props) {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('event+++++++++++++++', event.target.id);
+    console.log('event+++++++++++++++', event.currentTarget.id);
     try {
-      // const data = {
-      //   // title: title,
-      //   // description: description,
-      //   // fee: fee,
-      //   // category: category,
-      //   user_id: userInfo.id,
-      // };
-      // console.log('remove service data', data);
-
+      const serviceId = event.currentTarget.id;
+      console.log('serviceId+++++++++++++++', serviceId);
       const newResponse = await axios({
         method: 'delete',
-        url: `api/services/remove/${services.id}`,
+        url: `/api/services/remove/${serviceId}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });
       console.log('*****', newResponse);
-
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -226,6 +220,7 @@ export default function ProfileService(props) {
                               </Grid>
                               <Grid justifyContent="end" item xs={6}>
                                 <Link
+                                  id={s.id}
                                   onClick={handleSubmit}
                                   style={{ textDecoration: 'none' }}
                                 >

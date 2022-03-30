@@ -4,7 +4,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Typography
+  Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { NavLink } from 'react-router-dom';
@@ -70,7 +70,7 @@ export default function Service(props) {
     return pic.category === category ? (
       <CardMedia
         component="img"
-        key ={pic.id}
+        key={pic.id}
         sx={{ width: 1 }}
         image={pic.url}
         alt={pic.category}
@@ -98,10 +98,9 @@ export default function Service(props) {
         </Typography>
         <Typography>{description}</Typography>
       </CardContent>
-      <CardActions>
+      <CardActions dir="rtl">
         {/* <Link style={{ textDecoration: 'none' }}> */}
-        <NavLink 
-        to={`/Detail/${id}`}>
+        <NavLink to={`/Detail/${id}`}>
           <Button size="small" variant="contained">
             Book
           </Button>

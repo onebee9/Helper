@@ -187,6 +187,7 @@ module.exports = (db) => {
 
     db.query(queryString, [serviceId])
       .then((data) => {
+        console.log('server+++++++++++++++++delete', data);
         if (data.rows.length > 0) {
           res.status(200).json('success');
         } else {
