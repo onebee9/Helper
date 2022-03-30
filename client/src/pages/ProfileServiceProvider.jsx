@@ -91,6 +91,64 @@ export default function ProfileService(props) {
       ''
     );
   });
+  const cardActions =  props.data.status  === 'paid'? (
+    <CardActions>
+       <Grid
+      justifyContent="end"
+      alignItems="right"
+    >
+      {}
+      <Grid justifyContent="end" item xs={6} >
+        <Button
+          variant="contained">
+          Contact
+        </Button>
+      </Grid>
+    </Grid>
+    <Grid
+      justifyContent="end"
+      alignItems="right"
+    >
+      {}
+      <Grid justifyContent="end" item xs={6} >
+        <Button
+          variant="contained"
+          // onClick={}
+          >
+          Paid
+        </Button>
+      </Grid>
+    </Grid>
+  </CardActions>) : 
+  ( <CardActions>
+    <Grid
+      container
+      spacing={1}
+      justifyContent="end"
+      alignItems="end"
+    >
+      <Grid justifyContent="end" item xs={6}>
+        <Link
+          onClick={handleSubmit}
+          style={{ textDecoration: 'none' }}
+        >
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ width: 1 }}
+          >
+            Reject
+          </Button>
+        </Link>
+      </Grid>
+    </Grid>
+    <Grid justifyContent="end" item xs={6} >
+      <Button>
+        {/* payment status: {message} */}
+      </Button>
+    </Grid>
+  </CardActions>);
+
   return (
     <Grid item sx={{ width: 1 }}>
       <Grid item>
@@ -130,30 +188,7 @@ export default function ProfileService(props) {
                   {format(new Date(props.data.end_time), 'ha')}
                 </Button>
               </CardActions>
-
-              <CardActions>
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="end"
-                  alignItems="end"
-                >
-                  <Grid justifyContent="end" item xs={6}>
-                    <Link
-                      onClick={handleSubmit}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="error"
-                        sx={{ width: 1 }}
-                      >
-                        Cancel
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </CardActions>
+              {cardActions}
             </Box>
           </Box>
         </Container>
