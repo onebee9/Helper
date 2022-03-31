@@ -38,17 +38,15 @@ const theme = createTheme();
 export default function ProfileServiceEdit(props) {
   // get service data from server
   const [service, setService] = useState([]);
-  console.log('++++++++++++++++++ProfileServiceEdit', service);
+
   // get service id
   const params = useParams();
   const url = 'api/services/provider/';
   useEffect(() => {
     axios.get(`${url}${params.id}`).then((response) => {
       setService(response.data);
-      console.log('AAA++++++++++', response.data);
     });
   }, [params.id]);
-  console.log('++++++++++++++++++Profileparams', params.id);
 
   // get user info
   const [userStatus, setUserStatus] = useState({});
@@ -82,7 +80,6 @@ export default function ProfileServiceEdit(props) {
         withCredentials: true,
       });
       setStatus(response.data);
-      console.log(response.data);
 
       //store login info in storage
       localStorage.setItem('usersinfo', JSON.stringify(response.data));
@@ -279,7 +276,7 @@ export default function ProfileServiceEdit(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+          We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>
