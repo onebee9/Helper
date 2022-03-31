@@ -3,21 +3,14 @@ import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 import { useState, useEffect } from 'react';
-// import { useContext } from 'react';
-// import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  // const userinfo = localStorage.getItem('usersinfo');
-  // // const { auth } = React.useContext(authContext);
-  // console.log('++++++++++++', userinfo);
-
   const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
-  console.log('header', userStatus.data);
 
   const logout = () => {
     localStorage.removeItem('usersinfo');

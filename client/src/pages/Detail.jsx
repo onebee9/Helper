@@ -22,7 +22,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import qs from 'qs';
 import { useParams } from 'react-router-dom';
 import { format, getHours, isToday, setHours } from 'date-fns';
 
@@ -86,7 +85,6 @@ export default function Detail(props) {
 
   //service provider ID
   const serviceProviderId = props.serviceid;
-  // console.log(serviceProviderId);
 
   //get the service data id to identify service
   const params = useParams();
@@ -111,7 +109,6 @@ export default function Detail(props) {
 
         foundOne = bookingHour === slotHour && isTod;
         if (foundOne) {
-          console.log(foundOne, 'found a booked date', booking.start_time);
           break;
         }
       }
@@ -164,9 +161,7 @@ export default function Detail(props) {
     setOpen(false);
     event.preventDefault();
 
-    const start = time[0];
-    const end = time[1];
-    console.log('service', service);
+
 
     try {
       const data = {
@@ -178,7 +173,6 @@ export default function Detail(props) {
         end: time[1],
         status: bookingStatus,
       };
-      console.log('booking data', data);
 
       let response = await axios({
         method: 'post',
@@ -189,10 +183,8 @@ export default function Detail(props) {
       });
 
       setBooking(response.data);
-      console.log('Post Detail++++++++++', response.data);
       return response;
     } catch (error) {
-      console.log('got an error');
       console.log(error);
     }
   };
@@ -211,7 +203,6 @@ export default function Detail(props) {
             disabled={slot.booked}
             onClick={(event) => {
               handleClickOpen(index);
-              console.log('start', slot.start, 'end', slot.end);
               setTime([slot.start, slot.end]);
             }}
           >
@@ -389,7 +380,7 @@ export default function Detail(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

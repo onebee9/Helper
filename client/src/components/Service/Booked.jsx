@@ -12,7 +12,6 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 
 export default function Booked(props) {
-  console.log(props);
 
   return (
     <Grid item sx={{ width: 1 }}>

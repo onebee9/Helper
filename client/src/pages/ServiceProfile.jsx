@@ -41,7 +41,6 @@ export default function Profile(props) {
 
   const provider =
     userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-  console.log('user+++++++++++++++', userStatus);
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -153,7 +152,7 @@ export default function Profile(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

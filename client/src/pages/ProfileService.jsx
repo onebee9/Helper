@@ -1,7 +1,4 @@
 import * as React from 'react';
-// import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-// import { useState, useEffect } from 'react';
-
 import {
   CardContent,
   Box,
@@ -11,17 +8,15 @@ import {
   Button,
   CardActions,
   Link,
+  Rating
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { format } from 'date-fns';
 import axios from 'axios';
 import qs from 'qs';
+import { useState,useEffect } from 'react';
 
 export default function ProfileService(props) {
-  // const stripe = useStripe();
-
-  console.log('bookingdata', props);
+  const [rating, setRating] = useState(0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,9 +27,7 @@ export default function ProfileService(props) {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });
-      console.log('*****', newResponse);
 
-      // navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -43,9 +36,6 @@ export default function ProfileService(props) {
   const handlePayment = (event) => {
     event.preventDefault();
 
-    // if(!stripe|| !elements){
-    //   return;
-    // }
     const data = {
       name: props.data.description,
       unit_amount: props.data.fee,
@@ -61,13 +51,53 @@ export default function ProfileService(props) {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response.data);
         window.open(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+   //only trigger if rating state changed
+   useEffect(() => {
+
+    const data = {
+      bookingId: props.data.booking_id,
+      rating: rating
+    };
+
+    axios({
+      method: 'put',
+      url: `api/bookings/ratings`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+      withCredentials: true,
+    })
+      .then((response) => {
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, [rating]);
+
+  useEffect (()=>{
+    const id = props.data.booking_id
+    axios({
+      method: 'get',
+      url: `api/bookings/ratings/${id}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setRating(response.data.rating);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  },[rating])
+
 
   // category image
   const [pic] = React.useState([
@@ -131,10 +161,22 @@ export default function ProfileService(props) {
   const cardActions =
     props.data.status === 'paid' ? (
       <CardActions>
-        <Grid justifyContent="end" alignItems="right">
-          {}
-          <Grid justifyContent="end" item xs={12}>
-            <Button variant="contained" color="success">
+        <Grid justifyContent="" alignItems="right">
+          <Grid justifyContent="end" item xs={6}>
+            <Typography component="legend">Review</Typography>
+            <Rating
+              name="simple-controlled"
+              value={rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+                
+              }}
+            />
+          </Grid>
+        </Grid>
+        <Grid justifyContent="end" alignItems="left">
+          <Grid justifyContent="end" item xs={6}>
+            <Button variant="contained" color="success" dir="rtl">
               Paid
             </Button>
           </Grid>
@@ -145,7 +187,7 @@ export default function ProfileService(props) {
         <Grid container spacing={1} justifyContent="end" alignItems="end">
           <Grid justifyContent="end" item xs={6}>
             <Link onClick={handleSubmit} style={{ textDecoration: 'none' }}>
-              <Button variant="contained" color="error" sx={{ width: 1 }}>
+              <Button variant="contained" color="error">
                 Cancel
               </Button>
             </Link>
@@ -184,13 +226,6 @@ export default function ProfileService(props) {
                 </Typography>
                 <Typography>
                   Contact: {props.data.provider_email_address}
-                </Typography>
-                <Typography>
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarTwoToneIcon />
                 </Typography>
                 <Typography>{props.data.description}</Typography>
               </CardContent>

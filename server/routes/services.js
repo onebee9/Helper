@@ -58,15 +58,6 @@ module.exports = (db) => {
     let columns = [];
     let values = [];
 
-    console.log(id);
-    console.log(queryParams);
-
-    /*
-    let queryString = `
-    UPDATE services
-    SET `;
-    */
-
     //Check what the user would like to update and add on to the query
     if (!title == '') {
       queryParams.push(title);
@@ -79,7 +70,7 @@ module.exports = (db) => {
       queryParams.push(category);
       columns.push('category');
       values.push(category);
-      //queryString += `category = $${multipleOrNot(category)} `;
+   
     }
 
     if (!fee == '') {
@@ -87,32 +78,24 @@ module.exports = (db) => {
       queryParams.push(feeToNumber);
       columns.push('fee');
       values.push(feeToNumber);
-      //queryString += `fee = $${multipleOrNot(fee)} `;
     }
 
     if (!description == '') {
       queryParams.push(description);
       columns.push('description');
       values.push(description);
-      //queryString += `description = $${multipleOrNot(description)} `;
     }
-
-    //queryParams.push(id);
-    //queryString += `WHERE id = $${multipleOrNot(id)} ;`;
 
     let params = [id];
     let query = 'UPDATE users SET ';
     for (let i = 0; i < columns.length; i++) {
-      //query = `${query}${columns[i]} = $${params.length + 1},`
 
       query += query + ' ' + columns[i] + ' = ' + params.length + 1;
       params.push(queryParams[columns[i]]);
     }
-    //query = `${query.substring(0, query.length-1)} WHERE id = $1`
 
     query = query.substring(0, query.length - 1) + ' WHERE id = $1';
-    console.log('QUERY:', query);
-    console.log('PARAMS:', params);
+
 
     db.query(query, params)
       .then((data) => {
@@ -125,6 +108,7 @@ module.exports = (db) => {
   router.get('/search', (req, res) => {
     const queryParams = [];
     const { keyword, category, price, location } = req.query;
+    console.log(req.query);
 
     let queryString = `SELECT services.*, users.first_name
     FROM services
@@ -135,7 +119,7 @@ module.exports = (db) => {
     //validate that search params exist and then add on to the query
     if (!keyword == '') {
       queryParams.push(`%${keyword}%`);
-      queryString += `AND services.description LIKE $${queryParams.length} `;
+      queryString += `AND services.description ILIKE $${queryParams.length} `;
     }
 
     if (!category == '') {
@@ -154,13 +138,10 @@ module.exports = (db) => {
       queryString += `AND locations.Metropolitan = $${queryParams.length} `;
     }
 
-    // if (!date == "") {
-    //   queryParams.push(date);
-    //   queryString += `AND $${queryParams.length} BETWEEN availabilities.start_time AND availabilities.end_time `;
-    // }
-
-    //queryString += `GROUP BY services.id, users.first_name ;`;
     queryString += `;`;
+
+    console.log(queryString);
+    console.log(queryParams);
 
     db.query(queryString, queryParams)
       .then((data) => {
@@ -180,6 +161,21 @@ module.exports = (db) => {
       });
   });
 
+  router.get('/averageRating/:id', (req, res) => {
+    const serviceId = req.params.id;
+    const queryString = `SELECT avg(rating) FROM service_bookings WHERE id = $1`;
+
+    db.query(queryString, [serviceId])
+      .then((data) => {
+        const rating = data.rows;
+        res.json(rating[0]);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+
   //Delete a service
   router.delete('/remove/:id', (req, res) => {
     const serviceId = Number(req.params.id);
@@ -187,7 +183,6 @@ module.exports = (db) => {
 
     db.query(queryString, [serviceId])
       .then((data) => {
-        console.log('server+++++++++++++++++delete', data);
         if (data.rows.length > 0) {
           res.status(200).json('success');
         } else {
