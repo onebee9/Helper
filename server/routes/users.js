@@ -99,7 +99,6 @@ module.exports = (db) => {
 
   });
 
-
   // DELETE /api/users/logout
   router.delete('/logout', (req, res) => {
     if (req.session) {

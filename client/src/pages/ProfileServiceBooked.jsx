@@ -37,7 +37,6 @@ export default function ProfileServiceBooked(props) {
   useEffect(() => {
     axios.get(`${url}${params.id}`).then((response) => {
       setServices(response.data);
-      console.log('service provider booking data', response.data);
     });
   }, []);
 
@@ -184,7 +183,7 @@ export default function ProfileServiceBooked(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

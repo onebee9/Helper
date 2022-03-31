@@ -153,7 +153,7 @@ export default function Profile(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

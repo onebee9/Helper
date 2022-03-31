@@ -3,20 +3,13 @@ import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 import { useState, useEffect } from 'react';
+
+
 import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  // const userinfo = localStorage.getItem('usersinfo');
   const { auth, user, logout } = useContext(authContext);
-  // const { auth } = React.useContext(authContext);
-
-  // const userInfo = props;
-  console.log('Navbar auth++++++++++++', auth);
-  console.log('Navbar user++++++++++++', user);
-
-  // const [testStatus, setTestStatus] = useState('');
-  // console.log('Nav++++++++++++', testStatus);
   const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
@@ -24,9 +17,10 @@ function Navbar(props) {
     setUserStatus(JSON.parse(user));
     console.log('Navbar auth++++++++++++', userStatus);
   }, []);
-  // const logout = () => {
-  //   localStorage.removeItem('usersinfo');
-  // };
+
+  const logout = () => {
+    localStorage.removeItem('usersinfo');
+  };
 
   return (
     <React.Fragment>

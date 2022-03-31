@@ -99,7 +99,7 @@ export default function BuyerBooking(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+          We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

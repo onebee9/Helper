@@ -8,13 +8,14 @@ import {
   Grid,
   CardActions,
   Container,
+  Rating
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 
 export default function ProfileService(props) {
+  const [rating, setRating] = useState(0);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -24,13 +25,29 @@ export default function ProfileService(props) {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });
-      console.log('*****', newResponse);
 
       // navigate('/');
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const id = props.data.booking_id
+    axios({
+      method: 'get',
+      url: `api/bookings/ratings/${id}`,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
+    })
+      .then((response) => {
+        setRating(response.data.rating);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, [])
 
   // category image
   const [pic] = React.useState([
@@ -100,7 +117,6 @@ export default function ProfileService(props) {
           <Button
             variant="contained"
             color="success"
-            // onClick={}
           >
             Paid
           </Button>
@@ -144,13 +160,10 @@ export default function ProfileService(props) {
                   Client name: {props.data.client_first_name}
                 </Typography>
                 <Typography>Contact: {props.data.client_email}</Typography>
-                <Typography>
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarTwoToneIcon />
-                </Typography>
+
+                <Typography component="legend"></Typography>
+                <Rating name="read-only" value={rating} readOnly />
+
                 <Typography>{props.data.description}</Typography>
               </CardContent>
               <CardActions>

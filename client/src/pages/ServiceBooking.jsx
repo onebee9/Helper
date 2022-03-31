@@ -46,7 +46,6 @@ export default function ServiceBooking(props) {
     })
       .then((response) => {
         setServiceBookings(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -114,7 +113,7 @@ export default function ServiceBooking(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>
