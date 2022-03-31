@@ -32,9 +32,13 @@ This project aims to provide a platform that connects home keepers to domestic s
 
 ![Profile Service Provider](/resources/profile_service.png)
 
-#### Service Provider Profile Edit
+#### Service Provider's Job List
 
-![Profile Edit](/resources/profile_edit.png)
+![Service List](/resources/service_my_job.png)
+
+#### Service Provider's Booking List
+
+![Service List](/resources/profile_booking.png)
 
 #### Service Provider's Service List
 
@@ -57,6 +61,14 @@ This project aims to provide a platform that connects home keepers to domestic s
 #### Client Profile
 
 ![Profile Client](/resources/profile.png)
+
+#### Client Booking List
+
+![Profile Client](/resources/profile_service.png)
+
+#### Client Profile Edit
+
+![Profile Client](/resources/profile_edit.png)
 
 #### Signup for Client
 
