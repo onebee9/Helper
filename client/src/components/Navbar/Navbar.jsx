@@ -25,7 +25,7 @@ function Navbar(props) {
 
   return (
     <React.Fragment>
-      {!auth && (
+      {!userStatus && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -68,7 +68,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {auth && (
+      {userStatus && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
