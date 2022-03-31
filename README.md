@@ -30,7 +30,7 @@ This project aims to provide a platform that connects home keepers to domestic s
 
 #### Service Provider Profile
 
-![Profile Service Provider](/resources/profile_service.png)
+![Profile Service Provider](/resources/service_profile.png)
 
 #### Service Provider's Job List
 
@@ -42,7 +42,7 @@ This project aims to provide a platform that connects home keepers to domestic s
 
 #### Service Provider's Service List
 
-![Service List](/resources/profile_service_list.png)
+![Service List](/resources/service_list.png)
 
 #### Create New Service
 
