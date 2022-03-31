@@ -52,8 +52,11 @@ export default function ProfileService(props) {
       navigate('/');
     } catch (error) {
       console.log(error);
+    } finally {
+      navigate('/');
     }
   };
+  handleSubmit();
   // category image it's not same as Home / Detail / Booking
   const pics = [
     {
