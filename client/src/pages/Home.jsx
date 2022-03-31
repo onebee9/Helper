@@ -34,7 +34,6 @@ export default function Home() {
   const [value, setValue] = React.useState(new Date());
 
   const submitSearch = async (event) => {
-   
     const status = 'accepted';
     event.preventDefault();
     try {
@@ -73,7 +72,7 @@ export default function Home() {
     })
       .then((response) => {
         setResults(response.data);
-        console.log('search results',response.data )
+        console.log('search results', response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -200,7 +199,6 @@ export default function Home() {
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Helper
-        
         </Typography>
         <Typography
           variant="subtitle1"

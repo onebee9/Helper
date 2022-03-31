@@ -54,11 +54,17 @@ export default function ProfileService(props) {
         withCredentials: true,
       });
       console.log('*****', newResponse);
-      navigate('/');
+      // redirect to Home
+      // if (newResponse) {
+
+      // }
     } catch (error) {
       console.log(error);
+    } finally {
+      navigate('/');
     }
   };
+  handleSubmit();
   // category image it's not same as Home / Detail / Booking
   const pics = [
     {

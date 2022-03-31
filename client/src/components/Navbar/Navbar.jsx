@@ -3,29 +3,34 @@ import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
 import { useState, useEffect } from 'react';
-// import { useContext } from 'react';
-// import { authContext } from './../../providers/AuthProvider';
+import { useContext } from 'react';
+import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
   // const userinfo = localStorage.getItem('usersinfo');
-  // // const { auth } = React.useContext(authContext);
-  // console.log('++++++++++++', userinfo);
+  const { auth, user, logout } = useContext(authContext);
+  // const { auth } = React.useContext(authContext);
 
+  // const userInfo = props;
+  console.log('Navbar auth++++++++++++', auth);
+  console.log('Navbar user++++++++++++', user);
+
+  // const [testStatus, setTestStatus] = useState('');
+  // console.log('Nav++++++++++++', testStatus);
   const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
+    console.log('Navbar auth++++++++++++', userStatus);
   }, []);
-  console.log('header', userStatus.data);
-
-  const logout = () => {
-    localStorage.removeItem('usersinfo');
-  };
+  // const logout = () => {
+  //   localStorage.removeItem('usersinfo');
+  // };
 
   return (
     <React.Fragment>
-      {!userStatus.data && (
+      {!auth && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -68,7 +73,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {userStatus.data && (
+      {auth && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -95,7 +100,7 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/Login"
+            to="/"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
             onClick={logout}
@@ -104,8 +109,16 @@ function Navbar(props) {
           </Link>
 
           <Avatar
-            alt={`${userStatus.data.first_name} ${userStatus.data.last_name}`}
-            src={`/images/phototest${userStatus.data.id}.jpg`}
+            alt={
+              userStatus.data
+                ? `${userStatus.data.first_name} ${userStatus.data.last_name}`
+                : ''
+            }
+            src={
+              userStatus.data
+                ? `/images/phototest${userStatus.data.id}.jpg`
+                : ''
+            }
           />
         </Toolbar>
       )}

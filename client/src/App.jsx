@@ -36,7 +36,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" /> */}
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <Home auth={auth} user={user} login={login} logout={logout} />
+          }
+        />
         <Route
           path="Login"
           element={
