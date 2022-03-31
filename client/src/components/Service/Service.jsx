@@ -24,7 +24,6 @@ export default function Service(props) {
   } = props.data;
 
 
-
   // category images
 
   const [pic, setPic] = React.useState([
@@ -82,6 +81,19 @@ export default function Service(props) {
       ''
     );
   });
+  const isLoggedIn = localStorage.getItem('usersinfo');
+  console.log(isLoggedIn);
+  const canBook = isLoggedIn ?
+    (<NavLink to={`/Detail/${id}`}>
+      <Button size="small" variant="contained">
+        Book
+      </Button>
+    </NavLink>) : 
+    (<NavLink to={`/Login`}>
+      <Button size="small" variant="contained">
+        Book
+      </Button>
+    </NavLink>)
   return (
     <>
       {categoryimg}
@@ -96,14 +108,7 @@ export default function Service(props) {
         <Typography>{description}</Typography>
       </CardContent>
       <CardActions dir="rtl">
-        {/* <Link style={{ textDecoration: 'none' }}> */}
-        <NavLink to={`/Detail/${id}`}>
-          <Button size="small" variant="contained">
-            Book
-          </Button>
-        </NavLink>
-
-        {/* </Link> */}
+        {canBook} 
       </CardActions>
     </>
   );

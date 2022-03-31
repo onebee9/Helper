@@ -9,17 +9,18 @@ import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth, user, logout } = useContext(authContext);
+  const { auth, user} = useContext(authContext);
   const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
-    console.log('Navbar auth++++++++++++', userStatus);
   }, []);
 
   const logout = () => {
     localStorage.removeItem('usersinfo');
+    this.authToken = null;
+    this.user = null;
   };
 
   return (
