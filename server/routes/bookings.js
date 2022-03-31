@@ -38,13 +38,28 @@ module.exports = (db) => {
       });
   });
 
+  router.put('/ratings', async (req, res) => {
+
+    const { bookingId, rating } = req.body;
+    const params = [parseInt(rating), parseInt(bookingId, 10)];
+    const query = "UPDATE service_bookings SET rating = $1 where id = $2";
+
+    db.query(query, params)
+      .then((data) => {
+        res.json('successfully updated')
+      })
+      .catch(error => console.log(error));
+  });
+
+
   //update service booking
   router.put('/update/:id', (req, res) => {
     const { title, rating, status } = req.params;
 
     db.query(
       `
-  INSERT INTO service_booking (title, rating, status) VALUES ($1::text, $2::integer, $3::text)
+  UPDATE service_bookings 
+  SET title = $1, rating = $2, status = $3
   WHERE id = $4::integer
 `,
       [title, rating, status, Number(req.params.id)]
@@ -55,8 +70,22 @@ module.exports = (db) => {
       .catch((error) => console.log(error));
   });
 
+
+  router.get('/ratings/:id', (req, res) => {
+    const bookingId = req.params.id;
+    const queryString = `SELECT rating FROM service_bookings WHERE id = $1`;
+
+    db.query(queryString, [bookingId])
+      .then((data) => {
+        const rating = data.rows;
+        res.json(rating[0]);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
   //retrive service booking
-  
   router.get('/provider/:id', (req, res) => {
     const serviceID = req.params.id;
 

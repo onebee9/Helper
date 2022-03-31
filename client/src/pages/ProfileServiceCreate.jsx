@@ -257,7 +257,7 @@ export default function ProfileServiceCreate(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+          We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

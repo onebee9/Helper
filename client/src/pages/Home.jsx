@@ -45,9 +45,7 @@ export default function Home() {
         keyword,
         status,
       };
-
-      console.log('filtered search data ', data);
-
+      
       let response = await axios({
         method: 'get',
         url: `/api/services/search`,
@@ -56,7 +54,6 @@ export default function Home() {
         withCredentials: true,
       });
       setResults(response.data);
-      console.log('Response\n', response.data);
       return response;
     } catch (error) {
       console.log(error);
@@ -72,11 +69,11 @@ export default function Home() {
     })
       .then((response) => {
         setResults(response.data);
-        console.log('search results', response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+      
   }, []);
 
   return (
@@ -138,6 +135,7 @@ export default function Home() {
                       label="location"
                       onChange={(event) => setLocation(event.target.value)}
                     >
+                      <MenuItem value="">Anywhere</MenuItem>
                       <MenuItem value="Toronto">Toronto</MenuItem>
                       <MenuItem value="Ottawa">Ottawa</MenuItem>
                       {/* Etobicoke, York, North York, West End, Downtown, Midtown, Uptown, East York, East End, Scarborough */}
@@ -150,7 +148,7 @@ export default function Home() {
                       required
                       id="price"
                       name="price"
-                      label="price"
+                      label="Budget"
                       onChange={(event) => setPrice(event.target.value)}
                       fullWidth
                     />
@@ -206,7 +204,7 @@ export default function Home() {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

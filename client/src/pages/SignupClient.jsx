@@ -58,7 +58,6 @@ export default function SignupClient() {
         data: data,
         withCredentials: true,
       });
-      console.log('signup+++++++++', response.data);
 
       email && login(email, password);
       // redirect to Home

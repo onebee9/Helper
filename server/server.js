@@ -70,8 +70,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/payment', async (req, res) => {
-  const { name,unit_amount,link,bookingId} = req.body;
-  console.log('req body', req.body);
+  const { name, unit_amount, link, bookingId } = req.body;
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
@@ -79,42 +78,39 @@ app.post('/payment', async (req, res) => {
         price_data: {
           currency: 'usd',
           product_data: {
-            name : name,
+            name: name,
           },
-          unit_amount : unit_amount * 100,
+          unit_amount: unit_amount * 100,
         },
         quantity: 1,
       },
     ],
     mode: 'payment',
-    
+
     //Happends booking and redirect data on success
     success_url: `http://localhost:8080/paidBooking?bookingId=${bookingId}&redirectUrl=${link}`,
     cancel_url: link
   });
 
-  console.log("SESSION:\n",session);
-  console.log("RESULT:\n",res);
-  
+
   res.json(session.url);
 });
 
 //Handles updating the booking when the payment is successful
 app.get('/paidBooking', async (req, res) => {
 
-  const {bookingId,redirectUrl } = req.query;
-  console.log(req.params);
+  const { bookingId, redirectUrl } = req.query;
   const bookingPaymentStatus = 'paid';
 
-    const params = [bookingPaymentStatus,parseInt(bookingId,10)];
-    const query = "UPDATE service_bookings SET status = $1 where id = $2";
+  const params = [bookingPaymentStatus, parseInt(bookingId, 10)];
+  const query = "UPDATE service_bookings SET status = $1 where id = $2";
 
-    db.query(query, params)
-      .then((data) => {
-        res.redirect(redirectUrl);
-      })
-      .catch(error => console.log(error));
-  });
+  db.query(query, params)
+    .then((data) => {
+      res.redirect(redirectUrl);
+    })
+    .catch(error => console.log(error));
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Rating
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { NavLink } from 'react-router-dom';
@@ -22,7 +23,8 @@ export default function Service(props) {
     user_id,
   } = props.data;
 
-  // category image
+
+  // category images
 
   const [pic, setPic] = React.useState([
     {
@@ -79,6 +81,19 @@ export default function Service(props) {
       ''
     );
   });
+  const isLoggedIn = localStorage.getItem('usersinfo');
+  console.log(isLoggedIn);
+  const canBook = isLoggedIn ?
+    (<NavLink to={`/Detail/${id}`}>
+      <Button size="small" variant="contained">
+        Book
+      </Button>
+    </NavLink>) : 
+    (<NavLink to={`/Login`}>
+      <Button size="small" variant="contained">
+        Book
+      </Button>
+    </NavLink>)
   return (
     <>
       {categoryimg}
@@ -88,25 +103,12 @@ export default function Service(props) {
         </Typography>
 
         <Typography gutterBottom>{first_name}</Typography>
-
-        <Typography>
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarTwoToneIcon />
-        </Typography>
+        <Typography component="legend"></Typography>
+        <Rating name="read-only" value={null} readOnly />
         <Typography>{description}</Typography>
       </CardContent>
       <CardActions dir="rtl">
-        {/* <Link style={{ textDecoration: 'none' }}> */}
-        <NavLink to={`/Detail/${id}`}>
-          <Button size="small" variant="contained">
-            Book
-          </Button>
-        </NavLink>
-
-        {/* </Link> */}
+        {canBook} 
       </CardActions>
     </>
   );
