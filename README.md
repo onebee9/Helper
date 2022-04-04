@@ -8,7 +8,7 @@
 
 ## OVERVIEW
 
-This project aims to provide a platform that connects home keepers to domestic service providers in their vicinity.
+A react based 2 sided marketplace that connects home keepers to domestic service providers in their vicinity.
 
 ## Products
 
