@@ -1,4 +1,4 @@
-# Helper Project
+# Helper
 
 ## Team
 
@@ -12,7 +12,7 @@ This project aims to provide a platform that connects home keepers to domestic s
 
 ## Products
 
-### PC screen capture
+### ScreenShots
 
 #### Home Service List
 
