@@ -32,6 +32,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(authContext);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -48,11 +49,9 @@ export default function Login() {
         withCredentials: true,
       });
       setStatus(response.data);
-      console.log(response.data);
 
       //store login info in storage
       localStorage.setItem('usersinfo', JSON.stringify(response.data));
-      console.log(response.data);
 
       email && login(email, password);
       // redirect to Home
@@ -148,21 +147,8 @@ export default function Login() {
             >
               Login
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

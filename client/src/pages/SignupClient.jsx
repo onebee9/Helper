@@ -18,22 +18,55 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import axios from 'axios';
+import { authContext } from './../providers/AuthProvider';
+import { useContext } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function SignupClient() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-  const [category, setCategory] = React.useState('');
+  const navigate = useNavigate();
+  const { login } = useContext(authContext);
+  // const [userStatus, setStatus] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [category, setCategory] = useState('');
+  const [address, setAddress] = useState('');
 
   const handleChange = (event) => {
     setCategory(event.target.value); // need setting
+  };
+  const handleSubmit = async (event) => {
+    try {
+      let data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        category: category,
+        address: address,
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `/api/users/new`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: data,
+        withCredentials: true,
+      });
+
+      email && login(email, password);
+      // redirect to Home
+      if (response) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,7 +90,7 @@ export default function SignupClient() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -69,7 +102,9 @@ export default function SignupClient() {
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  autoFocus
+                  value={firstName}
+                  type="text"
+                  onChange={(event) => setFirstName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -79,7 +114,9 @@ export default function SignupClient() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                  value={lastName}
+                  type="text"
+                  onChange={(event) => setLastName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -89,7 +126,9 @@ export default function SignupClient() {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                  value={email}
+                  type="email"
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,9 +137,10 @@ export default function SignupClient() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
                   id="password"
-                  autoComplete="new-password"
+                  value={password}
+                  type="password"
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,9 +153,9 @@ export default function SignupClient() {
                     label="Category"
                     onChange={handleChange}
                   >
-                    <MenuItem value={10}>Repair</MenuItem>
-                    <MenuItem value={20}>Babysitter</MenuItem>
-                    <MenuItem value={30}>Delivery</MenuItem>
+                    <MenuItem value="Repair">Repair</MenuItem>
+                    <MenuItem value="Babysitter">Babysitter</MenuItem>
+                    <MenuItem value="Delivery">Delivery</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -125,17 +165,10 @@ export default function SignupClient() {
                   fullWidth
                   name="address"
                   label="Address"
-                  type="address"
                   id="address"
-                  autoComplete="address"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="Service Provider"
+                  value={address}
+                  type="text"
+                  onChange={(event) => setAddress(event.target.value)}
                 />
               </Grid>
             </Grid>
@@ -149,8 +182,8 @@ export default function SignupClient() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link to="/Login" component={RouterLink} variant="body2">
+                  Already have an account? Login
                 </Link>
               </Grid>
             </Grid>

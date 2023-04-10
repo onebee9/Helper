@@ -6,18 +6,42 @@ import SignupClient from './pages/SignupClient';
 import Detail from './pages/Detail';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
-import ProfileService from './pages/ProfileService';
+import ServiceList from './pages/ServiceList';
 import ProfileServiceEdit from './pages/ProfileServiceEdit';
+import ProfileServiceCreate from './pages/ProfileServiceCreate';
+import ProfileServiceBooked from './pages/ProfileServiceBooked';
+import ServiceBooking from './pages/ServiceBooking';
+import BuyerBooking from './pages/BuyerBooking';
+import ServiceBuyerBooking from './pages/ServiceBuyerBooking';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { authContext } from './providers/AuthProvider';
+import { useState, useEffect } from 'react';
+
 function App() {
   const { auth, user, userStatus, login, logout } = useContext(authContext);
+
+  const [userObject, setUserObject] = useState({});
+
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    if (user) {
+      setUserObject(JSON.parse(user));
+    }
+  }, [user]);
+
+  const currentUser = userObject.data;
+
   return (
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" /> */}
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <Home auth={auth} user={user} login={login} logout={logout} />
+          }
+        />
         <Route
           path="Login"
           element={
@@ -53,8 +77,32 @@ function App() {
           }
         />
         <Route path="ProfileEdit" element={<ProfileEdit />} />
-        <Route path="ProfileService" element={<ProfileService />} />
-        <Route path="ProfileServiceEdit" element={<ProfileServiceEdit />} />
+        <Route
+          path="ServiceList"
+          element={<ServiceList user={currentUser} />}
+        />
+        <Route path="ProfileServiceEdit/:id" element={<ProfileServiceEdit />} />
+
+        <Route
+          path="ProfileServiceCreate"
+          element={<ProfileServiceCreate user={currentUser} />}
+        />
+        <Route
+          path="ProfileServiceBooked"
+          element={<ProfileServiceBooked user={currentUser} />}
+        />
+        <Route
+          path="ServiceBooking"
+          element={<ServiceBooking user={currentUser} />}
+        />
+        <Route
+          path="BuyerBooking"
+          element={<BuyerBooking user={currentUser} />}
+        />
+        <Route
+          path="ServiceBuyerBooking"
+          element={<ServiceBuyerBooking user={currentUser} />}
+        />
       </Routes>
     </BrowserRouter>
   );

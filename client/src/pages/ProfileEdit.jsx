@@ -8,11 +8,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -22,57 +17,16 @@ import {
   Paper,
   Grid,
   TextField,
+  TableFooter,
+  Button,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
+import BuyerNav from '../components/Navbar/BuyerNav';
+import axios from 'axios';
 
 const theme = createTheme();
-
-function createData(name, calories, protein) {
-  return { name, calories, protein };
-}
-
-const rows = [
-  createData(
-    'Full Name',
-    <TextField
-      required
-      id="name"
-      name="name"
-      label="Full Name"
-      fullWidth
-      autoComplete="given-name"
-    />,
-    <EditIcon />
-  ),
-  createData(
-    'Email',
-    <TextField
-      required
-      id="email"
-      name="email"
-      label="abc@test.com"
-      fullWidth
-      autoComplete="given-email"
-    />,
-    <EditIcon />
-  ),
-  createData(
-    'Address',
-
-    <TextField
-      required
-      id="address"
-      name="address"
-      label="Address"
-      fullWidth
-      autoComplete="given-address"
-    />,
-    <EditIcon />
-  ),
-];
 
 export default function ProfileEdit() {
   const [userStatus, setUserStatus] = useState({});
@@ -80,6 +34,35 @@ export default function ProfileEdit() {
     const user = localStorage.getItem('usersinfo');
     setUserStatus(JSON.parse(user));
   }, []);
+  // sau nav component
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const subnav = provider === 'yes' ? <ProfileNav userStatus /> : <BuyerNav />;
+
+  // const navigate = useNavigate();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      };
+
+      let response = await axios({
+        method: 'post',
+        url: `/api/profile/${userStatus.data.id}`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: data,
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -97,8 +80,8 @@ export default function ProfileEdit() {
                   }}
                 >
                   <Avatar
-                    alt="Remy Sharp"
-                    src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+                    alt={`${userStatus?.data?.first_name} ${userStatus?.data?.last_name}`}
+                    src={`/images/phototest${userStatus?.data?.id}.jpg`}
                     sx={{ width: 1 / 2, height: 1 / 2 }}
                   />
                 </Box>
@@ -113,7 +96,7 @@ export default function ProfileEdit() {
                   </Typography>
                 </CardContent>
 
-                <ProfileNav />
+                {subnav}
               </Card>
             </Container>
           </Grid>
@@ -124,25 +107,92 @@ export default function ProfileEdit() {
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={3}>Profile</TableCell>
+                      <TableCell colSpan={2}>Edit Profile</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.calories}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        First Name
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          autoComplete="given-name"
+                          name="firstName"
+                          required
+                          fullWidth
+                          id="firstName"
+                          label="First Name"
+                          value={firstName}
+                          type="text"
+                          onChange={(event) => setFirstName(event.target.value)}
+                        />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Last Name
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          fullWidth
+                          id="lastName"
+                          label="Last Name"
+                          name="lastName"
+                          value={lastName}
+                          type="text"
+                          onChange={(event) => setLastName(event.target.value)}
+                        />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Email
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          fullWidth
+                          id="email"
+                          label="Email Address"
+                          name="email"
+                          value={email}
+                          type="email"
+                          onChange={(event) => setEmail(event.target.value)}
+                        />
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={2}>
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          sx={{ mt: 3, mb: 2 }}
+                          onClick={handleSubmit}
+                        >
+                          Update Profile
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
               </TableContainer>
             </Container>
@@ -152,7 +202,7 @@ export default function ProfileEdit() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -160,7 +210,7 @@ export default function ProfileEdit() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

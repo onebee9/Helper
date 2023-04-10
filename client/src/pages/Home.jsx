@@ -3,9 +3,6 @@ import Navbar from '../components/Navbar/Navbar';
 import {
   Button,
   Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   Grid,
   Box,
   Typography,
@@ -22,9 +19,8 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Service } from './../components/Service/index';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
-import qs from 'qs';
 
 const theme = createTheme();
 
@@ -47,9 +43,9 @@ export default function Home() {
         price,
         city,
         keyword,
-        status
+        status,
       };
-
+      
       let response = await axios({
         method: 'get',
         url: `/api/services/search`,
@@ -57,15 +53,13 @@ export default function Home() {
         params: data,
         withCredentials: true,
       });
-      setResults(response.data.searchResults);
-      console.log(response.data.searchResults);
+      setResults(response.data);
       return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log('result++++++++', results);
   useEffect(() => {
     axios({
       method: 'get',
@@ -75,11 +69,11 @@ export default function Home() {
     })
       .then((response) => {
         setResults(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+      
   }, []);
 
   return (
@@ -127,7 +121,7 @@ export default function Home() {
                       <MenuItem value="Carpentry">Carpentry</MenuItem>
                       <MenuItem value="Plumbing">Plumbing</MenuItem>
                       <MenuItem value="Construction">Construction</MenuItem>
-                      <MenuItem value="Gardening">Gardening</MenuItem>
+                      <MenuItem value="Writing">Writing</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -141,6 +135,7 @@ export default function Home() {
                       label="location"
                       onChange={(event) => setLocation(event.target.value)}
                     >
+                      <MenuItem value="">Anywhere</MenuItem>
                       <MenuItem value="Toronto">Toronto</MenuItem>
                       <MenuItem value="Ottawa">Ottawa</MenuItem>
                       {/* Etobicoke, York, North York, West End, Downtown, Midtown, Uptown, East York, East End, Scarborough */}
@@ -153,7 +148,7 @@ export default function Home() {
                       required
                       id="price"
                       name="price"
-                      label="price"
+                      label="Budget"
                       onChange={(event) => setPrice(event.target.value)}
                       fullWidth
                     />
@@ -171,8 +166,12 @@ export default function Home() {
                     />
                   </LocalizationProvider>
                 </Grid>
+                <Grid item xs={12} dir="rtl">
+                  <Button onClick={submitSearch} variant="contained">
+                    Search
+                  </Button>
+                </Grid>
               </Grid>
-              <Button onClick={submitSearch}>Search</Button>
             </React.Fragment>
           </Container>
         </Box>
@@ -197,7 +196,7 @@ export default function Home() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -205,7 +204,7 @@ export default function Home() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

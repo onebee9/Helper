@@ -8,11 +8,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -24,60 +19,36 @@ import {
   TextField,
   TableFooter,
   Button,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-// import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ProfileNav from '../components/Navbar/ProfileNav';
-import Modal from '../components/Modal';
+import BuyerNav from '../components/Navbar/BuyerNav';
 
 import { authContext } from './../providers/AuthProvider';
 import { useContext } from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 const theme = createTheme();
 
-function createData(name, data) {
-  return { name, data };
-}
+export default function ProfileServiceEdit(props) {
+  // get service data from server
+  const [service, setService] = useState([]);
 
-const rows = [
-  createData(
-    'User ID',
-    <TextField required id="userID" name="userID" label="User ID" fullWidth />
-  ),
-  createData(
-    'Title',
-    <TextField required id="title" name="title" label="Title" fullWidth />
-  ),
-  createData(
-    'description',
-    <TextField
-      required
-      id="description"
-      name="description"
-      label="Description"
-      fullWidth
-    />
-  ),
-  createData(
-    'Category',
-    <TextField
-      required
-      id="category"
-      name="category"
-      label="Category"
-      fullWidth
-    />
-  ),
-  createData(
-    'Price',
-    <TextField required id="fee" name="fee" label="$10.00" fullWidth />
-  ),
-];
+  // get service id
+  const params = useParams();
+  const url = 'api/services/provider/';
+  useEffect(() => {
+    axios.get(`${url}${params.id}`).then((response) => {
+      setService(response.data);
+    });
+  }, [params.id]);
 
-export default function ProfileServiceEdit() {
+  // get user info
   const [userStatus, setUserStatus] = useState({});
   useEffect(() => {
     const user = localStorage.getItem('usersinfo');
@@ -85,9 +56,6 @@ export default function ProfileServiceEdit() {
   }, []);
   const [status, setStatus] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userID, setUserId] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -98,7 +66,6 @@ export default function ProfileServiceEdit() {
     event.preventDefault();
     try {
       let data = {
-        user_id: userID,
         title: title,
         description: description,
         category: category,
@@ -107,19 +74,17 @@ export default function ProfileServiceEdit() {
 
       let response = await axios({
         method: 'post',
-        url: `/api/services/new`,
+        url: `/api/services/update/${params.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         withCredentials: true,
       });
       setStatus(response.data);
-      console.log(response.data);
 
       //store login info in storage
       localStorage.setItem('usersinfo', JSON.stringify(response.data));
-      console.log(response.data);
 
-      email && login(email, password);
+      // email && login(email, password);
       // redirect to Home
       if (response) {
         navigate('/');
@@ -128,6 +93,9 @@ export default function ProfileServiceEdit() {
       console.log(error);
     }
   };
+  const provider =
+    userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
+  const subnav = provider === 'yes' ? <ProfileNav userStatus /> : <BuyerNav />;
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -145,8 +113,8 @@ export default function ProfileServiceEdit() {
                   }}
                 >
                   <Avatar
-                    alt="Remy Sharp"
-                    src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+                    alt={`${userStatus?.data?.first_name} ${userStatus?.data?.last_name}`}
+                    src={`/images/phototest${userStatus?.data?.id}.jpg`}
                     sx={{ width: 1 / 2, height: 1 / 2 }}
                   />
                 </Box>
@@ -161,34 +129,120 @@ export default function ProfileServiceEdit() {
                   </Typography>
                 </CardContent>
 
-                <ProfileNav />
+                {subnav}
               </Card>
             </Container>
           </Grid>
 
           <Grid item xs={8}>
             <Container maxWidth="sm">
-              <TableContainer component={Paper} onSubmit={handleSubmit}>
+              <TableContainer component={Paper}>
                 <Table sx={{ width: 1 }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell colSpan={2}>Profile</TableCell>
+                      <TableCell colSpan={2}>Edit Service</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell>{row.data}</TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Title
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="title"
+                          name="title"
+                          label="Title"
+                          value={service.title}
+                          type="text"
+                          onChange={(event) => setTitle(event.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Description
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="description"
+                          name="description"
+                          label="Description"
+                          value={service.description}
+                          type="text"
+                          onChange={(event) =>
+                            setDescription(event.target.value)
+                          }
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Category
+                      </TableCell>
+                      <TableCell>
+                        <FormControl sx={{ width: 1 }}>
+                          <InputLabel id="category">Category</InputLabel>
+                          <Select
+                            labelId="category"
+                            id="category"
+                            value={service.category}
+                            label="Category"
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
+                          >
+                            <MenuItem value="">All Categories</MenuItem>
+                            <MenuItem value="Repair">Repair</MenuItem>
+                            <MenuItem value="Babysitter">Babysitter</MenuItem>
+                            <MenuItem value="Delivery">Delivery</MenuItem>
+                            <MenuItem value="Carpentry">Carpentry</MenuItem>
+                            <MenuItem value="Plumbing">Plumbing</MenuItem>
+                            <MenuItem value="Construction">
+                              Construction
+                            </MenuItem>
+                            <MenuItem value="Gardening">Gardening</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        Price
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          required
+                          id="fee"
+                          name="fee"
+                          label="$10.00"
+                          value={service.fee}
+                          type="text"
+                          onChange={(event) => setFee(event.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                   <TableFooter>
                     <TableRow>
@@ -198,8 +252,9 @@ export default function ProfileServiceEdit() {
                           fullWidth
                           variant="contained"
                           sx={{ mt: 3, mb: 2 }}
+                          onClick={handleSubmit}
                         >
-                          Creat New Service
+                          Update Service
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -213,7 +268,7 @@ export default function ProfileServiceEdit() {
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Helper
         </Typography>
         <Typography
           variant="subtitle1"
@@ -221,7 +276,7 @@ export default function ProfileServiceEdit() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

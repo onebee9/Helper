@@ -27,9 +27,7 @@ module.exports = (db) => {
 
     db.query(queryString, [email, password])
       .then((data) => {
-        console.log("console", data.rows)
         if (data.rows[0]) {
-          console.log(data.rows);
           req.session.user_id = data.rows[0].id;
           req.session.name = data.rows[0].first_name;
           req.session.fullName = data.rows[0].first_name + " " + data.rows[0].last_name;
@@ -65,7 +63,6 @@ module.exports = (db) => {
 
   router.get("/profile/:id", (req, res) => {
 
-    const id = req.params.id;
     const personalData = `SELECT * FROM users WHERE id = $1;`
     const bookings = `SELECT * FROM service_bookings WHERE users_id = $1;`
     const address = `SELECT * FROM locations WHERE user_id = $1;`
@@ -101,7 +98,6 @@ module.exports = (db) => {
       });
 
   });
-
 
   // DELETE /api/users/logout
   router.delete('/logout', (req, res) => {

@@ -9,11 +9,6 @@ import {
   Typography,
   Container,
   Avatar,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -23,19 +18,21 @@ import {
   Paper,
   Grid,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-// import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileNav from '../components/Navbar/ProfileNav';
 
 const theme = createTheme();
 
 export default function Profile(props) {
   const [userStatus, setUserStatus] = useState({});
+
   useEffect(() => {
-    const user = localStorage.getItem('usersinfo');
-    setUserStatus(JSON.parse(user));
+    //retrive data from storage
+    const userinfo = localStorage.getItem('usersinfo');
+    const user = JSON.parse(userinfo);
+
+    setUserStatus(user);
   }, []);
-  // console.log(userStatus.data.created_at)
 
   //show date in properformat
   const newDate = userStatus.data && new Date(userStatus.data.created_at);
@@ -44,7 +41,6 @@ export default function Profile(props) {
 
   const provider =
     userStatus.data && userStatus.data.isserviceprovider ? 'yes' : 'No';
-
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -62,8 +58,8 @@ export default function Profile(props) {
                   }}
                 >
                   <Avatar
-                    alt="Remy Sharp"
-                    src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+                    alt={`${userStatus?.data?.first_name} ${userStatus?.data?.last_name}`}
+                    src={`/images/phototest${userStatus?.data?.id}.jpg`}
                     sx={{ width: 1 / 2, height: 1 / 2 }}
                   />
                 </Box>
@@ -77,111 +73,73 @@ export default function Profile(props) {
                     {userStatus?.data?.first_name} {userStatus?.data?.last_name}
                   </Typography>
                 </CardContent>
-
-                <nav aria-label="secondary mailbox folders">
-                  <List>
-                    <Link to="Profile" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link to="Profile Edit" style={{ textDecoration: 'none' }}>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Servic" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to="Profile Service Edit"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText primary="Profile Service Edit" />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  </List>
-                </nav>
+                <ProfileNav />
               </Card>
             </Container>
           </Grid>
 
-          <Grid item xs={8}>
-            <Container maxWidth="sm">
-              <TableContainer component={Paper}>
-                <Table sx={{ width: 1 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" colSpan={3}>
-                        Service Profile !!!!!
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Name : {userStatus?.data?.first_name}{' '}
-                        {userStatus?.data?.last_name}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Email : {userStatus?.data?.email}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {' '}
-                        Member from : {yearFinal}{' '}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        Is Service Prvide : {provider}{' '}
-                      </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right"></TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Container>
+          <Grid container xs={8} spacing={2}>
+            <Grid item sx={{ width: 1 }}>
+              <Container maxWidth="sm">
+                <TableContainer component={Paper}>
+                  <Table sx={{ width: 1 }}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center" colSpan={2}>
+                          Profile
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Name
+                        </TableCell>
+                        <TableCell>
+                          {userStatus?.data?.first_name}{' '}
+                          {userStatus?.data?.last_name}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Email
+                        </TableCell>
+                        <TableCell>{userStatus?.data?.email}</TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {' '}
+                          Member from
+                        </TableCell>
+                        <TableCell>{yearFinal} </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          Service Provider
+                        </TableCell>
+                        <TableCell>{provider} </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Container>
+            </Grid>
           </Grid>
         </Grid>
       </main>
@@ -194,7 +152,7 @@ export default function Profile(props) {
           color="text.secondary"
           component="p"
         >
-          We Help You!
+         We're here to help!
         </Typography>
         {/* <Copyright /> */}
       </Box>

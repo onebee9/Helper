@@ -2,15 +2,30 @@ import * as React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Toolbar, Button, Typography, Avatar } from '@mui/material';
+import { useState, useEffect } from 'react';
+
+
 import { useContext } from 'react';
 import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth } = useContext(authContext);
-  // console.log(auth);
+  const { auth, user} = useContext(authContext);
+  const [userStatus, setUserStatus] = useState({});
+
+  useEffect(() => {
+    const user = localStorage.getItem('usersinfo');
+    setUserStatus(JSON.parse(user));
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem('usersinfo');
+    this.authToken = null;
+    this.user = null;
+  };
+
   return (
     <React.Fragment>
-      {!auth && (
+      {!userStatus && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -19,7 +34,11 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
@@ -49,7 +68,7 @@ function Navbar(props) {
           </Link>
         </Toolbar>
       )}
-      {auth && (
+      {userStatus && (
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Typography
             component="h2"
@@ -58,18 +77,14 @@ function Navbar(props) {
             noWrap
             sx={{ flex: 1 }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            <Link
+              to="/"
+              component={RouterLink}
+              style={{ textDecoration: 'none' }}
+            >
               Helper
             </Link>
           </Typography>
-
-          <Link
-            to="/Detail"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Detail</Button>
-          </Link>
 
           <Link
             to="/Profile"
@@ -80,43 +95,25 @@ function Navbar(props) {
           </Link>
 
           <Link
-            to="/ProfileEdit"
+            to="/"
             component={RouterLink}
             style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Edit</Button>
-          </Link>
-
-          <Link
-            to="/ProfileService"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service</Button>
-          </Link>
-
-          <Link
-            to="/ProfileServiceEdit"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="small">Profile Service Edit</Button>
-          </Link>
-
-          <Link
-            to="/Login"
-            component={RouterLink}
-            style={{ textDecoration: 'none' }}
+            onClick={logout}
           >
             <Button size="small">Logout</Button>
           </Link>
-          <Link to="Profile" style={{ textDecoration: 'none' }}>
-            <Button size="small">Profile</Button>
-          </Link>
 
           <Avatar
-            alt="Remy Sharp"
-            src="https://htmlstream.com/preview/front-dashboard-v2.0/assets/img/160x160/img6.jpg"
+            alt={
+              userStatus.data
+                ? `${userStatus.data.first_name} ${userStatus.data.last_name}`
+                : ''
+            }
+            src={
+              userStatus.data
+                ? `/images/phototest${userStatus.data.id}.jpg`
+                : ''
+            }
           />
         </Toolbar>
       )}

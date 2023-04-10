@@ -7,13 +7,8 @@ import {
   ListItemText,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Toolbar, Button, Typography, Avatar } from '@mui/material';
-import { useContext } from 'react';
-import { authContext } from './../../providers/AuthProvider';
 
 function Navbar(props) {
-  const { auth } = useContext(authContext);
-  // console.log(auth);
   return (
     <nav aria-label="secondary mailbox folders">
       <List>
@@ -29,6 +24,28 @@ function Navbar(props) {
           </ListItem>
         </Link>
         <Link
+          to="/ServiceBooking"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="My Jobs" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link
+          to="/ServiceBuyerBooking"
+          component={RouterLink}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText primary="My Booking" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link
           to="/ProfileEdit"
           component={RouterLink}
           style={{ textDecoration: 'none' }}
@@ -40,24 +57,24 @@ function Navbar(props) {
           </ListItem>
         </Link>
         <Link
-          to="/ProfileService"
+          to="/ServiceList"
           component={RouterLink}
           style={{ textDecoration: 'none' }}
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Profile Servic" />
+              <ListItemText primary="Service List" />
             </ListItemButton>
           </ListItem>
         </Link>
         <Link
-          to="/ProfileServiceEdit"
+          to="/ProfileServiceCreate"
           component={RouterLink}
           style={{ textDecoration: 'none' }}
         >
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary="Profile Service Edit" />
+              <ListItemText primary="New Service" />
             </ListItemButton>
           </ListItem>
         </Link>
