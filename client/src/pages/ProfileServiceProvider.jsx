@@ -21,7 +21,7 @@ export default function ProfileService(props) {
     try {
       const newResponse = await axios({
         method: 'delete',
-        url: `api/services/remove/${props.id}`,
+        url: `api/services/${props.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });

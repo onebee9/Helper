@@ -20,7 +20,6 @@ import StarIcon from '@mui/icons-material/Star';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
-// import { convertLength } from '@mui/material/styles/cssUtils';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProfileNav from '../components/Navbar/ProfileNav';
@@ -32,10 +31,9 @@ export default function ProfileServiceBooked(props) {
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
   const params = useParams();
-  const url = 'api/bookings/provider/';
 
   useEffect(() => {
-    axios.get(`${url}${params.id}`).then((response) => {
+    axios.get(`/api/users/${params.id}/service-bookings`).then((response) => {
       setServices(response.data);
     });
   }, []);

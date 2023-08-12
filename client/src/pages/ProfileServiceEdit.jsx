@@ -41,9 +41,9 @@ export default function ProfileServiceEdit(props) {
 
   // get service id
   const params = useParams();
-  const url = 'api/services/provider/';
+  // const url = 'api/users/${params.id}/services';
   useEffect(() => {
-    axios.get(`${url}${params.id}`).then((response) => {
+    axios.get(`/api/users/${params.id}/services`).then((response) => {
       setService(response.data);
     });
   }, [params.id]);
@@ -73,8 +73,8 @@ export default function ProfileServiceEdit(props) {
       };
 
       let response = await axios({
-        method: 'post',
-        url: `/api/services/update/${params.id}`,
+        method: 'put',
+        url: `/api/services/${params.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         withCredentials: true,

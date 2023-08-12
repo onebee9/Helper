@@ -31,10 +31,10 @@ export default function BuyerBooking(props) {
     setUserStatus(user);
 
     //fetch bookings
-    const userID = user.data.id;
+    const userId = user.data.id;
     axios({
       method: 'get',
-      url: `/api/bookings/${userID}`,
+      url: `/api/users/${userId}/client-bookings`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     })

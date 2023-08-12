@@ -137,7 +137,7 @@ export default function Detail(props) {
     // get booking data to append to page
     axios({
       method: 'get',
-      url: `/api/bookings/provider/${service.user_id}`,
+      url: `/api/users/${service.user_id}/service-bookings`, 
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     }).then((response) => {
@@ -176,7 +176,7 @@ export default function Detail(props) {
 
       let response = await axios({
         method: 'post',
-        url: `/api/bookings/new`,
+        url: `/api/bookings`,
         // headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: data,
         withCredentials: true,
