@@ -54,7 +54,7 @@ export default function ProfileEdit() {
 
       let response = await axios({
         method: 'post',
-        url: `/api/profile/${userStatus.data.id}`,
+        url: `/api/users/${userStatus.data.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: data,
         withCredentials: true,

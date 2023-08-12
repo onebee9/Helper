@@ -27,15 +27,12 @@ const theme = createTheme();
 export default function ProfileService(props) {
   const userInfo = props.user && props.user;
   const [services, setServices] = useState([]);
-  const url = 'api/services/provider/';
 
   useEffect(() => {
-    axios.get(`${url}${userInfo.id}`).then((response) => {
+    axios.get(`api/users/${userInfo.id}/services`).then((response) => {
       setServices(response.data);
     });
   }, [userInfo.id]);
-
-  // remove service
 
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
@@ -45,7 +42,7 @@ export default function ProfileService(props) {
       const serviceId = event.currentTarget.id;
       const newResponse = await axios({
         method: 'delete',
-        url: `/api/services/remove/${serviceId}`,
+        url: `/api/services/${serviceId}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });

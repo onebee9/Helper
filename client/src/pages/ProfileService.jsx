@@ -23,7 +23,7 @@ export default function ProfileService(props) {
     try {
       const newResponse = await axios({
         method: 'delete',
-        url: `api/services/remove/${props.id}`,
+        url: `/api/services/${props.id}`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         withCredentials: true,
       });
@@ -70,7 +70,7 @@ export default function ProfileService(props) {
       method: 'put',
       url: `api/bookings/ratings`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
+      data: qs.stringify(rating),
       withCredentials: true,
     })
       .then((response) => {
@@ -82,10 +82,14 @@ export default function ProfileService(props) {
   }, [rating]);
 
   useEffect (()=>{
-    const id = props.data.booking_id
+    const data = {
+      bookingId: props.data.booking_id,
+      rating: rating,
+      serviceId: props.data.services_id
+    }
     axios({
       method: 'get',
-      url: `api/bookings/ratings/${id}`,
+      url: `/api/services/${data.services_id}/rating`, 
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     })
@@ -98,7 +102,7 @@ export default function ProfileService(props) {
 
   },[rating])
 
-
+console.log(props)
   // category image
   const [pic] = React.useState([
     {

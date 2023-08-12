@@ -37,10 +37,10 @@ export default function ServiceBooking(props) {
     setUserStatus(user);
 
     //fetch bookings
-    const userID = user.data.id;
+    const userId = user.data.id;
     axios({
       method: 'get',
-      url: `/api/bookings/provider/${userID}`,
+      url: `/api/users/${userId}/service-bookings`,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       withCredentials: true,
     })

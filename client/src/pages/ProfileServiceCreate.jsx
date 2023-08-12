@@ -58,7 +58,7 @@ export default function ProfileServiceCreate(props) {
 
       const newResponse = await axios({
         method: 'post',
-        url: `/api/services/new`,
+        url: `/api/services`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         withCredentials: true,
