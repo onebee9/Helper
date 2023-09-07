@@ -1,14 +1,8 @@
 # Helper
 
-## Team
-
-[<img src='https://img.shields.io/badge/Github-Ibifuro-blue?style=flat-square&logo=github'>](https://github.com/onebee9)
-[<img src='https://img.shields.io/badge/Github-Pouya-blue?style=flat-square&logo=github'>](https://github.com/Paules2021)
-[<img src='https://img.shields.io/badge/Github-Mikiyoshi-blue?style=flat-square&logo=github'>](https://github.com/mikiyoshi)
-
 ## OVERVIEW
 
-A react based 2 sided marketplace that connects home keepers to domestic service providers in their vicinity.
+A react-based 2-sided marketplace that connects homeowners to domestic service providers in their vicinity.
 
 ## Products
 
@@ -76,7 +70,7 @@ A react based 2 sided marketplace that connects home keepers to domestic service
 
 ## Setup
 
-### Fornt End (client folder)
+### Front End (client folder)
 
 1. Clone your repository onto your local device.
 2. Install dependencies using the `npm install` command.
